@@ -1,682 +1,559 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MIKOO WA BOT</title>
+
 <style>
-  :root {
-    --black: #0a0a0a;
-    --white: #ffffff;
-    --bg: #fffbf0;
-    --yellow: #FFE234;
-    --pink: #FF4D8D;
-    --cyan: #00E5FF;
-    --green: #00D26A;
-    --purple: #8B5CF6;
-    --orange: #FF6B35;
-    --border: 3px solid #0a0a0a;
-    --shadow: 5px 5px 0px #0a0a0a;
-    --shadow-lg: 8px 8px 0px #0a0a0a;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    font-family: 'Arial Black', 'Impact', sans-serif;
-    background: var(--bg);
-    background-image:
-      radial-gradient(circle, #0a0a0a 1px, transparent 1px);
-    background-size: 28px 28px;
-    color: var(--black);
-    overflow-x: hidden;
-  }
+:root {
+  --K:#0a0a0a;--W:#ffffff;--BG:#fffbf0;
+  --Y:#FFE234;--PK:#FF4D8D;--CY:#00E5FF;
+  --GR:#00D26A;--PU:#8B5CF6;--OR:#FF6B35;
+  --BD:3px solid #0a0a0a;
+  --SH:5px 5px 0 #0a0a0a;
+  --SHL:8px 8px 0 #0a0a0a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Arial Black',Arial,sans-serif;
+  background:var(--BG);
+  background-image:radial-gradient(circle,#0a0a0a33 1px,transparent 1px);
+  background-size:24px 24px;
+  color:var(--K);overflow-x:hidden;
+}
 
-  /* NAV */
-  nav {
-    background: var(--white);
-    border-bottom: var(--border);
-    border-bottom-width: 4px;
-    padding: 16px 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 4px 0 #0a0a0a;
-  }
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    font-size: 22px;
-    font-weight: 900;
-    letter-spacing: -0.5px;
-  }
-  .logo-box {
-    width: 46px; height: 46px;
-    background: var(--green);
-    border: 3px solid var(--black);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 24px;
-    box-shadow: 3px 3px 0 var(--black);
-    animation: wiggle 3s ease-in-out infinite;
-  }
-  @keyframes wiggle {
-    0%,100% { transform: rotate(-4deg); }
-    50% { transform: rotate(4deg); }
-  }
-  .nav-pills { display: flex; gap: 8px; flex-wrap: wrap; }
-  .nav-pill {
-    background: var(--bg);
-    border: 3px solid var(--black);
-    padding: 8px 18px;
-    font-size: 13px;
-    font-weight: 900;
-    text-decoration: none;
-    color: var(--black);
-    box-shadow: 3px 3px 0 var(--black);
-    transition: all 0.12s;
-    cursor: pointer;
-  }
-  .nav-pill:hover {
-    background: var(--yellow);
-    transform: translate(-2px, -2px);
-    box-shadow: 5px 5px 0 var(--black);
-  }
+/* DEKORASI FLOATING */
+.deco-field{position:relative;overflow:hidden;}
+.shape{position:absolute;border:3px solid var(--K);pointer-events:none;z-index:0;}
+.s1{width:70px;height:70px;background:var(--PK);top:60px;left:20px;transform:rotate(15deg);animation:spinSlow 12s linear infinite;}
+.s2{width:50px;height:50px;background:var(--CY);top:140px;right:30px;border-radius:50%;animation:floatY 4s ease-in-out infinite;}
+.s3{width:40px;height:40px;background:var(--Y);bottom:80px;left:60px;animation:floatY 5s ease-in-out infinite reverse;}
+.s4{width:60px;height:60px;background:var(--PU);bottom:60px;right:60px;transform:rotate(-20deg);animation:spinSlow 16s linear infinite reverse;}
+.s5{width:35px;height:35px;background:var(--OR);top:200px;left:50%;transform:translateX(-50%) rotate(10deg);animation:floatY 3.5s ease-in-out infinite;}
+.s6{width:28px;height:28px;background:var(--GR);top:80px;right:120px;border-radius:50%;animation:pulse 2s ease-in-out infinite;}
+.s7{width:55px;height:22px;background:var(--Y);top:30px;left:50%;transform:rotate(-5deg);animation:floatY 4.5s ease-in-out infinite;}
+.s8{width:22px;height:55px;background:var(--PK);top:120px;left:90px;animation:floatY 6s ease-in-out infinite reverse;}
 
-  /* TICKER */
-  .ticker {
-    background: var(--black);
-    color: var(--yellow);
-    padding: 12px 0;
-    overflow: hidden;
-    border-bottom: 3px solid var(--black);
-  }
-  .ticker-track {
-    display: flex;
-    animation: scroll 20s linear infinite;
-    white-space: nowrap;
-    font-size: 14px;
-    font-weight: 900;
-    letter-spacing: 1px;
-  }
-  .ticker-item { padding: 0 40px; }
-  .ticker-dot {
-    display: inline-block;
-    width: 8px; height: 8px;
-    background: var(--green);
-    border-radius: 50%;
-    margin-right: 10px;
-    vertical-align: middle;
-  }
-  @keyframes scroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
+@keyframes spinSlow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
+@keyframes wiggle{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes blink{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes slideIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
-  /* WRAPPER */
-  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 30px; }
+/* NAV */
+nav{
+  background:var(--W);border-bottom:4px solid var(--K);
+  padding:16px 40px;display:flex;align-items:center;
+  justify-content:space-between;
+  box-shadow:0 4px 0 var(--K);position:relative;z-index:10;
+}
+.logo{display:flex;align-items:center;gap:12px;font-size:20px;font-weight:900;}
+.logo-box{
+  width:44px;height:44px;background:var(--GR);border:3px solid var(--K);
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+  box-shadow:3px 3px 0 var(--K);animation:wiggle 3s ease-in-out infinite;
+}
+.nav-pills{display:flex;gap:8px;flex-wrap:wrap;}
+.np{
+  background:var(--BG);border:3px solid var(--K);padding:8px 16px;
+  font-size:12px;font-weight:900;text-decoration:none;color:var(--K);
+  box-shadow:3px 3px 0 var(--K);transition:all 0.12s;cursor:pointer;display:inline-block;
+}
+.np:hover{background:var(--Y);transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--K);}
+.np-cta{background:var(--GR);color:var(--K);}
+.np-cta:hover{background:var(--CY);}
 
-  /* HERO */
-  .hero {
-    padding: 60px 0 50px;
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 50px;
-    align-items: center;
-  }
-  .hero-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--yellow);
-    border: 3px solid var(--black);
-    padding: 7px 18px;
-    font-size: 13px;
-    font-weight: 900;
-    box-shadow: var(--shadow);
-    margin-bottom: 24px;
-    letter-spacing: 0.5px;
-  }
-  .eyebrow-dot {
-    width: 10px; height: 10px;
-    background: var(--green);
-    border-radius: 50%;
-    animation: pulse 1.5s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%,100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.4); opacity: 0.7; }
-  }
-  .hero h1 {
-    font-size: 58px;
-    line-height: 1.0;
-    font-weight: 900;
-    margin-bottom: 22px;
-    letter-spacing: -2px;
-  }
-  .hero-accent {
-    display: inline-block;
-    background: var(--pink);
-    border: 3px solid var(--black);
-    padding: 0 10px;
-    box-shadow: 4px 4px 0 var(--black);
-    color: var(--white);
-    transform: rotate(-2deg);
-    margin-left: 4px;
-  }
-  .hero-desc {
-    font-family: Arial, sans-serif;
-    font-size: 17px;
-    font-weight: 700;
-    line-height: 1.6;
-    margin-bottom: 32px;
-    max-width: 440px;
-    color: #222;
-  }
-  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 15px 28px;
-    border: 3px solid var(--black);
-    font-size: 15px;
-    font-weight: 900;
-    text-decoration: none;
-    color: var(--black);
-    box-shadow: var(--shadow);
-    transition: all 0.12s;
-    cursor: pointer;
-  }
-  .btn-primary { background: var(--yellow); }
-  .btn-outline { background: var(--white); }
-  .btn:hover {
-    transform: translate(-3px, -3px);
-    box-shadow: var(--shadow-lg);
-  }
-  .btn-primary:hover { background: var(--orange); color: var(--white); }
+/* TICKER */
+.ticker{background:var(--K);color:var(--Y);padding:12px 0;overflow:hidden;border-bottom:3px solid var(--K);}
+.ticker-track{display:flex;animation:scroll 22s linear infinite;white-space:nowrap;font-size:13px;font-weight:900;letter-spacing:1px;}
+.ti{padding:0 36px;}
+.td{display:inline-block;width:8px;height:8px;background:var(--GR);border-radius:50%;margin-right:8px;vertical-align:middle;}
 
-  /* PHONE MOCKUP */
-  .phone-wrap {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
-  .phone {
-    width: 240px;
-    background: var(--white);
-    border: 4px solid var(--black);
-    box-shadow: var(--shadow-lg);
-    border-radius: 0;
-    transform: rotate(2deg);
-    transition: transform 0.3s;
-  }
-  .phone:hover { transform: rotate(0deg) scale(1.03); }
-  .phone-bar {
-    background: var(--green);
-    border-bottom: 3px solid var(--black);
-    padding: 12px 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .phone-avatar {
-    width: 34px; height: 34px;
-    background: var(--yellow);
-    border: 3px solid var(--black);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
-    font-weight: 900;
-  }
-  .phone-name { font-size: 13px; font-weight: 900; }
-  .phone-status { font-size: 11px; font-weight: 700; opacity: 0.8; }
-  .phone-body { padding: 14px; background: #f0f0f0; min-height: 200px; }
-  .bubble {
-    max-width: 78%;
-    padding: 9px 13px;
-    font-family: Arial, sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    border: 3px solid var(--black);
-    margin-bottom: 10px;
-  }
-  .bubble-user {
-    background: var(--cyan);
-    margin-left: auto;
-    box-shadow: 3px 3px 0 var(--black);
-    border-radius: 14px 0 14px 0;
-  }
-  .bubble-bot {
-    background: var(--white);
-    box-shadow: 3px 3px 0 var(--black);
-    border-radius: 0 14px 0 14px;
-  }
-  .bubble-typing {
-    background: var(--yellow);
-    display: inline-flex;
-    gap: 5px;
-    padding: 10px 16px;
-    border: 3px solid var(--black);
-    box-shadow: 3px 3px 0 var(--black);
-  }
-  .dot { width: 7px; height: 7px; background: var(--black); border-radius: 50%; animation: blink 1.2s ease-in-out infinite; }
-  .dot:nth-child(2) { animation-delay: 0.2s; }
-  .dot:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes blink { 0%,80%,100%{transform:scale(0.6);opacity:0.4} 40%{transform:scale(1);opacity:1} }
+/* WRAP */
+.wrap{max-width:1100px;margin:0 auto;padding:0 36px;}
 
-  /* Floating badges */
-  .badge-float {
-    position: absolute;
-    background: var(--white);
-    border: 3px solid var(--black);
-    box-shadow: var(--shadow);
-    padding: 8px 14px;
-    font-size: 12px;
-    font-weight: 900;
-    white-space: nowrap;
-  }
-  .bf-1 { top: 10px; right: -20px; background: var(--pink); color: var(--white); animation: floatY 3s ease-in-out infinite; }
-  .bf-2 { bottom: 30px; left: -30px; background: var(--cyan); animation: floatY 4s ease-in-out infinite reverse; }
-  @keyframes floatY {
-    0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)}
-  }
+/* HERO */
+.hero{
+  padding:70px 0 60px;
+  display:grid;grid-template-columns:1.2fr 1fr;
+  gap:50px;align-items:center;
+  position:relative;z-index:1;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--Y);border:3px solid var(--K);
+  padding:7px 18px;font-size:12px;font-weight:900;
+  box-shadow:var(--SH);margin-bottom:22px;letter-spacing:0.5px;
+}
+.edot{width:10px;height:10px;background:var(--GR);border-radius:50%;animation:pulse 1.5s ease-in-out infinite;}
+h1{font-size:60px;line-height:1.0;font-weight:900;margin-bottom:22px;letter-spacing:-2px;}
+.ha{
+  display:inline-block;background:var(--PK);border:3px solid var(--K);
+  padding:0 10px;box-shadow:4px 4px 0 var(--K);color:var(--W);
+  transform:rotate(-2deg);margin-left:4px;
+}
+.hero-desc{font-family:Arial,sans-serif;font-size:16px;font-weight:700;line-height:1.65;margin-bottom:30px;max-width:430px;color:#222;}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap;}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;padding:15px 26px;
+  border:3px solid var(--K);font-size:14px;font-weight:900;
+  text-decoration:none;color:var(--K);box-shadow:var(--SH);
+  transition:all 0.12s;cursor:pointer;background:var(--W);
+}
+.btn:hover{transform:translate(-3px,-3px);box-shadow:var(--SHL);}
+.btn-y{background:var(--Y);}
+.btn-y:hover{background:var(--OR);color:var(--W);}
+.btn-cta{
+  background:var(--GR);font-size:16px;padding:18px 32px;
+  animation:bounce 2.5s ease-in-out infinite;
+  position:relative;
+}
+.btn-cta:hover{background:var(--CY);animation:none;transform:translate(-3px,-3px);box-shadow:var(--SHL);}
+.btn-cta::after{
+  content:'NEW';
+  position:absolute;top:-14px;right:-10px;
+  background:var(--PK);color:var(--W);
+  font-size:10px;font-weight:900;
+  padding:3px 8px;border:2px solid var(--K);
+  box-shadow:2px 2px 0 var(--K);
+}
 
-  /* STATS */
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-    border: 4px solid var(--black);
-    background: var(--white);
-    margin: 20px 0 70px;
-    box-shadow: var(--shadow-lg);
-  }
-  .stat {
-    padding: 28px 20px;
-    text-align: center;
-    border-right: 3px solid var(--black);
-    transition: background 0.15s;
-  }
-  .stat:last-child { border-right: none; }
-  .stat:hover { background: var(--yellow); }
-  .stat-n {
-    font-size: 38px;
-    font-weight: 900;
-    letter-spacing: -2px;
-    line-height: 1;
-    margin-bottom: 6px;
-  }
-  .stat-l {
-    font-family: Arial, sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: #555;
-  }
+/* PHONE */
+.phone-wrap{display:flex;justify-content:center;align-items:center;position:relative;}
+.phone{
+  width:245px;background:var(--W);border:4px solid var(--K);
+  box-shadow:var(--SHL);transform:rotate(2deg);transition:transform 0.3s;z-index:2;
+  position:relative;
+}
+.phone:hover{transform:rotate(0deg) scale(1.03);}
+.phone-bar{
+  background:var(--GR);border-bottom:3px solid var(--K);
+  padding:12px 14px;display:flex;align-items:center;gap:10px;
+}
+.pav{width:34px;height:34px;background:var(--Y);border:3px solid var(--K);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.pb{font-family:Arial,sans-serif;font-size:13px;}
+.pbody{padding:14px;background:#f0f0f0;min-height:200px;}
+.bub{max-width:78%;padding:9px 13px;font-family:Arial,sans-serif;font-size:13px;font-weight:700;border:3px solid var(--K);margin-bottom:10px;}
+.bub-u{background:var(--CY);margin-left:auto;box-shadow:3px 3px 0 var(--K);border-radius:14px 0 14px 0;}
+.bub-b{background:var(--W);box-shadow:3px 3px 0 var(--K);border-radius:0 14px 0 14px;}
+.typing{background:var(--Y);display:inline-flex;gap:5px;padding:10px 16px;border:3px solid var(--K);box-shadow:3px 3px 0 var(--K);}
+.dot{width:7px;height:7px;background:var(--K);border-radius:50%;animation:blink 1.2s ease-in-out infinite;}
+.dot:nth-child(2){animation-delay:0.2s;}.dot:nth-child(3){animation-delay:0.4s;}
 
-  /* SECTIONS */
-  .section { padding: 30px 0 60px; }
-  .sec-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 40px;
-  }
-  .sec-line {
-    flex: 1;
-    height: 4px;
-    background: var(--black);
-  }
-  .sec-tag {
-    background: var(--yellow);
-    border: 3px solid var(--black);
-    padding: 10px 24px;
-    font-size: 18px;
-    font-weight: 900;
-    box-shadow: var(--shadow);
-    white-space: nowrap;
-  }
+/* FLOATING STICKERS */
+.sticker{
+  position:absolute;background:var(--W);border:3px solid var(--K);
+  box-shadow:var(--SH);padding:8px 14px;font-size:12px;font-weight:900;white-space:nowrap;z-index:5;
+}
+.st1{top:0;right:-30px;background:var(--PK);color:var(--W);animation:floatY 3.5s ease-in-out infinite;}
+.st2{bottom:20px;left:-40px;background:var(--CY);animation:floatY 4.2s ease-in-out infinite reverse;}
+.st3{top:50%;right:-50px;background:var(--Y);transform:rotate(6deg);animation:floatY 5s ease-in-out infinite;}
 
-  /* FEATURE GRID */
-  .feat-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-    border: 4px solid var(--black);
-    background: var(--black);
-    box-shadow: var(--shadow-lg);
-  }
-  .feat-card {
-    background: var(--white);
-    padding: 28px 22px;
-    border-right: 3px solid var(--black);
-    border-bottom: 3px solid var(--black);
-    transition: all 0.12s;
-  }
-  .feat-card:nth-child(4n) { border-right: none; }
-  .feat-card:nth-last-child(-n+4) { border-bottom: none; }
-  .feat-card:hover { background: var(--bg); transform: translate(-3px, -3px); }
-  .feat-icon-box {
-    width: 52px; height: 52px;
-    border: 3px solid var(--black);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 26px;
-    margin-bottom: 16px;
-    box-shadow: 3px 3px 0 var(--black);
-  }
-  .feat-card h3 {
-    font-size: 17px;
-    font-weight: 900;
-    margin-bottom: 10px;
-    letter-spacing: -0.3px;
-  }
-  .feat-card p {
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1.55;
-    color: #444;
-  }
+/* DECO SHAPES around hero */
+.deco-star{
+  position:absolute;font-size:32px;font-weight:900;
+  color:var(--K);pointer-events:none;z-index:0;
+}
+.ds1{top:40px;left:-10px;transform:rotate(20deg);animation:spinSlow 8s linear infinite;}
+.ds2{bottom:30px;right:10px;transform:rotate(-15deg);animation:spinSlow 10s linear infinite reverse;}
 
-  /* STEPS */
-  .steps-wrap {
-    display: grid;
-    grid-template-columns: 1fr 40px 1fr 40px 1fr;
-    gap: 0;
-    align-items: center;
-  }
-  .step-card {
-    background: var(--white);
-    border: 3px solid var(--black);
-    padding: 28px 22px;
-    box-shadow: var(--shadow);
-    transition: all 0.12s;
-  }
-  .step-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
-  }
-  .step-num {
-    width: 48px; height: 48px;
-    border: 3px solid var(--black);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-    font-weight: 900;
-    margin-bottom: 16px;
-    box-shadow: 3px 3px 0 var(--black);
-  }
-  .step-card h4 {
-    font-size: 17px;
-    font-weight: 900;
-    margin-bottom: 10px;
-  }
-  .step-card p {
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    color: #444;
-    line-height: 1.5;
-  }
-  .step-arrow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    font-weight: 900;
-  }
+/* ZIGZAG DIVIDER */
+.zigzag{
+  width:100%;height:20px;
+  background:linear-gradient(135deg,var(--K) 25%,transparent 25%) -20px 0,
+             linear-gradient(225deg,var(--K) 25%,transparent 25%) -20px 0,
+             linear-gradient(315deg,var(--K) 25%,transparent 25%),
+             linear-gradient(45deg,var(--K) 25%,transparent 25%);
+  background-size:40px 20px;
+  background-color:var(--K);
+  margin:10px 0;
+}
 
-  /* COMMANDS */
-  .cmd-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-  .cmd-card {
-    background: var(--white);
-    border: 3px solid var(--black);
-    padding: 20px 22px;
-    box-shadow: var(--shadow);
-    transition: all 0.12s;
-  }
-  .cmd-card:hover {
-    transform: translate(-3px, -3px);
-    box-shadow: var(--shadow-lg);
-    background: var(--bg);
-  }
-  .cmd-cat {
-    display: inline-block;
-    font-size: 11px;
-    font-weight: 900;
-    letter-spacing: 1px;
-    padding: 4px 12px;
-    border: 2px solid var(--black);
-    margin-bottom: 12px;
-  }
-  .cmd-code {
-    font-family: 'Courier New', monospace;
-    font-size: 18px;
-    font-weight: 900;
-    background: var(--black);
-    color: var(--green);
-    padding: 10px 14px;
-    margin-bottom: 10px;
-    letter-spacing: 0.5px;
-  }
-  .cmd-card p {
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    color: #444;
-  }
+/* STATS */
+.stats-row{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:0;border:4px solid var(--K);background:var(--W);
+  margin:0 0 70px;box-shadow:var(--SHL);
+  position:relative;
+}
+.stats-row::before{
+  content:'★ LIVE STATS ★';
+  position:absolute;top:-20px;left:50%;transform:translateX(-50%);
+  background:var(--K);color:var(--Y);
+  font-size:12px;font-weight:900;padding:4px 16px;
+  letter-spacing:2px;white-space:nowrap;
+}
+.stat{padding:28px 18px;text-align:center;border-right:3px solid var(--K);transition:background 0.15s;}
+.stat:last-child{border-right:none;}
+.stat:hover{background:var(--Y);}
+.sn{font-size:38px;font-weight:900;letter-spacing:-2px;line-height:1;margin-bottom:6px;}
+.sl{font-family:Arial,sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#555;}
 
-  /* FAQ */
-  .faq-list { max-width: 720px; margin: 0 auto; }
-  details.faq {
-    background: var(--white);
-    border: 3px solid var(--black);
-    margin-bottom: 12px;
-    box-shadow: var(--shadow);
-    transition: transform 0.12s;
-  }
-  details.faq:hover { transform: translate(-2px,-2px); box-shadow: var(--shadow-lg); }
-  details.faq summary {
-    padding: 18px 22px;
-    font-size: 16px;
-    font-weight: 900;
-    cursor: pointer;
-    list-style: none;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  details.faq summary::-webkit-details-marker { display: none; }
-  details.faq summary::after {
-    content: '+';
-    font-size: 22px;
-    font-weight: 900;
-    transition: transform 0.2s;
-  }
-  details.faq[open] summary::after { transform: rotate(45deg); }
-  details.faq p {
-    font-family: Arial, sans-serif;
-    padding: 0 22px 20px;
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 1.65;
-    color: #333;
-  }
+/* SECTION HEADER */
+.sec-hd{display:flex;align-items:center;gap:16px;margin-bottom:40px;position:relative;}
+.sec-line{flex:1;height:4px;background:var(--K);}
+.sec-tag{
+  background:var(--Y);border:3px solid var(--K);
+  padding:10px 24px;font-size:17px;font-weight:900;
+  box-shadow:var(--SH);white-space:nowrap;
+  position:relative;
+}
+.sec-tag::before,.sec-tag::after{
+  content:'◆';position:absolute;top:50%;transform:translateY(-50%);
+  font-size:16px;color:var(--K);
+}
+.sec-tag::before{left:-24px;}.sec-tag::after{right:-24px;}
 
-  /* FOOTER */
-  footer {
-    background: var(--black);
-    color: var(--white);
-    padding: 30px 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 16px;
-    border-top: 4px solid var(--black);
-  }
-  footer a { color: var(--yellow); text-decoration: none; font-weight: 900; }
-  footer a:hover { color: var(--green); }
-  .footer-links { display: flex; gap: 20px; font-size: 14px; font-weight: 700; }
+/* FEATURES */
+.feat-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:0;border:4px solid var(--K);background:var(--K);
+  box-shadow:var(--SHL);
+}
+.fc{
+  background:var(--W);padding:26px 20px;
+  border-right:3px solid var(--K);border-bottom:3px solid var(--K);
+  transition:all 0.12s;position:relative;overflow:hidden;
+}
+.fc::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:var(--K);
+}
+.fc:nth-child(4n){border-right:none;}
+.fc:nth-last-child(-n+4){border-bottom:none;}
+.fc:nth-child(1)::before{background:var(--GR);}
+.fc:nth-child(2)::before{background:var(--CY);}
+.fc:nth-child(3)::before{background:var(--PK);}
+.fc:nth-child(4)::before{background:var(--PU);}
+.fc:nth-child(5)::before{background:var(--Y);}
+.fc:nth-child(6)::before{background:var(--OR);}
+.fc:nth-child(7)::before{background:var(--GR);}
+.fc:nth-child(8)::before{background:var(--CY);}
+.fc:hover{background:var(--BG);transform:translate(-4px,-4px);z-index:2;box-shadow:var(--SHL);}
+.fi{
+  width:50px;height:50px;border:3px solid var(--K);
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;margin-bottom:14px;box-shadow:3px 3px 0 var(--K);
+}
+.fc h3{font-size:16px;font-weight:900;margin-bottom:8px;}
+.fc p{font-family:Arial,sans-serif;font-size:13px;font-weight:600;line-height:1.5;color:#444;}
 
-  @media (max-width: 768px) {
-    .hero { grid-template-columns: 1fr; padding: 40px 0 30px; }
-    .feat-grid { grid-template-columns: 1fr 1fr; }
-    .stats-row { grid-template-columns: repeat(2, 1fr); }
-    .stat:nth-child(2) { border-right: none; }
-    .stat:nth-child(3) { border-top: 3px solid var(--black); }
-    .steps-wrap { grid-template-columns: 1fr; }
-    .step-arrow { transform: rotate(90deg); }
-    .cmd-grid { grid-template-columns: 1fr; }
-    .hero h1 { font-size: 40px; }
-    nav { padding: 14px 20px; }
-    .wrap { padding: 0 16px; }
-  }
+/* CTA BLOCK */
+.cta-block{
+  background:var(--K);color:var(--W);
+  border:4px solid var(--K);padding:60px 50px;
+  margin:70px 0;box-shadow:var(--SHL);
+  display:grid;grid-template-columns:1fr auto;
+  gap:40px;align-items:center;
+  position:relative;overflow:hidden;
+}
+.cta-block::before{
+  content:'';position:absolute;top:-30px;right:200px;
+  width:120px;height:120px;border:4px solid var(--Y);
+  transform:rotate(20deg);opacity:0.2;
+  animation:spinSlow 15s linear infinite;
+}
+.cta-block::after{
+  content:'';position:absolute;bottom:-20px;right:80px;
+  width:80px;height:80px;border:4px solid var(--PK);
+  border-radius:50%;opacity:0.15;
+  animation:pulse 3s ease-in-out infinite;
+}
+.cta-label{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--Y);color:var(--K);
+  border:3px solid var(--Y);padding:6px 16px;
+  font-size:11px;font-weight:900;letter-spacing:1px;
+  margin-bottom:18px;
+}
+.cta-h{font-size:36px;font-weight:900;margin-bottom:12px;line-height:1.1;}
+.cta-p{font-family:Arial,sans-serif;font-size:15px;font-weight:600;opacity:0.8;line-height:1.6;}
+.btn-chat{
+  display:inline-flex;align-items:center;gap:12px;
+  background:var(--GR);color:var(--K);
+  border:3px solid var(--GR);padding:20px 36px;
+  font-size:17px;font-weight:900;text-decoration:none;
+  box-shadow:6px 6px 0 var(--GR);
+  transition:all 0.12s;cursor:pointer;white-space:nowrap;
+  position:relative;z-index:1;
+}
+.btn-chat:hover{
+  background:var(--Y);border-color:var(--Y);
+  box-shadow:6px 6px 0 var(--Y);
+  transform:translate(-3px,-3px);
+}
+.chat-arrow{font-size:22px;transition:transform 0.2s;}
+.btn-chat:hover .chat-arrow{transform:translateX(4px);}
+
+/* STEPS */
+.steps-w{display:grid;grid-template-columns:1fr 40px 1fr 40px 1fr;gap:0;align-items:center;}
+.step-card{
+  background:var(--W);border:3px solid var(--K);
+  padding:26px 20px;box-shadow:var(--SH);transition:all 0.12s;
+  position:relative;
+}
+.step-card:hover{transform:translateY(-5px);box-shadow:var(--SHL);}
+.step-card::after{
+  content:attr(data-num);
+  position:absolute;top:-16px;right:16px;
+  background:var(--PK);color:var(--W);
+  border:3px solid var(--K);
+  width:32px;height:32px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:900;
+  box-shadow:2px 2px 0 var(--K);
+}
+.snum{
+  width:48px;height:48px;border:3px solid var(--K);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;font-weight:900;margin-bottom:14px;
+  box-shadow:3px 3px 0 var(--K);
+}
+.step-card h4{font-size:16px;font-weight:900;margin-bottom:8px;}
+.step-card p{font-family:Arial,sans-serif;font-size:13px;font-weight:600;color:#444;line-height:1.5;}
+.sarrow{display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:900;}
+
+/* COMMANDS */
+.cmd-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+.cmd-card{
+  background:var(--W);border:3px solid var(--K);
+  padding:20px;box-shadow:var(--SH);transition:all 0.12s;
+  position:relative;
+}
+.cmd-card:hover{transform:translate(-3px,-3px);box-shadow:var(--SHL);background:var(--BG);}
+.cmd-cat{
+  display:inline-block;font-size:11px;font-weight:900;
+  letter-spacing:1px;padding:4px 12px;border:2px solid var(--K);margin-bottom:10px;
+}
+.cmd-code{
+  font-family:'Courier New',monospace;font-size:17px;font-weight:900;
+  background:var(--K);color:var(--GR);
+  padding:10px 14px;margin-bottom:10px;letter-spacing:0.5px;
+}
+.cmd-card p{font-family:Arial,sans-serif;font-size:13px;font-weight:600;color:#444;}
+
+/* FAQ */
+.faq-w{max-width:720px;margin:0 auto;}
+details.faq{
+  background:var(--W);border:3px solid var(--K);
+  margin-bottom:12px;box-shadow:var(--SH);
+  transition:transform 0.12s;
+}
+details.faq:hover{transform:translate(-2px,-2px);box-shadow:var(--SHL);}
+details.faq summary{
+  padding:18px 22px;font-size:15px;font-weight:900;
+  cursor:pointer;list-style:none;
+  display:flex;justify-content:space-between;align-items:center;
+}
+details.faq summary::-webkit-details-marker{display:none;}
+details.faq summary::after{content:'+';font-size:22px;font-weight:900;transition:transform 0.2s;}
+details.faq[open] summary::after{transform:rotate(45deg);}
+details.faq p{font-family:Arial,sans-serif;padding:0 22px 20px;font-size:14px;font-weight:600;line-height:1.65;color:#333;}
+
+/* BOTTOM CTA STRIP */
+.cta-strip{
+  background:var(--Y);border:4px solid var(--K);
+  padding:40px;margin:50px 0 0;
+  text-align:center;box-shadow:var(--SHL);
+  position:relative;overflow:hidden;
+}
+.cta-strip::before,.cta-strip::after{
+  content:'🤖';font-size:80px;position:absolute;
+  top:50%;transform:translateY(-50%);opacity:0.08;
+}
+.cta-strip::before{left:30px;}.cta-strip::after{right:30px;}
+.cta-strip h2{font-size:32px;font-weight:900;margin-bottom:12px;}
+.cta-strip p{font-family:Arial,sans-serif;font-size:15px;font-weight:700;margin-bottom:24px;color:#333;}
+.btn-strip{
+  display:inline-flex;align-items:center;gap:12px;
+  background:var(--K);color:var(--Y);
+  border:3px solid var(--K);padding:18px 40px;
+  font-size:18px;font-weight:900;text-decoration:none;
+  box-shadow:6px 6px 0 #000a;
+  transition:all 0.12s;cursor:pointer;
+}
+.btn-strip:hover{background:var(--GR);color:var(--K);transform:translate(-3px,-3px);box-shadow:var(--SHL);}
+
+/* FOOTER */
+footer{
+  background:var(--K);color:var(--W);
+  padding:28px 40px;display:flex;align-items:center;
+  justify-content:space-between;flex-wrap:wrap;gap:14px;
+  border-top:4px solid var(--K);
+}
+footer a{color:var(--Y);text-decoration:none;font-weight:900;}
+footer a:hover{color:var(--GR);}
+.fl{display:flex;gap:20px;font-size:13px;font-weight:700;}
+
+/* SECTION */
+.sec{padding:30px 0 60px;}
+
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr;padding:40px 0 30px;}
+  .feat-grid{grid-template-columns:1fr 1fr;}
+  .stats-row{grid-template-columns:repeat(2,1fr);}
+  .stat:nth-child(2){border-right:none;}
+  .stat:nth-child(3){border-top:3px solid var(--K);}
+  .steps-w{grid-template-columns:1fr;}
+  .sarrow{transform:rotate(90deg);}
+  .cmd-grid{grid-template-columns:1fr;}
+  h1{font-size:40px;}
+  .cta-block{grid-template-columns:1fr;padding:40px 28px;}
+  nav{padding:14px 16px;}.wrap{padding:0 14px;}
+  .deco-star{display:none;}
+}
 </style>
-</head>
-<body>
 
-<!-- NAV -->
 <nav>
   <div class="logo">
     <div class="logo-box">🤖</div>
     <span>MIKOO WA BOT</span>
   </div>
   <div class="nav-pills">
-    <a href="#fitur" class="nav-pill">FITUR</a>
-    <a href="#cara" class="nav-pill">CARA PAKAI</a>
-    <a href="#cmd" class="nav-pill">PERINTAH</a>
-    <a href="#faq" class="nav-pill">FAQ</a>
+    <a href="#fitur" class="np">FITUR</a>
+    <a href="#cara" class="np">CARA PAKAI</a>
+    <a href="#cmd" class="np">PERINTAH</a>
+    <a href="#faq" class="np">FAQ</a>
+    <a href="#chat-cta" class="np np-cta">💬 CHAT BOT</a>
   </div>
 </nav>
 
-<!-- TICKER -->
 <div class="ticker">
   <div class="ticker-track">
-    <span class="ticker-item"><span class="ticker-dot"></span>GRATIS SELAMANYA</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>70+ FITUR</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>FAST RESPONSE</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>UPTIME 99.8%</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>12.000+ PENGGUNA</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>GRATIS SELAMANYA</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>70+ FITUR</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>FAST RESPONSE</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>UPTIME 99.8%</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>12.000+ PENGGUNA</span>
+    <span class="ti"><span class="td"></span>GRATIS SELAMANYA</span>
+    <span class="ti"><span class="td"></span>70+ FITUR CANGGIH</span>
+    <span class="ti"><span class="td"></span>FAST RESPONSE</span>
+    <span class="ti"><span class="td"></span>UPTIME 99.8%</span>
+    <span class="ti"><span class="td"></span>12.000+ PENGGUNA</span>
+    <span class="ti"><span class="td"></span>AI POWERED</span>
+    <span class="ti"><span class="td"></span>GRATIS SELAMANYA</span>
+    <span class="ti"><span class="td"></span>70+ FITUR CANGGIH</span>
+    <span class="ti"><span class="td"></span>FAST RESPONSE</span>
+    <span class="ti"><span class="td"></span>UPTIME 99.8%</span>
+    <span class="ti"><span class="td"></span>12.000+ PENGGUNA</span>
+    <span class="ti"><span class="td"></span>AI POWERED</span>
   </div>
 </div>
 
 <div class="wrap">
 
-  <!-- HERO -->
-  <section class="hero" id="home">
-    <div>
+  <section class="hero deco-field" id="home">
+    <div class="shape s1"></div>
+    <div class="shape s2"></div>
+    <div class="shape s3"></div>
+    <div class="shape s4"></div>
+    <div class="shape s5"></div>
+    <div class="shape s6"></div>
+    <div class="shape s7"></div>
+    <div class="shape s8"></div>
+
+    <div style="position:relative;z-index:2;">
       <div class="hero-eyebrow">
-        <span class="eyebrow-dot"></span>
-        MODERN WHATSAPP BOT
+        <span class="edot"></span>
+        ✦ MODERN WHATSAPP BOT ✦
       </div>
-      <h1>OTOMASI<br>WHATSAPP<br>JADI <span class="hero-accent">MUDAH!</span></h1>
-      <p class="hero-desc">Bot WhatsApp super canggih dengan 70+ fitur untuk manajemen grup, downloader, sticker maker, dan AI chat.</p>
+      <h1>OTOMASI<br>WHATSAPP<br>JADI <span class="ha">MUDAH!</span></h1>
+      <p class="hero-desc">Bot WhatsApp super canggih dengan 70+ fitur untuk manajemen grup, downloader, sticker maker, dan AI chat. Gratis selamanya!</p>
       <div class="btn-row">
-        <a href="#cmd" class="btn btn-primary">⌨️ LIHAT PERINTAH</a>
-        <a href="#fitur" class="btn btn-outline">📋 LIHAT FITUR</a>
+        <a href="#chat-cta" class="btn btn-cta">💬 CHAT BOT SEKARANG</a>
+        <a href="#fitur" class="btn btn-y">📋 LIHAT FITUR</a>
+        <a href="#cmd" class="btn">⌨️ PERINTAH</a>
       </div>
     </div>
 
-    <div class="phone-wrap">
+    <div class="phone-wrap" style="position:relative;z-index:2;">
+      <div class="sticker st1">🔥 70+ FITUR</div>
+      <div class="sticker st2">⚡ GRATIS!</div>
+      <div class="sticker st3">🚀 ONLINE 24/7</div>
       <div class="phone">
         <div class="phone-bar">
-          <div class="phone-avatar">🤖</div>
-          <div>
-            <div class="phone-name">MIKOO BOT</div>
-            <div class="phone-status">● ONLINE</div>
+          <div class="pav">🤖</div>
+          <div class="pb">
+            <div style="font-weight:900;font-size:13px;">MIKOO BOT</div>
+            <div style="font-size:11px;font-weight:700;">● ONLINE</div>
           </div>
         </div>
-        <div class="phone-body">
-          <div style="display:flex;justify-content:flex-end"><div class="bubble bubble-user">Halo bot! 👋</div></div>
-          <div class="bubble bubble-bot">Hai! Aku MIKOO, siap bantu kamu 🚀</div>
-          <div style="display:flex;justify-content:flex-end"><div class="bubble bubble-user">Bisa download TikTok?</div></div>
-          <div class="bubble bubble-bot">Bisa! Ketik:<br><strong>!tiktok [url]</strong> ✅</div>
-          <div class="bubble-typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        <div class="pbody">
+          <div style="display:flex;justify-content:flex-end"><div class="bub bub-u">Halo bot! 👋</div></div>
+          <div class="bub bub-b">Hai! Aku MIKOO, siap bantu! 🚀</div>
+          <div style="display:flex;justify-content:flex-end"><div class="bub bub-u">Bisa download TikTok?</div></div>
+          <div class="bub bub-b">Bisa! Ketik:<br><strong>!tiktok [url]</strong> ✅</div>
+          <div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
         </div>
       </div>
-      <div class="badge-float bf-1">🔥 70+ FITUR</div>
-      <div class="badge-float bf-2">⚡ GRATIS!</div>
     </div>
   </section>
 
-  <!-- STATS -->
-  <div class="stats-row">
-    <div class="stat">
-      <div class="stat-n" style="color:#00D26A">12K+</div>
-      <div class="stat-l">Pengguna Aktif</div>
+  <div class="zigzag"></div>
+
+  <div class="stats-row" style="margin-top:40px;">
+    <div class="stat"><div class="sn" style="color:#00D26A">12K+</div><div class="sl">Pengguna Aktif</div></div>
+    <div class="stat"><div class="sn" style="color:#FF4D8D">70+</div><div class="sl">Fitur Tersedia</div></div>
+    <div class="stat"><div class="sn" style="color:#8B5CF6">2.4M+</div><div class="sl">Pesan Diproses</div></div>
+    <div class="stat"><div class="sn" style="color:#FF6B35">99.8%</div><div class="sl">Uptime</div></div>
+  </div>
+
+  <!-- CTA UTAMA -->
+  <div class="cta-block" id="chat-cta">
+    <div>
+      <div class="cta-label">💬 MULAI SEKARANG — GRATIS</div>
+      <div class="cta-h">CHAT BOT SEKARANG<br>DAN RASAKAN BEDANYA!</div>
+      <p class="cta-p">Bergabung dengan 12.000+ pengguna yang sudah menikmati kemudahan MIKOO WA BOT. Setup dalam hitungan menit, gratis tanpa syarat.</p>
     </div>
-    <div class="stat">
-      <div class="stat-n" style="color:#FF4D8D">70+</div>
-      <div class="stat-l">Fitur Tersedia</div>
-    </div>
-    <div class="stat">
-      <div class="stat-n" style="color:#8B5CF6">2.4M+</div>
-      <div class="stat-l">Pesan Diproses</div>
-    </div>
-    <div class="stat">
-      <div class="stat-n" style="color:#FF6B35">99.8%</div>
-      <div class="stat-l">Uptime</div>
+    <div style="display:flex;flex-direction:column;gap:14px;align-items:flex-start;">
+      <a href="#" class="btn-chat">
+        💬 CHAT BOT SEKARANG
+        <span class="chat-arrow">→</span>
+      </a>
+      <div style="font-family:Arial,sans-serif;font-size:12px;font-weight:700;color:#888;text-align:center;">
+        ✓ Gratis &nbsp;|&nbsp; ✓ Tanpa daftar &nbsp;|&nbsp; ✓ Langsung aktif
+      </div>
     </div>
   </div>
 
   <!-- FITUR -->
-  <section class="section" id="fitur">
-    <div class="sec-header">
+  <section class="sec" id="fitur">
+    <div class="sec-hd">
       <div class="sec-line"></div>
       <div class="sec-tag">✨ FITUR UNGGULAN</div>
       <div class="sec-line"></div>
     </div>
     <div class="feat-grid">
-      <div class="feat-card">
-        <div class="feat-icon-box" style="background:#00D26A22">👥</div>
+      <div class="fc">
+        <div class="fi" style="background:#00D26A22">👥</div>
         <h3>Group Management</h3>
-        <p>Antilink, welcome message, blacklist, mute, kick otomatis dan banyak lagi.</p>
+        <p>Antilink, welcome message, blacklist, mute, kick otomatis.</p>
       </div>
-      <div class="feat-card">
-        <div class="feat-icon-box" style="background:#00E5FF22">📥</div>
+      <div class="fc">
+        <div class="fi" style="background:#00E5FF22">📥</div>
         <h3>Downloader</h3>
-        <p>Download video & audio dari TikTok, Instagram, YouTube, Facebook tanpa watermark.</p>
+        <p>Download dari TikTok, Instagram, YouTube, Facebook tanpa watermark.</p>
       </div>
-      <div class="feat-card">
-        <div class="feat-icon-box" style="background:#FF4D8D22">🎨</div>
+      <div class="fc">
+        <div class="fi" style="background:#FF4D8D22">🎨</div>
         <h3>Sticker Maker</h3>
-        <p>Buat sticker dari foto, video, atau GIF. Mendukung sticker animasi berkualitas tinggi.</p>
+        <p>Buat sticker dari foto, video, atau GIF animasi berkualitas tinggi.</p>
       </div>
-      <div class="feat-card">
-        <div class="feat-icon-box" style="background:#8B5CF622">🤖</div>
+      <div class="fc">
+        <div class="fi" style="background:#8B5CF622">🤖</div>
         <h3>AI Chat</h3>
         <p>Tanya apa saja ke AI dan dapatkan jawaban cerdas secara instan.</p>
       </div>
-      <div class="feat-card">
-        <div class="feat-icon-box" style="background:#FFE23422">🎵</div>
+      <div class="fc">
+        <div class="fi" style="background:#FFE23422">🎵</div>
         <h3>Music Player</h3>
         <p>Putar dan download lagu dari YouTube langsung di WhatsApp.</p>
       </div>
-      <div class="feat-card">
-        <div class="feat-icon-box" style="background:#FF6B3522">🛡️</div>
+      <div class="fc">
+        <div class="fi" style="background:#FF6B3522">🛡️</div>
         <h3>Auto Moderation</h3>
         <p>Filter kata kasar, spam, dan konten berbahaya secara otomatis.</p>
       </div>
-      <div class="feat-card">
-        <div class="feat-icon-box" style="background:#00D26A22">📊</div>
+      <div class="fc">
+        <div class="fi" style="background:#00D26A22">📊</div>
         <h3>Statistik Grup</h3>
-        <p>Pantau aktivitas grup, member paling aktif, dan insight lainnya.</p>
+        <p>Pantau aktivitas grup dan insight member paling aktif.</p>
       </div>
-      <div class="feat-card">
-        <div class="feat-icon-box" style="background:#00E5FF22">🔗</div>
+      <div class="fc">
+        <div class="fi" style="background:#00E5FF22">🔗</div>
         <h3>URL Shortener</h3>
         <p>Perpendek link panjang jadi singkat dan mudah dibagikan.</p>
       </div>
@@ -684,27 +561,27 @@
   </section>
 
   <!-- CARA PAKAI -->
-  <section class="section" id="cara">
-    <div class="sec-header">
+  <section class="sec" id="cara">
+    <div class="sec-hd">
       <div class="sec-line"></div>
       <div class="sec-tag">📖 CARA PAKAI</div>
       <div class="sec-line"></div>
     </div>
-    <div class="steps-wrap">
-      <div class="step-card">
-        <div class="step-num" style="background:#FFE234">1</div>
+    <div class="steps-w">
+      <div class="step-card" data-num="1">
+        <div class="snum" style="background:#FFE234">1</div>
         <h4>Scan QR Code</h4>
         <p>Hubungkan bot ke WhatsApp kamu dengan scan QR yang tersedia di halaman setup.</p>
       </div>
-      <div class="step-arrow">→</div>
-      <div class="step-card">
-        <div class="step-num" style="background:#FF4D8D;color:#fff">2</div>
+      <div class="sarrow">→</div>
+      <div class="step-card" data-num="2">
+        <div class="snum" style="background:#FF4D8D;color:#fff">2</div>
         <h4>Tambahkan ke Grup</h4>
         <p>Invite bot ke grup WhatsApp kamu atau mulai chat pribadi langsung.</p>
       </div>
-      <div class="step-arrow">→</div>
-      <div class="step-card">
-        <div class="step-num" style="background:#00D26A">3</div>
+      <div class="sarrow">→</div>
+      <div class="step-card" data-num="3">
+        <div class="snum" style="background:#00D26A">3</div>
         <h4>Ketik !menu</h4>
         <p>Ketik <strong>!menu</strong> untuk melihat semua fitur dan perintah yang tersedia.</p>
       </div>
@@ -712,8 +589,8 @@
   </section>
 
   <!-- PERINTAH -->
-  <section class="section" id="cmd">
-    <div class="sec-header">
+  <section class="sec" id="cmd">
+    <div class="sec-hd">
       <div class="sec-line"></div>
       <div class="sec-tag">⌨️ DAFTAR PERINTAH</div>
       <div class="sec-line"></div>
@@ -742,7 +619,7 @@
       <div class="cmd-card">
         <div class="cmd-cat" style="background:#00D26A22;color:#007A3D">👥 GROUP</div>
         <div class="cmd-code">!kick [@user]</div>
-        <p>Kick member dari grup. Hanya bisa digunakan oleh admin.</p>
+        <p>Kick member dari grup. Hanya bisa digunakan oleh admin grup.</p>
       </div>
       <div class="cmd-card">
         <div class="cmd-cat" style="background:#FF6B3522;color:#B03A00">🛡️ ADMIN</div>
@@ -763,20 +640,20 @@
   </section>
 
   <!-- FAQ -->
-  <section class="section" id="faq">
-    <div class="sec-header">
+  <section class="sec" id="faq">
+    <div class="sec-hd">
       <div class="sec-line"></div>
       <div class="sec-tag">❓ PERTANYAAN UMUM</div>
       <div class="sec-line"></div>
     </div>
-    <div class="faq-list">
+    <div class="faq-w">
       <details class="faq">
         <summary>Apakah bot ini gratis?</summary>
         <p>Ya, 100% gratis selamanya. Tidak ada biaya tersembunyi, tidak ada fitur berbayar. Semua fitur bisa digunakan tanpa bayar apapun.</p>
       </details>
       <details class="faq">
         <summary>Apakah aman digunakan?</summary>
-        <p>Sangat aman. MIKOO WA BOT sudah dioptimalkan, tidak menyimpan data chat pribadi kamu, dan tidak melanggar ketentuan layanan WhatsApp.</p>
+        <p>Sangat aman. MIKOO WA BOT tidak menyimpan data chat pribadi kamu dan sudah dioptimalkan agar tidak melanggar ketentuan layanan WhatsApp.</p>
       </details>
       <details class="faq">
         <summary>Bagaimana cara menambahkan bot ke grup?</summary>
@@ -784,26 +661,29 @@
       </details>
       <details class="faq">
         <summary>Bot lambat atau tidak merespon, apa yang harus dilakukan?</summary>
-        <p>Coba cek koneksi internet kamu terlebih dahulu. Jika masih lambat, mungkin sedang ada maintenance. Cek status uptime di channel kami atau ketik <strong>!ping</strong> untuk mengecek respons bot.</p>
+        <p>Coba cek koneksi internet kamu. Jika masih bermasalah, mungkin sedang ada maintenance. Ketik <strong>!ping</strong> untuk mengecek status respons bot.</p>
       </details>
     </div>
   </section>
 
+  <!-- BOTTOM CTA STRIP -->
+  <div class="cta-strip">
+    <h2>🤖 SIAP COBA MIKOO WA BOT?</h2>
+    <p>Bergabung sekarang dan rasakan kemudahan otomasi WhatsApp. Gratis, tanpa syarat!</p>
+    <a href="#" class="btn-strip">💬 CHAT BOT SEKARANG →</a>
+  </div>
+
 </div>
 
-<!-- FOOTER -->
 <footer>
   <div style="display:flex;align-items:center;gap:12px;">
-    <div style="width:38px;height:38px;background:var(--green);border:3px solid #555;display:flex;align-items:center;justify-content:center;font-size:20px;">🤖</div>
-    <span style="font-weight:900;font-size:16px;">MIKOO WA BOT</span>
-    <span style="color:#666;font-size:13px;font-family:Arial,sans-serif;">© 2026</span>
+    <div style="width:36px;height:36px;background:var(--GR);border:3px solid #555;display:flex;align-items:center;justify-content:center;font-size:18px;">🤖</div>
+    <span style="font-weight:900;font-size:15px;">MIKOO WA BOT</span>
+    <span style="color:#666;font-size:12px;font-family:Arial,sans-serif;">© 2026</span>
   </div>
-  <div class="footer-links">
+  <div class="fl">
     <a href="#">GitHub</a>
     <a href="#">Dokumentasi</a>
     <a href="#">Kontak</a>
   </div>
 </footer>
-
-</body>
-</html>
