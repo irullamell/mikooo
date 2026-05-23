@@ -1,89 +1,91 @@
-
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MIKOO WA BOT — Otomasi WhatsApp Jadi Mudah</title>
 <style>
 :root{
   --K:#0a0a0a;--W:#ffffff;
   --Y:#FFE234;--PK:#FF4D8D;--CY:#00CFEA;
   --GR:#00C060;--PU:#7C3AED;--OR:#FF6B35;
   --SH:5px 5px 0 #0a0a0a;--SHL:8px 8px 0 #0a0a0a;
+  /* GANTI nomor WA berikut sesuai kebutuhan kamu ↓ */
 }
 *{margin:0;padding:0;box-sizing:border-box}
+
+html{scroll-behavior:smooth;}
+
 body{
   font-family:'Arial Black',Arial,sans-serif;
   color:var(--K);overflow-x:hidden;
   background-color:#fdf6e3;
+  /* Neo-brutalism background: grid + dots tegas, tanpa gradient lembut */
   background-image:
-    radial-gradient(circle,#c8b97a44 1px,transparent 1px),
-    radial-gradient(circle,#c8b97a22 1px,transparent 1px);
-  background-size:28px 28px,14px 14px;
-  background-position:0 0,14px 14px;
+    linear-gradient(rgba(10,10,10,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10,10,10,0.06) 1px, transparent 1px),
+    radial-gradient(circle, #c8b97a66 1.2px, transparent 1.4px);
+  background-size: 56px 56px, 56px 56px, 28px 28px;
+  background-position: 0 0, 0 0, 0 0;
 }
 
+/* ---------- ANIMATIONS (secukupnya, hanya yang esensial) ---------- */
 @keyframes spinSlow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
-@keyframes wiggle{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+@keyframes wiggle{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
 @keyframes blink{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}
 @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
+/* ---------- NAV ---------- */
 nav{
   background:var(--W);border-bottom:4px solid var(--K);
   padding:16px 40px;display:flex;align-items:center;
   justify-content:space-between;box-shadow:0 4px 0 var(--K);
-  position:relative;z-index:10;
+  position:sticky;top:0;z-index:50;
 }
 .logo{display:flex;align-items:center;gap:12px;font-size:20px;font-weight:900;color:var(--K);}
 .logo-box{
   width:44px;height:44px;background:var(--GR);border:3px solid var(--K);
   display:flex;align-items:center;justify-content:center;font-size:22px;
-  box-shadow:3px 3px 0 var(--K);animation:wiggle 3s ease-in-out infinite;
+  box-shadow:3px 3px 0 var(--K);
 }
-.nav-pills{display:flex;gap:8px;flex-wrap:wrap;}
+.nav-pills{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
 .np{
   background:#f5f0dc;border:3px solid var(--K);padding:8px 16px;
   font-size:12px;font-weight:900;text-decoration:none;color:var(--K);
   box-shadow:3px 3px 0 var(--K);transition:all 0.12s;cursor:pointer;display:inline-block;
 }
 .np:hover{background:var(--Y);transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--K);}
-.np-cta{background:#00C060;color:#0a0a0a;}
-.np-cta:hover{background:#00a050;color:#0a0a0a;}
+.np-cta{background:var(--GR);color:var(--K);}
+.np-cta:hover{background:#00a050;color:var(--K);}
 
-.ticker{background:var(--K);padding:12px 0;overflow:hidden;}
+/* ---------- TICKER ---------- */
+.ticker{background:var(--K);padding:12px 0;overflow:hidden;border-bottom:3px solid var(--Y);}
 .ticker-track{display:flex;animation:scroll 22s linear infinite;white-space:nowrap;font-size:13px;font-weight:900;letter-spacing:1px;}
-.ti{padding:0 36px;color:#FFE234;}
-.tdot{display:inline-block;width:8px;height:8px;background:#00C060;border-radius:50%;margin-right:8px;vertical-align:middle;}
+.ti{padding:0 36px;color:var(--Y);}
+.tdot{display:inline-block;width:8px;height:8px;background:var(--GR);border-radius:50%;margin-right:8px;vertical-align:middle;}
 
-.wrap{max-width:1100px;margin:0 auto;padding:0 36px;}
+.wrap{max-width:1100px;margin:0 auto;padding:0 36px;position:relative;}
 
-/* ===== HERO — overflow visible, shapes dibatasi posisinya ===== */
+/* ---------- HERO ---------- */
 .hero{
   padding:70px 0 60px;
   display:grid;grid-template-columns:1.2fr 1fr;
   gap:50px;align-items:center;
   position:relative;
-  /* TIDAK pakai overflow:hidden agar shapes tidak terpotong,
-     tapi shapes diposisikan agar tidak keluar viewport */
 }
-
-/* Shapes hanya di area dalam konten, tidak keluar ke kanan/kiri */
 .shape{position:absolute;border:3px solid var(--K);pointer-events:none;z-index:0;}
-
-/* Kiri atas — cukup kecil, tidak lewat batas kiri */
-.s1{width:42px;height:42px;background:var(--PK);top:55px;left:0px;transform:rotate(15deg);animation:spinSlow 12s linear infinite;}
-/* Kanan tengah — jauh dari edge kanan, pakai right dgn nilai aman */
-.s2{width:38px;height:38px;background:var(--CY);border:3px solid var(--K);top:120px;right:10px;border-radius:50%;animation:floatY 4s ease-in-out infinite;}
-/* Kiri bawah */
-.s3{width:32px;height:32px;background:var(--Y);bottom:100px;left:30px;border:3px solid var(--K);animation:floatY 5.5s ease-in-out infinite reverse;}
-/* Kanan bawah */
-.s4{width:44px;height:44px;background:var(--PU);bottom:70px;right:20px;transform:rotate(-20deg);border:3px solid var(--K);animation:spinSlow 16s linear infinite reverse;}
-/* Tengah atas */
-.s5{width:28px;height:28px;background:var(--GR);top:30px;left:42%;border:3px solid var(--K);transform:rotate(10deg);animation:floatY 3.5s ease-in-out infinite;}
-/* Kanan atas — pakai right agar tidak lari */
-.s6{width:22px;height:22px;background:var(--OR);top:60px;right:260px;border-radius:50%;border:3px solid var(--K);animation:pulse 2.2s ease-in-out infinite;}
-/* Kotak horizontal kecil, tengah */
-.s7{width:44px;height:16px;background:var(--Y);top:24px;left:30%;border:3px solid var(--K);transform:rotate(-5deg);animation:floatY 4.5s ease-in-out infinite;}
-/* Kotak vertikal kecil */
-.s8{width:16px;height:44px;background:var(--PK);top:140px;left:70px;border:3px solid var(--K);animation:floatY 6s ease-in-out infinite reverse;}
+.s1{width:42px;height:42px;background:var(--PK);top:55px;left:0px;transform:rotate(15deg);animation:spinSlow 18s linear infinite;}
+.s2{width:38px;height:38px;background:var(--CY);top:120px;right:10px;border-radius:50%;animation:floatY 5s ease-in-out infinite;}
+.s3{width:32px;height:32px;background:var(--Y);bottom:100px;left:30px;}
+.s4{width:44px;height:44px;background:var(--PU);bottom:70px;right:20px;transform:rotate(-20deg);animation:spinSlow 20s linear infinite reverse;}
+.s5{width:28px;height:28px;background:var(--GR);top:30px;left:42%;transform:rotate(10deg);}
+.s6{width:22px;height:22px;background:var(--OR);top:60px;right:260px;border-radius:50%;}
+.s7{width:44px;height:16px;background:var(--Y);top:24px;left:30%;transform:rotate(-5deg);}
+.s8{width:16px;height:44px;background:var(--PK);top:140px;left:70px;}
+.s9{width:24px;height:24px;background:var(--CY);bottom:30px;left:48%;border-radius:50%;}
+.s10{width:18px;height:18px;background:var(--OR);top:200px;left:20%;transform:rotate(45deg);}
 
 .hero-eyebrow{
   display:inline-flex;align-items:center;gap:8px;
@@ -91,7 +93,7 @@ nav{
   padding:7px 18px;font-size:12px;font-weight:900;color:var(--K);
   box-shadow:var(--SH);margin-bottom:22px;letter-spacing:0.5px;
 }
-.edot{width:10px;height:10px;background:#007a35;border-radius:50%;animation:pulse 1.5s ease-in-out infinite;}
+.edot{width:10px;height:10px;background:#007a35;border-radius:50%;}
 h1{font-size:58px;line-height:1.0;font-weight:900;margin-bottom:22px;letter-spacing:-2px;color:var(--K);}
 .ha{
   display:inline-block;background:#d63366;border:3px solid var(--K);
@@ -111,25 +113,24 @@ h1{font-size:58px;line-height:1.0;font-weight:900;margin-bottom:22px;letter-spac
 .btn-y:hover{background:#e6c800;color:var(--K);}
 .btn-cta{
   background:var(--K);color:var(--Y);font-size:16px;padding:18px 30px;
-  animation:bounce 2.5s ease-in-out infinite;position:relative;
-  border:3px solid var(--K);
+  position:relative;border:3px solid var(--K);
 }
-.btn-cta:hover{background:#222;color:var(--Y);animation:none;transform:translate(-3px,-3px);box-shadow:var(--SHL);}
+.btn-cta:hover{background:#222;color:var(--Y);transform:translate(-3px,-3px);box-shadow:var(--SHL);}
 .btn-cta::after{
-  content:'NEW';position:absolute;top:-14px;right:-10px;
+  content:'NEW';position:absolute;top:-12px;right:-10px;
   background:var(--PK);color:#ffffff;
   font-size:10px;font-weight:900;padding:3px 8px;border:2px solid var(--K);
   box-shadow:2px 2px 0 var(--K);
 }
 
-/* PHONE — sticker tidak keluar viewport */
+/* ---------- PHONE ---------- */
 .phone-wrap{display:flex;justify-content:center;align-items:center;position:relative;}
 .phone{
   width:245px;background:#f9f4e8;border:4px solid var(--K);
   box-shadow:var(--SHL);transform:rotate(2deg);transition:transform 0.3s;z-index:2;
   position:relative;
 }
-.phone:hover{transform:rotate(0deg) scale(1.03);}
+.phone:hover{transform:rotate(0deg);}
 .phone-bar{
   background:#00a050;border-bottom:3px solid var(--K);
   padding:12px 14px;display:flex;align-items:center;gap:10px;
@@ -145,17 +146,13 @@ h1{font-size:58px;line-height:1.0;font-weight:900;margin-bottom:22px;letter-spac
 .dot{width:7px;height:7px;background:var(--K);border-radius:50%;animation:blink 1.2s ease-in-out infinite;}
 .dot:nth-child(2){animation-delay:0.2s;}.dot:nth-child(3){animation-delay:0.4s;}
 
-/* Sticker hanya di dalam phone-wrap, tidak keluar ke kanan */
 .sticker{
   position:absolute;border:3px solid var(--K);
   box-shadow:var(--SH);padding:7px 12px;font-size:11px;font-weight:900;white-space:nowrap;z-index:5;
 }
-/* Di atas phone, ke kiri sedikit agar tidak keluar kanan */
-.st1{top:-14px;left:-20px;background:#d63366;color:#ffffff;animation:floatY 3.5s ease-in-out infinite;}
-/* Di bawah phone, ke kiri */
-.st2{bottom:10px;left:-30px;background:#0095aa;color:#ffffff;animation:floatY 4.2s ease-in-out infinite reverse;}
-/* Di kanan tengah phone, tapi tidak terlalu jauh ke kanan */
-.st3{top:45%;right:-10px;background:var(--Y);color:#0a0a0a;transform:rotate(4deg);animation:floatY 5s ease-in-out infinite;}
+.st1{top:-14px;left:-20px;background:#d63366;color:#ffffff;transform:rotate(-4deg);}
+.st2{bottom:10px;left:-30px;background:#0095aa;color:#ffffff;transform:rotate(3deg);}
+.st3{top:45%;right:-10px;background:var(--Y);color:#0a0a0a;transform:rotate(4deg);}
 
 .zigzag{
   width:100%;height:20px;
@@ -167,6 +164,7 @@ h1{font-size:58px;line-height:1.0;font-weight:900;margin-bottom:22px;letter-spac
   background-size:40px 20px;background-color:var(--K);margin:10px 0;
 }
 
+/* ---------- STATS ---------- */
 .stats-row{
   display:grid;grid-template-columns:repeat(4,1fr);
   border:4px solid var(--K);margin:0 0 70px;box-shadow:var(--SHL);
@@ -178,6 +176,7 @@ h1{font-size:58px;line-height:1.0;font-weight:900;margin-bottom:22px;letter-spac
   content:'★ LIVE STATS ★';position:absolute;top:-20px;left:50%;transform:translateX(-50%);
   background:var(--K);color:var(--Y);
   font-size:12px;font-weight:900;padding:4px 16px;letter-spacing:2px;white-space:nowrap;
+  border:3px solid var(--K);
 }
 .stat{padding:30px 18px;text-align:center;border-right:3px solid var(--K);transition:background 0.15s;background:rgba(255,255,255,0.85);}
 .stat:last-child{border-right:none;}
@@ -185,6 +184,7 @@ h1{font-size:58px;line-height:1.0;font-weight:900;margin-bottom:22px;letter-spac
 .sn{font-size:38px;font-weight:900;letter-spacing:-2px;line-height:1;margin-bottom:6px;}
 .sl{font-family:Arial,sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#444;}
 
+/* ---------- SECTION HEAD ---------- */
 .sec-hd{display:flex;align-items:center;gap:16px;margin-bottom:40px;}
 .sec-line{flex:1;height:4px;background:var(--K);}
 .sec-tag{
@@ -195,6 +195,7 @@ h1{font-size:58px;line-height:1.0;font-weight:900;margin-bottom:22px;letter-spac
 .sec-tag::before,.sec-tag::after{content:'◆';position:absolute;top:50%;transform:translateY(-50%);font-size:16px;color:var(--K);}
 .sec-tag::before{left:-24px;}.sec-tag::after{right:-24px;}
 
+/* ---------- FEATURES ---------- */
 .feat-grid{display:grid;grid-template-columns:repeat(4,1fr);border:4px solid var(--K);background:var(--K);box-shadow:var(--SHL);}
 .fc{
   background:#fffdf5;padding:26px 20px;
@@ -213,6 +214,7 @@ h1{font-size:58px;line-height:1.0;font-weight:900;margin-bottom:22px;letter-spac
 .fc h3{font-size:16px;font-weight:900;margin-bottom:8px;color:var(--K);}
 .fc p{font-family:Arial,sans-serif;font-size:13px;font-weight:600;line-height:1.5;color:#333;}
 
+/* ---------- CTA BLOCK ---------- */
 .cta-block{
   background:var(--K);color:var(--W);border:4px solid var(--K);padding:60px 50px;
   margin:70px 0;box-shadow:var(--SHL);
@@ -220,40 +222,43 @@ h1{font-size:58px;line-height:1.0;font-weight:900;margin-bottom:22px;letter-spac
   position:relative;overflow:hidden;
   background-image:repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(255,255,255,0.03) 10px,rgba(255,255,255,0.03) 11px);
 }
-.cta-block::before{content:'';position:absolute;top:-30px;right:200px;width:120px;height:120px;border:4px solid #FFE234;transform:rotate(20deg);opacity:0.15;animation:spinSlow 15s linear infinite;}
+.cta-block::before{content:'';position:absolute;top:-30px;right:200px;width:120px;height:120px;border:4px solid #FFE234;transform:rotate(20deg);opacity:0.18;}
 .cta-label{display:inline-flex;align-items:center;gap:8px;background:var(--Y);color:var(--K);border:3px solid var(--Y);padding:6px 16px;font-size:11px;font-weight:900;letter-spacing:1px;margin-bottom:18px;}
 .cta-h{font-size:34px;font-weight:900;margin-bottom:12px;line-height:1.1;color:#ffffff;}
 .cta-p{font-family:Arial,sans-serif;font-size:15px;font-weight:600;color:#cccccc;line-height:1.6;}
 .btn-chat{
   display:inline-flex;align-items:center;gap:12px;
-  background:var(--Y);color:var(--K);border:3px solid var(--Y);padding:20px 36px;
+  background:var(--Y);color:var(--K);border:3px solid var(--K);padding:20px 36px;
   font-size:17px;font-weight:900;text-decoration:none;
   box-shadow:6px 6px 0 #FFE234aa;transition:all 0.12s;cursor:pointer;white-space:nowrap;position:relative;z-index:1;
 }
-.btn-chat:hover{background:#ffffff;border-color:#ffffff;color:var(--K);box-shadow:6px 6px 0 #ffffff88;transform:translate(-3px,-3px);}
+.btn-chat:hover{background:#ffffff;color:var(--K);box-shadow:6px 6px 0 #ffffff88;transform:translate(-3px,-3px);}
 .chat-arrow{font-size:22px;transition:transform 0.2s;}
 .btn-chat:hover .chat-arrow{transform:translateX(4px);}
 .cta-sub{font-family:Arial,sans-serif;font-size:12px;font-weight:700;color:#888;text-align:center;margin-top:10px;}
 
+/* ---------- STEPS ---------- */
 .steps-w{display:grid;grid-template-columns:1fr 40px 1fr 40px 1fr;gap:0;align-items:center;}
 .step-card{
   background:#ffffff;border:3px solid var(--K);padding:26px 20px;box-shadow:var(--SH);transition:all 0.12s;position:relative;
   background-image:radial-gradient(circle,#e8dfc044 1px,transparent 1px);background-size:16px 16px;
 }
-.step-card:hover{transform:translateY(-5px);box-shadow:var(--SHL);}
+.step-card:hover{transform:translate(-3px,-3px);box-shadow:var(--SHL);}
 .step-card::after{content:attr(data-num);position:absolute;top:-16px;right:16px;background:#d63366;color:#ffffff;border:3px solid var(--K);width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;box-shadow:2px 2px 0 var(--K);}
 .snum{width:48px;height:48px;border:3px solid var(--K);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;margin-bottom:14px;box-shadow:3px 3px 0 var(--K);}
 .step-card h4{font-size:16px;font-weight:900;margin-bottom:8px;color:var(--K);}
 .step-card p{font-family:Arial,sans-serif;font-size:13px;font-weight:600;color:#333;line-height:1.5;}
 .sarrow{display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:900;color:var(--K);}
 
+/* ---------- COMMANDS ---------- */
 .cmd-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
 .cmd-card{background:#ffffff;border:3px solid var(--K);padding:20px;box-shadow:var(--SH);transition:all 0.12s;background-image:repeating-linear-gradient(0deg,transparent,transparent 20px,rgba(0,0,0,0.02) 20px,rgba(0,0,0,0.02) 21px);}
 .cmd-card:hover{transform:translate(-3px,-3px);box-shadow:var(--SHL);background:#fffdf5;}
 .cmd-cat{display:inline-block;font-size:11px;font-weight:900;letter-spacing:1px;padding:4px 12px;border:2px solid var(--K);margin-bottom:10px;color:var(--K);}
-.cmd-code{font-family:'Courier New',monospace;font-size:17px;font-weight:900;background:var(--K);color:#00E87A;padding:10px 14px;margin-bottom:10px;letter-spacing:0.5px;}
+.cmd-code{font-family:'Courier New',monospace;font-size:17px;font-weight:900;background:var(--K);color:#00E87A;padding:10px 14px;margin-bottom:10px;letter-spacing:0.5px;border:2px solid var(--K);}
 .cmd-card p{font-family:Arial,sans-serif;font-size:13px;font-weight:600;color:#333;}
 
+/* ---------- FAQ ---------- */
 .faq-w{max-width:720px;margin:0 auto;}
 details.faq{background:#ffffff;border:3px solid var(--K);margin-bottom:12px;box-shadow:var(--SH);transition:transform 0.12s;}
 details.faq:hover{transform:translate(-2px,-2px);box-shadow:var(--SHL);}
@@ -264,19 +269,23 @@ details.faq[open] summary{background:#fffbe8;}
 details.faq[open] summary::after{transform:rotate(45deg);}
 details.faq p{font-family:Arial,sans-serif;padding:0 22px 20px;font-size:14px;font-weight:600;line-height:1.65;color:#222;}
 
+/* ---------- CTA STRIP ---------- */
 .cta-strip{
   background:var(--Y);border:4px solid var(--K);padding:48px 40px;margin:50px 0 0;text-align:center;box-shadow:var(--SHL);
   position:relative;overflow:hidden;
-  background-image:radial-gradient(circle,#c8a00033 1px,transparent 1px),radial-gradient(circle,#c8a00022 1px,transparent 1px);
+  background-image:
+    radial-gradient(circle,#c8a00033 1px,transparent 1px),
+    radial-gradient(circle,#c8a00022 1px,transparent 1px);
   background-size:24px 24px,12px 12px;background-position:0 0,12px 12px;
 }
-.cta-strip h2{font-size:30px;font-weight:900;margin-bottom:12px;color:var(--K);}
-.cta-strip p{font-family:Arial,sans-serif;font-size:15px;font-weight:700;margin-bottom:24px;color:#1a1a1a;}
-.btn-strip{display:inline-flex;align-items:center;gap:12px;background:var(--K);color:var(--Y);border:3px solid var(--K);padding:18px 40px;font-size:18px;font-weight:900;text-decoration:none;box-shadow:var(--SHL);transition:all 0.12s;cursor:pointer;}
+.cta-strip h2{font-size:30px;font-weight:900;margin-bottom:12px;color:var(--K);position:relative;z-index:1;}
+.cta-strip p{font-family:Arial,sans-serif;font-size:15px;font-weight:700;margin-bottom:24px;color:#1a1a1a;position:relative;z-index:1;}
+.btn-strip{display:inline-flex;align-items:center;gap:12px;background:var(--K);color:var(--Y);border:3px solid var(--K);padding:18px 40px;font-size:18px;font-weight:900;text-decoration:none;box-shadow:var(--SHL);transition:all 0.12s;cursor:pointer;position:relative;z-index:1;}
 .btn-strip:hover{background:#222;color:var(--Y);transform:translate(-3px,-3px);box-shadow:var(--SHL);}
 
+/* ---------- FOOTER ---------- */
 footer{background:var(--K);color:var(--W);padding:28px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;border-top:4px solid var(--K);background-image:repeating-linear-gradient(45deg,transparent,transparent 8px,rgba(255,255,255,0.02) 8px,rgba(255,255,255,0.02) 9px);}
-footer a{color:#FFE234;text-decoration:none;font-weight:900;}
+footer a{color:#FFE234;text-decoration:none;font-weight:900;transition:color 0.15s;}
 footer a:hover{color:#00E87A;}
 .fl{display:flex;gap:20px;font-size:13px;font-weight:700;}
 .foot-copy{color:#aaaaaa;font-size:12px;font-family:Arial,sans-serif;}
@@ -292,8 +301,12 @@ footer a:hover{color:#00E87A;}
   h1{font-size:38px;}.cta-block{grid-template-columns:1fr;padding:36px 24px;}
   nav{padding:14px 16px;}.wrap{padding:0 14px;}
   .shape{display:none;}
+  .nav-pills{gap:6px;}
+  .np{padding:6px 10px;font-size:10px;}
 }
 </style>
+</head>
+<body>
 
 <nav>
   <div class="logo">
@@ -301,11 +314,11 @@ footer a:hover{color:#00E87A;}
     <span>MIKOO WA BOT</span>
   </div>
   <div class="nav-pills">
-    <a href="#fitur" class="np">FITUR</a>
-    <a href="#cara" class="np">CARA PAKAI</a>
-    <a href="#cmd" class="np">PERINTAH</a>
-    <a href="#faq" class="np">FAQ</a>
-    <a href="#chat-cta" class="np np-cta">💬 CHAT BOT</a>
+    <a href="https://denji.indevs.in/#fitur" class="np">FITUR</a>
+    <a href="https://denji.indevs.in/#cara" class="np">CARA PAKAI</a>
+    <a href="https://denji.indevs.in/#cmd" class="np">PERINTAH</a>
+    <a href="https://denji.indevs.in/#faq" class="np">FAQ</a>
+    <a href="https://denji.indevs.in/#chat-cta" class="np np-cta">💬 CHAT BOT</a>
   </div>
 </nav>
 
@@ -328,7 +341,6 @@ footer a:hover{color:#00E87A;}
 
 <div class="wrap">
   <section class="hero" id="home">
-    <!-- Shapes: semua dalam batas wrap, tidak melewati tepi kanan/kiri -->
     <div class="shape s1"></div>
     <div class="shape s2"></div>
     <div class="shape s3"></div>
@@ -337,20 +349,21 @@ footer a:hover{color:#00E87A;}
     <div class="shape s6"></div>
     <div class="shape s7"></div>
     <div class="shape s8"></div>
+    <div class="shape s9"></div>
+    <div class="shape s10"></div>
 
     <div style="position:relative;z-index:2;">
       <div class="hero-eyebrow"><span class="edot"></span>✦ MODERN WHATSAPP BOT ✦</div>
       <h1>OTOMASI<br>WHATSAPP<br>JADI <span class="ha">MUDAH!</span></h1>
       <p class="hero-desc">Bot WhatsApp super canggih dengan 70+ fitur untuk manajemen grup, downloader, sticker maker, dan AI chat. Gratis selamanya!</p>
       <div class="btn-row">
-        <a href="#chat-cta" class="btn btn-cta">💬 CHAT BOT SEKARANG</a>
+        <a href="https://wa.me/628xxxxxxxxxx" target="_blank" rel="noopener" class="btn btn-cta">💬 CHAT BOT SEKARANG</a>
         <a href="#fitur" class="btn btn-y">📋 LIHAT FITUR</a>
         <a href="#cmd" class="btn">⌨️ PERINTAH</a>
       </div>
     </div>
 
     <div class="phone-wrap" style="position:relative;z-index:2;">
-      <!-- Sticker menempel ke phone-wrap, tidak keluar kanan viewport -->
       <div class="sticker st1">🔥 70+ FITUR</div>
       <div class="sticker st2">⚡ GRATIS!</div>
       <div class="sticker st3">🚀 ONLINE 24/7</div>
@@ -386,7 +399,7 @@ footer a:hover{color:#00E87A;}
       <p class="cta-p">Bergabung dengan 12.000+ pengguna yang sudah menikmati kemudahan MIKOO WA BOT. Setup dalam hitungan menit, gratis tanpa syarat.</p>
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-start;">
-      <a href="#" class="btn-chat">💬 CHAT BOT SEKARANG <span class="chat-arrow">→</span></a>
+      <a href="https://wa.me/628xxxxxxxxxx" target="_blank" rel="noopener" class="btn-chat">💬 CHAT BOT SEKARANG <span class="chat-arrow">→</span></a>
       <div class="cta-sub">✓ Gratis &nbsp;|&nbsp; ✓ Tanpa daftar &nbsp;|&nbsp; ✓ Langsung aktif</div>
     </div>
   </div>
@@ -452,7 +465,7 @@ footer a:hover{color:#00E87A;}
   <div class="cta-strip">
     <h2>🤖 SIAP COBA MIKOO WA BOT?</h2>
     <p>Bergabung sekarang dan rasakan kemudahan otomasi WhatsApp. Gratis, tanpa syarat!</p>
-    <a href="#" class="btn-strip">💬 CHAT BOT SEKARANG →</a>
+    <a href="https://wa.me/628xxxxxxxxxx" target="_blank" rel="noopener" class="btn-strip">💬 CHAT BOT SEKARANG →</a>
   </div>
 </div>
 
@@ -464,3 +477,6 @@ footer a:hover{color:#00E87A;}
   </div>
   <div class="fl"><a href="#">GitHub</a><a href="#">Dokumentasi</a><a href="#">Kontak</a></div>
 </footer>
+
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a00535adbd564ab9',t:'MTc3OTU1MTM1Nw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
