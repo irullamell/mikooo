@@ -1,128 +1,191 @@
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700;900&display=swap');
-  * { box-sizing: border-box; }
-  .nb-wrap { font-family: 'Space Grotesk', sans-serif; background: #f5f0e8; min-height: 100vh; padding: 2.5rem 1.25rem; }
-  .nb-card { max-width: 480px; margin: 0 auto; background: #fff; border: 3px solid #111; box-shadow: 6px 6px 0 #111; padding: 2rem 1.75rem; }
-  .nb-avatar { width: 88px; height: 88px; border-radius: 50%; border: 3px solid #111; box-shadow: 4px 4px 0 #111; background: #ffe566; display: flex; align-items: center; justify-content: center; font-size: 2.4rem; font-weight: 900; color: #111; margin: 0 auto 1rem; user-select: none; }
-  .nb-name { font-size: 1.5rem; font-weight: 900; color: #111; text-align: center; letter-spacing: -0.5px; margin: 0 0 0.2rem; }
-  .nb-bio { font-size: 0.92rem; color: #444; text-align: center; margin: 0 0 1.75rem; font-weight: 400; }
-  .nb-divider { border: none; border-top: 3px solid #111; margin: 0 0 1.5rem; }
-  .nb-section-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #888; margin: 0 0 0.75rem; }
-  .nb-link { display: flex; align-items: center; gap: 12px; background: #fff; border: 2.5px solid #111; box-shadow: 4px 4px 0 #111; padding: 0.75rem 1rem; margin-bottom: 0.85rem; text-decoration: none; color: #111; font-weight: 700; font-size: 0.98rem; cursor: pointer; transition: transform 0.08s, box-shadow 0.08s; }
-  .nb-link:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 #111; }
-  .nb-link:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 #111; }
-  .nb-link-icon { width: 36px; height: 36px; border: 2px solid #111; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
-  .nb-link-text { flex: 1; }
-  .nb-link-sub { font-size: 0.75rem; color: #666; font-weight: 400; display: block; margin-top: 1px; }
-  .nb-arrow { font-size: 1.1rem; color: #111; font-weight: 900; }
-  .c-yellow { background: #ffe566; } .c-pink2 { background: #ff85b3; } .c-green2 { background: #aaef8c; } .c-blue2 { background: #7ec8f7; } .c-orange { background: #ff9f4a; } .c-purple2 { background: #c4aaff; } .c-wagreen { background: #25d366; }
-  .nb-socials { display: flex; gap: 10px; justify-content: center; margin-top: 1.5rem; }
-  .nb-social-btn { width: 42px; height: 42px; border: 2.5px solid #111; box-shadow: 3px 3px 0 #111; display: flex; align-items: center; justify-content: center; background: #fff; cursor: pointer; text-decoration: none; color: #111; font-size: 1.1rem; transition: transform 0.08s, box-shadow 0.08s; }
-  .nb-social-btn:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 #111; }
-  .nb-footer { text-align: center; margin-top: 2rem; font-size: 0.75rem; color: #aaa; font-weight: 400; }
-  .nb-badge { display: inline-block; background: #111; color: #ffe566; font-size: 0.65rem; font-weight: 700; padding: 2px 7px; letter-spacing: 1px; text-transform: uppercase; margin-left: 8px; vertical-align: middle; }
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 999; align-items: center; justify-content: center; padding: 1.25rem; }
-  .modal-overlay.active { display: flex; }
-  .modal-box { background: #fff; border: 3px solid #111; box-shadow: 8px 8px 0 #111; padding: 1.75rem 1.75rem 1.5rem; max-width: 380px; width: 100%; animation: popIn 0.15s ease; }
-  @keyframes popIn { from { transform: scale(0.92) translate(4px,4px); opacity:0; } to { transform: scale(1) translate(0,0); opacity:1; } }
-  .modal-icon { width: 56px; height: 56px; border-radius: 50%; border: 3px solid #111; box-shadow: 3px 3px 0 #111; background: #25d366; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin: 0 auto 1rem; }
-  .modal-title { font-size: 1.15rem; font-weight: 900; color: #111; text-align: center; margin: 0 0 0.5rem; }
-  .modal-warning { background: #fffbe6; border: 2px solid #111; padding: 0.85rem 1rem; margin: 1rem 0 1.25rem; font-size: 0.87rem; color: #111; font-weight: 500; line-height: 1.55; }
-  .modal-warning strong { font-weight: 900; }
-  .modal-warning .warn-icon { font-size: 1.1rem; vertical-align: -2px; margin-right: 4px; }
-  .modal-steps { font-size: 0.82rem; color: #444; font-weight: 400; margin: 0 0 1.25rem; padding-left: 1.1rem; line-height: 1.7; }
-  .modal-steps li { margin-bottom: 2px; }
-  .modal-buttons { display: flex; gap: 10px; }
-  .btn-back {
-    flex: 1; padding: 0.7rem;
-    background: #ff3b3b;
-    border: 2.5px solid #111;
-    box-shadow: 3px 3px 0 #111;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.92rem; font-weight: 700; color: #fff;
-    cursor: pointer; transition: transform 0.08s, box-shadow 0.08s;
-  }
-  .btn-back:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 #111; }
-  .btn-back:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 #111; }
-  .btn-confirm {
-    flex: 1.5; padding: 0.7rem;
-    background: #1db954;
-    border: 2.5px solid #111;
-    box-shadow: 3px 3px 0 #111;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.92rem; font-weight: 900; color: #fff;
-    cursor: pointer; transition: transform 0.08s, box-shadow 0.08s;
-    display: flex; align-items: center; justify-content: center; gap: 6px;
-  }
-  .btn-confirm:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 #111; }
-  .btn-confirm:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 #111; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+  .wrap{font-family:'Space Grotesk',sans-serif;background:#f5f0e8;min-height:100vh;padding:2.5rem 1.25rem}
+  .card{max-width:480px;margin:0 auto;background:#fff;border:3px solid #111;box-shadow:6px 6px 0 #111;padding:2rem 1.75rem}
+  .avatar{width:88px;height:88px;border-radius:50%;border:3px solid #111;box-shadow:4px 4px 0 #111;background:#ffe566;display:flex;align-items:center;justify-content:center;font-size:2.4rem;font-weight:900;color:#111;margin:0 auto 1rem;user-select:none}
+  .name{font-size:1.5rem;font-weight:900;color:#111;text-align:center;letter-spacing:-0.5px;margin:0 0 0.2rem}
+  .bio{font-size:0.92rem;color:#444;text-align:center;margin:0 0 1.75rem;font-weight:400}
+  .divider{border:none;border-top:3px solid #111;margin:0 0 1.5rem}
+  .section-label{font-size:0.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#888;margin:0 0 0.75rem}
+  .link{display:flex;align-items:center;gap:12px;background:#fff;border:2.5px solid #111;box-shadow:4px 4px 0 #111;padding:0.75rem 1rem;margin-bottom:0.85rem;text-decoration:none;color:#111;font-weight:700;font-size:0.98rem;cursor:pointer;transition:transform 0.08s,box-shadow 0.08s}
+  .link:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 #111}
+  .link:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #111}
+  .link-icon{width:36px;height:36px;border:2px solid #111;display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;color:#111}
+  .link-icon .ti{font-size:1.25rem}
+  .link-text{flex:1}
+  .link-sub{font-size:0.75rem;color:#666;font-weight:400;display:block;margin-top:1px}
+  .arrow{font-size:1.1rem;color:#111;font-weight:900}
+  .badge{display:inline-block;background:#111;color:#ffe566;font-size:0.65rem;font-weight:700;padding:2px 7px;letter-spacing:1px;text-transform:uppercase;margin-left:8px;vertical-align:middle}
+  .socials{display:flex;gap:10px;justify-content:center;margin-top:1.5rem}
+  .social-btn{width:42px;height:42px;border:2.5px solid #111;box-shadow:3px 3px 0 #111;display:flex;align-items:center;justify-content:center;background:#fff;cursor:pointer;text-decoration:none;color:#111;font-size:1.1rem;transition:transform 0.08s,box-shadow 0.08s}
+  .social-btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 #111}
+  .footer{text-align:center;margin-top:2rem;font-size:0.75rem;color:#aaa;font-weight:400}
+  .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:999;align-items:center;justify-content:center;padding:1.25rem}
+  .modal-bg.active{display:flex}
+  .modal-box{background:#fff;border:3px solid #111;box-shadow:8px 8px 0 #111;padding:1.75rem 1.75rem 1.5rem;max-width:380px;width:100%;animation:popIn 0.15s ease}
+  @keyframes popIn{from{transform:scale(0.92);opacity:0}to{transform:scale(1);opacity:1}}
+  .modal-icon{width:56px;height:56px;border-radius:50%;border:3px solid #111;box-shadow:3px 3px 0 #111;display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin:0 auto 1rem;color:#fff}
+  .modal-title{font-size:1.15rem;font-weight:900;color:#111;text-align:center;margin:0 0 0.5rem}
+  .modal-warn{background:#fffbe6;border:2px solid #111;padding:0.85rem 1rem;margin:1rem 0 1.25rem;font-size:0.87rem;color:#111;font-weight:500;line-height:1.55}
+  .modal-warn strong{font-weight:900}
+  .modal-steps{font-size:0.82rem;color:#444;font-weight:400;margin:0 0 1.25rem;padding-left:1.1rem;line-height:1.7}
+  .modal-steps li{margin-bottom:2px}
+  .modal-note{font-size:0.78rem;color:#666;margin:0 0 1.1rem;text-align:center}
+  .modal-btns{display:flex;gap:10px}
+  .btn-back{flex:1;padding:0.7rem;background:#ff3b3b;border:2.5px solid #111;box-shadow:3px 3px 0 #111;font-family:'Space Grotesk',sans-serif;font-size:0.92rem;font-weight:700;color:#fff;cursor:pointer;transition:transform 0.08s,box-shadow 0.08s}
+  .btn-back:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 #111}
+  .btn-confirm{flex:1.5;padding:0.7rem;background:#1db954;border:2.5px solid #111;box-shadow:3px 3px 0 #111;font-family:'Space Grotesk',sans-serif;font-size:0.92rem;font-weight:900;color:#fff;cursor:pointer;transition:transform 0.08s,box-shadow 0.08s;display:flex;align-items:center;justify-content:center;gap:6px}
+  .btn-confirm:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 #111}
 </style>
 
-<div class="nb-wrap">
-  <h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Linktree Neo Brutalism dengan bot WhatsApp.</h2>
-  <div class="nb-card">
-    <div class="nb-avatar">✦</div>
-    <p class="nb-name">@brutalstudio</p>
-    <p class="nb-bio">bot wa · technology · adalah pokoknya</p>
-    <hr class="nb-divider">
-    <p class="nb-section-label">Karya & Portofolio</p>
-    <a class="nb-link" href="#"><div class="nb-link-icon c-yellow"><i class="ti ti-layout-grid" aria-hidden="true"></i></div><div class="nb-link-text">Portofolio Desain<span class="nb-link-sub">Lihat semua proyek terbaru</span></div><span class="nb-arrow">→</span></a>
-    <a class="nb-link" href="#"><div class="nb-link-icon c-green2"><i class="ti ti-brand-github" aria-hidden="true"></i></div><div class="nb-link-text">GitHub<span class="nb-link-sub">Kode & open source</span></div><span class="nb-arrow">→</span></a>
-    <a class="nb-link" href="#"><div class="nb-link-icon c-blue2"><i class="ti ti-article" aria-hidden="true"></i></div><div class="nb-link-text">Blog & Tulisan <span class="nb-badge">baru</span><span class="nb-link-sub">Artikel desain & teknologi</span></div><span class="nb-arrow">→</span></a>
-    <hr class="nb-divider" style="margin-top:1.75rem;">
-    <p class="nb-section-label">Produk & Layanan</p>
-    <a class="nb-link" href="#"><div class="nb-link-icon c-pink2"><i class="ti ti-shopping-bag" aria-hidden="true"></i></div><div class="nb-link-text">Toko Digital<span class="nb-link-sub">Template & aset desain</span></div><span class="nb-arrow">→</span></a>
-    <a class="nb-link" href="#"><div class="nb-link-icon c-orange"><i class="ti ti-speakerphone" aria-hidden="true"></i></div><div class="nb-link-text">Jasa Freelance<span class="nb-link-sub">Buka slot — kerjasama yuk!</span></div><span class="nb-arrow">→</span></a>
-    <a class="nb-link" href="#"><div class="nb-link-icon c-purple2"><i class="ti ti-video" aria-hidden="true"></i></div><div class="nb-link-text">YouTube Channel<span class="nb-link-sub">Tutorial desain mingguan</span></div><span class="nb-arrow">→</span></a>
-    <hr class="nb-divider" style="margin-top:1.75rem;">
-    <p class="nb-section-label">Bot WhatsApp</p>
-    <div class="nb-link" onclick="openModal()" role="button" tabindex="0" onkeydown="if(event.key==='Enter')openModal()">
-      <div class="nb-link-icon c-wagreen"><i class="ti ti-brand-whatsapp" aria-hidden="true" style="color:#fff;font-size:1.3rem;"></i></div>
-      <div class="nb-link-text">Bot WhatsApp<span class="nb-link-sub">Akses fitur bot otomatis kami</span></div>
-      <span class="nb-arrow">→</span>
-    </div>
-    <div class="nb-socials">
-      <a class="nb-social-btn" href="#" aria-label="Instagram"><i class="ti ti-brand-instagram" aria-hidden="true"></i></a>
-      <a class="nb-social-btn" href="#" aria-label="Twitter/X"><i class="ti ti-brand-x" aria-hidden="true"></i></a>
-      <a class="nb-social-btn" href="#" aria-label="LinkedIn"><i class="ti ti-brand-linkedin" aria-hidden="true"></i></a>
-      <a class="nb-social-btn" href="#" aria-label="Dribbble"><i class="ti ti-brand-dribbble" aria-hidden="true"></i></a>
-      <a class="nb-social-btn" href="#" aria-label="TikTok"><i class="ti ti-brand-tiktok" aria-hidden="true"></i></a>
-    </div>
-    <p class="nb-footer">dimas anjai mabar</p>
-  </div>
+<h2 class="sr-only">Halaman linktree neo-brutalism dengan bot WhatsApp</h2>
+
+<div class="wrap">
+  <div class="card" id="main-card"></div>
 </div>
 
-<div class="modal-overlay" id="waModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+<div class="modal-bg" id="waModal">
   <div class="modal-box">
-    <div class="modal-icon"><i class="ti ti-brand-whatsapp" aria-hidden="true" style="color:#fff;"></i></div>
-    <p class="modal-title" id="modalTitle">⚠️ Perhatian Sebelum Lanjut!</p>
-    <div class="modal-warning">
-      <i class="ti ti-alert-triangle warn-icon" aria-hidden="true"></i>
-      <strong>Bot hanya bisa diakses melalui grup!</strong><br>
-      Tambahkan nomor bot ke grup WhatsApp-mu terlebih dahulu. Pesan langsung ke bot tidak akan direspons.
-    </div>
-    <p style="font-size:0.82rem;color:#111;font-weight:700;margin:0 0 0.4rem;letter-spacing:0.5px;">Cara menggunakan bot:</p>
-    <ol class="modal-steps">
-      <li>Buka grup WhatsApp yang ingin kamu gunakan</li>
-      <li>Tambahkan nomor bot sebagai anggota grup</li>
-      <li>Ketik perintah bot di dalam grup tersebut</li>
-      <li>Bot akan merespons perintahmu secara otomatis</li>
-    </ol>
-    <p style="font-size:0.78rem;color:#666;margin:0 0 1.1rem;text-align:center;">Sudah tambahkan bot ke grup? Klik <strong>Konfirmasi</strong> untuk lanjut.</p>
-    <div class="modal-buttons">
+    <div class="modal-icon" id="modal-icon-el"></div>
+    <p class="modal-title" id="modal-title-el"></p>
+    <div class="modal-warn" id="modal-warn-el"></div>
+    <p style="font-size:0.82rem;color:#111;font-weight:700;margin:0 0 0.4rem;letter-spacing:0.5px;" id="modal-steps-label"></p>
+    <ol class="modal-steps" id="modal-steps-el"></ol>
+    <p class="modal-note" id="modal-note-el"></p>
+    <div class="modal-btns">
       <button class="btn-back" onclick="closeModal()">← Kembali</button>
-      <button class="btn-confirm" onclick="goToWA()"><i class="ti ti-brand-whatsapp" aria-hidden="true"></i> Konfirmasi & Chat</button>
+      <button class="btn-confirm" onclick="goToWA()"><i class="ti ti-brand-whatsapp"></i> <span id="modal-confirm-text"></span></button>
     </div>
   </div>
 </div>
 
 <script>
-  const WA_NUMBER = '6285179063526';
-  const WA_MESSAGE = '';
-  function openModal() { document.getElementById('waModal').classList.add('active'); }
-  function closeModal() { document.getElementById('waModal').classList.remove('active'); }
-  function goToWA() { window.open('https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(WA_MESSAGE), '_blank'); closeModal(); }
-  document.getElementById('waModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
-  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
+const CONFIG = {
+  profile: {
+    avatar: "✦",
+    avatarBg: "#ffe566",
+    name: "@brutalstudio",
+    bio: "bot wa · technology · adalah pokoknya",
+    footer: "dimas anjai mabar"
+  },
+
+  whatsapp: {
+    number: "6285179063526",
+    message: "",
+    modalIcon: "ti-brand-whatsapp",
+    modalIconBg: "#25d366",
+    modalTitle: "⚠️ Perhatian Sebelum Lanjut!",
+    modalWarning: "<strong>Bot hanya bisa diakses melalui grup!</strong><br>Tambahkan nomor bot ke grup WhatsApp-mu terlebih dahulu. Pesan langsung ke bot tidak akan direspons.",
+    modalStepsLabel: "Cara menggunakan bot:",
+    modalSteps: [
+      "Buka grup WhatsApp yang ingin kamu gunakan",
+      "Tambahkan nomor bot sebagai anggota grup",
+      "Ketik perintah bot di dalam grup tersebut",
+      "Bot akan merespons perintahmu secara otomatis"
+    ],
+    modalNote: 'Sudah tambahkan bot ke grup? Klik <strong>Konfirmasi</strong> untuk lanjut.',
+    confirmBtnText: "Konfirmasi & Chat"
+  },
+
+  sections: [
+    {
+      label: "Karya & Portofolio",
+      links: [
+        { icon: "ti-layout-grid", color: "#ffe566", title: "Portofolio Desain", sub: "Lihat semua proyek terbaru", url: "#", badge: "" },
+        { icon: "ti-brand-github", color: "#aaef8c", title: "GitHub", sub: "Kode & open source", url: "#", badge: "" },
+        { icon: "ti-article", color: "#7ec8f7", title: "Blog & Tulisan", sub: "Artikel desain & teknologi", url: "#", badge: "baru" }
+      ]
+    },
+    {
+      label: "Produk & Layanan",
+      links: [
+        { icon: "ti-shopping-bag", color: "#ff85b3", title: "Toko Digital", sub: "Template & aset desain", url: "#", badge: "" },
+        { icon: "ti-speakerphone", color: "#ff9f4a", title: "Jasa Freelance", sub: "Buka slot — kerjasama yuk!", url: "#", badge: "" },
+        { icon: "ti-brand-youtube", color: "#c4aaff", title: "YouTube Channel", sub: "Tutorial desain mingguan", url: "#", badge: "" }
+      ]
+    },
+    {
+      label: "Bot WhatsApp",
+      links: [
+        { icon: "ti-brand-whatsapp", color: "#25d366", iconColor: "#fff", title: "Bot WhatsApp", sub: "Akses fitur bot otomatis kami", url: "#wa", badge: "" }
+      ]
+    }
+  ],
+
+  socials: [
+    { icon: "ti-brand-instagram", label: "Instagram", url: "#" },
+    { icon: "ti-brand-x", label: "Twitter/X", url: "#" },
+    { icon: "ti-brand-linkedin", label: "LinkedIn", url: "#" },
+    { icon: "ti-brand-dribbble", label: "Dribbble", url: "#" },
+    { icon: "ti-brand-tiktok", label: "TikTok", url: "#" }
+  ]
+};
+
+function buildCard() {
+  const c = CONFIG;
+  const card = document.getElementById('main-card');
+  let html = '';
+
+  html += `<div class="avatar" style="background:${c.profile.avatarBg}">${c.profile.avatar}</div>`;
+  html += `<p class="name">${c.profile.name}</p>`;
+  html += `<p class="bio">${c.profile.bio}</p>`;
+  html += `<hr class="divider">`;
+
+  c.sections.forEach((sec, si) => {
+    html += `<p class="section-label">${sec.label}</p>`;
+    sec.links.forEach(link => {
+      const isWA = link.url === '#wa';
+      const onclick = isWA ? `onclick="openModal()" role="button" tabindex="0" onkeydown="if(event.key==='Enter')openModal()"` : `href="${link.url}"`;
+      const tag = isWA ? 'div' : 'a';
+      const iconColor = link.iconColor || '#111';
+      html += `<${tag} class="link" ${onclick}>`;
+      html += `<div class="link-icon" style="background:${link.color}"><i class="ti ${link.icon}" style="color:${iconColor}" aria-hidden="true"></i></div>`;
+      html += `<div class="link-text">${link.title}${link.badge ? `<span class="badge">${link.badge}</span>` : ''}<span class="link-sub">${link.sub}</span></div>`;
+      html += `<span class="arrow">→</span>`;
+      html += `</${tag}>`;
+    });
+    if (si < c.sections.length - 1) {
+      html += `<hr class="divider" style="margin-top:1.75rem">`;
+    }
+  });
+
+  html += `<div class="socials">`;
+  c.socials.forEach(s => {
+    html += `<a class="social-btn" href="${s.url}" aria-label="${s.label}"><i class="ti ${s.icon}" aria-hidden="true"></i></a>`;
+  });
+  html += `</div>`;
+  html += `<p class="footer">${c.profile.footer}</p>`;
+
+  card.innerHTML = html;
+}
+
+function buildModal() {
+  const w = CONFIG.whatsapp;
+  document.getElementById('modal-icon-el').innerHTML = `<i class="ti ${w.modalIcon}"></i>`;
+  document.getElementById('modal-icon-el').style.background = w.modalIconBg;
+  document.getElementById('modal-title-el').textContent = w.modalTitle;
+  document.getElementById('modal-warn-el').innerHTML = w.modalWarning;
+  document.getElementById('modal-steps-label').textContent = w.modalStepsLabel;
+  document.getElementById('modal-steps-el').innerHTML = w.modalSteps.map(s => `<li>${s}</li>`).join('');
+  document.getElementById('modal-note-el').innerHTML = w.modalNote;
+  document.getElementById('modal-confirm-text').textContent = w.confirmBtnText;
+}
+
+function openModal() { document.getElementById('waModal').classList.add('active'); }
+function closeModal() { document.getElementById('waModal').classList.remove('active'); }
+function goToWA() {
+  const w = CONFIG.whatsapp;
+  window.open('https://wa.me/' + w.number + '?text=' + encodeURIComponent(w.message), '_blank');
+  closeModal();
+}
+
+document.getElementById('waModal').addEventListener('click', function(e) { if(e.target===this) closeModal(); });
+document.addEventListener('keydown', function(e) { if(e.key==='Escape') closeModal(); });
+
+buildCard();
+buildModal();
 </script>
