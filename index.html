@@ -1,65 +1,49 @@
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://cdn.jsdelivr.net">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700;900&display=swap" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css" media="print" onload="this.media='all'">
-<noscript>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700;900&display=swap">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
-</noscript>
-<meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700;900&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
-.wrap{font-family:'Space Grotesk',system-ui,sans-serif;background:#f5f0e8;min-height:100vh;padding:clamp(1.25rem,4vw,2.5rem) clamp(1rem,3vw,1.25rem);contain:layout style}
-.card{max-width:520px;margin:0 auto;background:#fff;border:3px solid #111;box-shadow:6px 6px 0 #111;padding:clamp(1.25rem,4vw,2rem) clamp(1rem,4vw,1.75rem);contain:content}
-.avatar{width:clamp(68px,14vw,88px);height:clamp(68px,14vw,88px);border-radius:50%;border:3px solid #111;box-shadow:4px 4px 0 #111;background:var(--av-bg,#ffe566);display:flex;align-items:center;justify-content:center;font-size:clamp(1.8rem,5vw,2.4rem);font-weight:900;color:#111;margin:0 auto 1rem;user-select:none;will-change:auto}
+.wrap{font-family:'Space Grotesk',system-ui,sans-serif;background:#f5f0e8;min-height:500px;padding:clamp(1.25rem,4vw,2.5rem) clamp(1rem,3vw,1.25rem)}
+.card{max-width:520px;margin:0 auto;background:#fff;border:3px solid #111;box-shadow:6px 6px 0 #111;padding:clamp(1.25rem,4vw,2rem) clamp(1rem,4vw,1.75rem)}
+.avatar{width:clamp(68px,14vw,88px);height:clamp(68px,14vw,88px);border-radius:50%;border:3px solid #111;box-shadow:4px 4px 0 #111;display:flex;align-items:center;justify-content:center;font-size:clamp(1.8rem,5vw,2.4rem);font-weight:900;color:#111;margin:0 auto 1rem}
 .name{font-size:clamp(1.2rem,4vw,1.5rem);font-weight:900;color:#111;text-align:center;letter-spacing:-.5px;margin:0 0 .2rem}
 .bio{font-size:clamp(.82rem,2.5vw,.92rem);color:#444;text-align:center;margin:0 0 1.5rem;line-height:1.5}
 .divider{border:none;border-top:3px solid #111;margin:0 0 1.25rem}
-.divider+.divider{display:none}
 .sec-label{font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#888;margin:0 0 .65rem}
-.link{display:flex;align-items:center;gap:10px;background:#fff;border:2.5px solid #111;box-shadow:4px 4px 0 #111;padding:clamp(.6rem,2vw,.75rem) clamp(.75rem,2.5vw,1rem);margin-bottom:.75rem;text-decoration:none;color:#111;font-weight:700;font-size:clamp(.88rem,2.5vw,.98rem);cursor:pointer;transition:transform .08s,box-shadow .08s;-webkit-tap-highlight-color:transparent;will-change:transform}
-.link:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 #111}
-.link:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #111}
-.lico{width:clamp(30px,8vw,36px);height:clamp(30px,8vw,36px);border:2px solid #111;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:clamp(1rem,3vw,1.25rem)}
-.ltxt{flex:1;min-width:0}
+.link-btn{display:flex;align-items:center;gap:10px;background:#fff;border:2.5px solid #111;box-shadow:4px 4px 0 #111;padding:.7rem 1rem;margin-bottom:.75rem;text-decoration:none;color:#111;font-weight:700;font-size:clamp(.88rem,2.5vw,.98rem);cursor:pointer;transition:transform .08s,box-shadow .08s;width:100%}
+.link-btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 #111}
+.link-btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #111}
+.lico{width:36px;height:36px;border:2px solid #111;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.2rem}
+.ltxt{flex:1;text-align:left}
 .ltit{display:flex;align-items:center;flex-wrap:wrap;gap:4px;line-height:1.3}
-.lsub{font-size:clamp(.7rem,2vw,.75rem);color:#666;display:block;margin-top:2px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lsub{font-size:.72rem;color:#666;display:block;margin-top:2px}
 .arr{font-size:1rem;font-weight:900;flex-shrink:0}
-.badge{background:#111;color:#ffe566;font-size:.6rem;font-weight:700;padding:2px 6px;letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
+.badge{background:#111;color:#ffe566;font-size:.6rem;font-weight:700;padding:2px 6px;letter-spacing:1px;text-transform:uppercase}
 .socials{display:flex;gap:8px;justify-content:center;margin-top:1.5rem;flex-wrap:wrap}
-.sbtn{width:clamp(36px,9vw,42px);height:clamp(36px,9vw,42px);border:2.5px solid #111;box-shadow:3px 3px 0 #111;display:flex;align-items:center;justify-content:center;background:#fff;cursor:pointer;text-decoration:none;color:#111;font-size:clamp(1rem,3vw,1.1rem);transition:transform .08s,box-shadow .08s;-webkit-tap-highlight-color:transparent;will-change:transform}
+.sbtn{width:42px;height:42px;border:2.5px solid #111;box-shadow:3px 3px 0 #111;display:flex;align-items:center;justify-content:center;background:#fff;cursor:pointer;text-decoration:none;color:#111;font-size:1.1rem;transition:transform .08s,box-shadow .08s}
 .sbtn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 #111}
 .sbtn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #111}
 .footer{text-align:center;margin-top:1.75rem;font-size:.75rem;color:#aaa}
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;align-items:center;justify-content:center;padding:1rem;overflow-y:auto}
-.modal-bg.active{display:flex}
-.modal-box{background:#fff;border:3px solid #111;box-shadow:8px 8px 0 #111;padding:clamp(1.25rem,4vw,1.75rem);width:100%;max-width:360px;animation:popIn .15s ease;margin:auto;contain:content}
-@keyframes popIn{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-wrap{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto}
+.modal-wrap.active{display:flex}
+.modal-box{background:#fff;border:3px solid #111;box-shadow:8px 8px 0 #111;padding:clamp(1.25rem,4vw,1.75rem);width:100%;max-width:360px;margin:auto}
 .mico{width:52px;height:52px;border-radius:50%;border:3px solid #111;box-shadow:3px 3px 0 #111;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 1rem;color:#fff}
-.mtit{font-size:clamp(1rem,3.5vw,1.15rem);font-weight:900;color:#111;text-align:center;margin:0 0 .5rem}
-.mwarn{background:#fffbe6;border:2px solid #111;padding:.75rem .9rem;margin:.9rem 0 1.1rem;font-size:clamp(.8rem,2.5vw,.87rem);color:#111;font-weight:500;line-height:1.55}
-.mwarn strong{font-weight:900}
+.mtit{font-size:1.1rem;font-weight:900;color:#111;text-align:center;margin:0 0 .5rem}
+.mwarn{background:#fffbe6;border:2px solid #111;padding:.75rem .9rem;margin:.9rem 0 1.1rem;font-size:.85rem;color:#111;font-weight:500;line-height:1.55}
 .mslbl{font-size:.82rem;color:#111;font-weight:700;margin:0 0 .4rem}
-.msteps{font-size:clamp(.78rem,2.5vw,.82rem);color:#444;margin:0 0 1.1rem;padding-left:1.1rem;line-height:1.7}
-.msteps li{margin-bottom:2px}
+.msteps{font-size:.82rem;color:#444;margin:0 0 1.1rem;padding-left:1.1rem;line-height:1.7}
 .mnote{font-size:.78rem;color:#666;margin:0 0 1rem;text-align:center}
 .mbtns{display:flex;gap:10px}
-.bbk{flex:1;padding:.65rem .5rem;background:#ff3b3b;border:2.5px solid #111;box-shadow:3px 3px 0 #111;font-family:inherit;font-size:clamp(.82rem,2.5vw,.92rem);font-weight:700;color:#fff;cursor:pointer;transition:transform .08s,box-shadow .08s;-webkit-tap-highlight-color:transparent}
-.bbk:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 #111}
-.bcf{flex:1.5;padding:.65rem .5rem;background:#1db954;border:2.5px solid #111;box-shadow:3px 3px 0 #111;font-family:inherit;font-size:clamp(.82rem,2.5vw,.92rem);font-weight:900;color:#fff;cursor:pointer;transition:transform .08s,box-shadow .08s;display:flex;align-items:center;justify-content:center;gap:6px;-webkit-tap-highlight-color:transparent}
-.bcf:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 #111}
-@media(max-width:360px){.card{padding:1rem .85rem}.link{gap:8px}.lsub{display:none}.mbtns{flex-direction:column}}
-@media(min-width:768px){.wrap{padding:3rem 2rem}.card{padding:2.25rem 2rem}}
-@media(min-width:1024px){.wrap{padding:4rem 2rem}}
-@media(prefers-reduced-motion:reduce){.link,.sbtn,.bbk,.bcf{transition:none}.modal-box{animation:none}}
+.bbk{flex:1;padding:.65rem .5rem;background:#ff3b3b;border:2.5px solid #111;box-shadow:3px 3px 0 #111;font-family:inherit;font-size:.88rem;font-weight:700;color:#fff;cursor:pointer}
+.bcf{flex:1.5;padding:.65rem .5rem;border:2.5px solid #111;box-shadow:3px 3px 0 #111;font-family:inherit;font-size:.88rem;font-weight:900;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
 </style>
 
-<h2 class="sr-only">Web by denji - mikooo</h2>
-<div class="wrap"><div class="card" id="card"></div></div>
-<div class="modal-bg" id="modal" role="dialog" aria-modal="true" aria-labelledby="mtit">
+<h2 class="sr-only">Link page for @brutalstudio</h2>
+<div class="wrap">
+<div class="card" id="card"></div>
+</div>
+
+<div class="modal-wrap" id="modal" role="dialog" aria-modal="true">
   <div class="modal-box">
     <div class="mico" id="mico"></div>
     <p class="mtit" id="mtit"></p>
@@ -68,73 +52,240 @@
     <ol class="msteps" id="msteps"></ol>
     <p class="mnote" id="mnote"></p>
     <div class="mbtns">
-      <button class="bbk" id="bbk">← Kembali</button>
-      <button class="bcf" id="bcf"><i class="ti ti-brand-whatsapp"></i><span id="bcft"></span></button>
+      <button class="bbk" onclick="closeModal()">← Kembali</button>
+      <button class="bcf" id="bcf" onclick="doConfirm()"></button>
     </div>
   </div>
 </div>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
+
 <script>
-const C={
-  profile:{avatar:"✦",avatarBg:"#ffe566",name:"@brutalstudio",bio:"bot wa · technology · adalah pokoknya",footer:"dimas anjai mabar"},
-  wa:{number:"6285179063526",message:"",icon:"ti-brand-whatsapp",iconBg:"#25d366",title:"⚠️ Perhatian Sebelum Lanjut!",warning:"<strong>Bot hanya bisa diakses melalui grup!</strong><br>Tambahkan nomor bot ke grup WhatsApp-mu terlebih dahulu. Pesan langsung ke bot tidak akan direspons.",stepsLabel:"Cara menggunakan bot:",steps:["Buka grup WhatsApp yang ingin kamu gunakan","Tambahkan nomor bot sebagai anggota grup","Ketik perintah bot di dalam grup tersebut","Bot akan merespons perintahmu secara otomatis"],note:"Sudah tambahkan bot ke grup? Klik <strong>Konfirmasi</strong> untuk lanjut.",confirm:"Konfirmasi & Chat"},
-  sections:[
-    {label:"Bot WhatsApp",links:[
-      {icon:"ti-brand-whatsapp",bg:"#25d366",fg:"#fff",title:"Bot WhatsApp",sub:"Akses fitur bot otomatis kami",url:"#wa",badge:""}
-    ]}
-  ],
-  socials:[
-    {icon:"ti-brand-instagram",label:"Instagram",url:"#"},
-    {icon:"ti-brand-x",label:"Twitter/X",url:"#"},
-    {icon:"ti-brand-linkedin",label:"LinkedIn",url:"#"},
-    {icon:"ti-brand-dribbble",label:"Dribbble",url:"#"},
-    {icon:"ti-brand-tiktok",label:"TikTok",url:"#"}
-  ]
+/*
+  ╔══════════════════════════════════════════╗
+  ║        PANDUAN IKON YANG TERSEDIA        ║
+  ╠══════════════════════════════════════════╣
+  ║  Untuk field "icon", tulis nama pendek:  ║
+  ║                                          ║
+  ║  MEDIA SOSIAL:                           ║
+  ║  "whatsapp"  "instagram"  "tiktok"       ║
+  ║  "twitter"   "facebook"   "youtube"      ║
+  ║  "telegram"  "discord"    "linkedin"     ║
+  ║  "github"    "dribbble"   "behance"      ║
+  ║  "twitch"    "reddit"     "snapchat"     ║
+  ║  "pinterest" "threads"    "spotify"      ║
+  ║  "line"      "wechat"     "bluesky"      ║
+  ║                                          ║
+  ║  UMUM:                                   ║
+  ║  "link"      "mail"       "phone"        ║
+  ║  "globe"     "store"      "cart"         ║
+  ║  "star"      "heart"      "music"        ║
+  ║  "video"     "photo"      "file"         ║
+  ║  "map"       "calendar"   "chat"         ║
+  ╚══════════════════════════════════════════╝
+*/
+
+/* ──────────────────────────────────────────
+   PROFIL
+────────────────────────────────────────── */
+const PROFILE = {
+  avatar: "✦",
+  avatarBg: "#ffe566",
+  name: "@brutalstudio",
+  bio: "bot wa · technology · adalah pokoknya",
+  footer: "dimas anjai mabar"
 };
 
-(function(){
-  const frag=document.createDocumentFragment();
-  const wrap=document.createElement('div');
+/* ──────────────────────────────────────────
+   TOMBOL UTAMA
+   Salin satu blok { ... } untuk tambah tombol baru.
 
-  let h=`<div class="avatar" style="background:${C.profile.avatarBg}">${C.profile.avatar}</div>`;
-  h+=`<p class="name">${C.profile.name}</p>`;
-  h+=`<p class="bio">${C.profile.bio}</p>`;
-  h+=`<hr class="divider">`;
+   Field:
+     icon   → nama ikon (lihat panduan di atas)
+     bg     → warna latar ikon
+     fg     → warna ikon (default "#fff")
+     title  → teks judul tombol
+     sub    → teks kecil di bawah judul
+     url    → link tujuan, atau "#wa" untuk buka modal WhatsApp
+     badge  → label kecil (opsional, kosongkan jika tidak perlu)
+     modal  → objek konfigurasi modal (opsional, hanya jika url="#wa" atau perlu konfirmasi)
+────────────────────────────────────────── */
+const BUTTONS = [
+  {
+    icon: "whatsapp",
+    bg: "#25d366", fg: "#fff",
+    title: "Bot WhatsApp",
+    sub: "Akses fitur bot otomatis kami",
+    url: "#wa",
+    badge: "",
+    modal: {
+      iconBg: "#25d366",
+      title: "⚠️ Perhatian Sebelum Lanjut!",
+      warning: "<strong>Bot hanya bisa diakses melalui grup!</strong><br>Tambahkan nomor bot ke grup WhatsApp-mu terlebih dahulu.",
+      stepsLabel: "Cara menggunakan bot:",
+      steps: [
+        "Buka grup WhatsApp yang ingin kamu gunakan",
+        "Tambahkan nomor bot sebagai anggota grup",
+        "Ketik perintah bot di dalam grup tersebut",
+        "Bot akan merespons perintahmu secara otomatis"
+      ],
+      note: "Sudah tambahkan bot ke grup? Klik <strong>Konfirmasi</strong> untuk lanjut.",
+      confirmText: "Konfirmasi & Chat",
+      confirmBg: "#25d366",
+      waNumber: "6285179063526",
+      waMessage: ""
+    }
+  },
 
-  C.sections.forEach((sec,si)=>{
-    h+=`<p class="sec-label">${sec.label}</p>`;
-    sec.links.forEach(l=>{
-      const wa=l.url==='#wa';
-      const tag=wa?'div':'a';
-      const at=wa?`onclick="openModal()" role="button" tabindex="0" onkeydown="if(event.key==='Enter')openModal()"`:`href="${l.url}"`;
-      h+=`<${tag} class="link" ${at}><div class="lico" style="background:${l.bg}"><i class="ti ${l.icon}" style="color:${l.fg||'#111'}" aria-hidden="true"></i></div><div class="ltxt"><div class="ltit">${l.title}${l.badge?`<span class="badge">${l.badge}</span>`:''}</div><span class="lsub">${l.sub}</span></div><span class="arr">→</span></${tag}>`;
-    });
-    if(si<C.sections.length-1) h+=`<hr class="divider" style="margin-top:1.5rem">`;
+  /* ── Contoh tombol tambahan (hapus komentar untuk aktifkan):
+
+  {
+    icon: "instagram",
+    bg: "#e1306c", fg: "#fff",
+    title: "Instagram",
+    sub: "Follow kami di Instagram",
+    url: "https://instagram.com/brutalstudio",
+    badge: "NEW"
+  },
+
+  {
+    icon: "tiktok",
+    bg: "#010101", fg: "#fff",
+    title: "TikTok",
+    sub: "Tonton konten kami",
+    url: "https://tiktok.com/@brutalstudio",
+    badge: ""
+  },
+
+  {
+    icon: "youtube",
+    bg: "#ff0000", fg: "#fff",
+    title: "YouTube",
+    sub: "Subscribe channel kami",
+    url: "https://youtube.com/@brutalstudio",
+    badge: ""
+  },
+
+  ── */
+];
+
+/* ──────────────────────────────────────────
+   IKON SOSIAL (baris bawah, kecil-kecil)
+   Tambah/hapus objek sesuai kebutuhan.
+────────────────────────────────────────── */
+const SOCIALS = [
+  { icon: "instagram", label: "Instagram",  url: "#" },
+  { icon: "twitter",   label: "Twitter/X",  url: "#" },
+  { icon: "linkedin",  label: "LinkedIn",   url: "#" },
+  { icon: "dribbble",  label: "Dribbble",   url: "#" },
+  { icon: "tiktok",    label: "TikTok",     url: "#" }
+];
+
+/* ══════════════════════════════════════════
+   KODE DI BAWAH INI TIDAK PERLU DIUBAH
+══════════════════════════════════════════ */
+
+const ICON_MAP = {
+  whatsapp:"ti-brand-whatsapp", instagram:"ti-brand-instagram",
+  tiktok:"ti-brand-tiktok",     twitter:"ti-brand-x",
+  facebook:"ti-brand-facebook", youtube:"ti-brand-youtube",
+  telegram:"ti-brand-telegram", discord:"ti-brand-discord",
+  linkedin:"ti-brand-linkedin", github:"ti-brand-github",
+  dribbble:"ti-brand-dribbble", behance:"ti-brand-behance",
+  twitch:"ti-brand-twitch",     reddit:"ti-brand-reddit",
+  snapchat:"ti-brand-snapchat", pinterest:"ti-brand-pinterest",
+  threads:"ti-brand-threads",   spotify:"ti-brand-spotify",
+  line:"ti-brand-line",         wechat:"ti-brand-wechat",
+  bluesky:"ti-brand-bluesky",
+  link:"ti-link",               mail:"ti-mail",
+  phone:"ti-phone",             globe:"ti-world",
+  store:"ti-building-store",    cart:"ti-shopping-cart",
+  star:"ti-star",               heart:"ti-heart",
+  music:"ti-music",             video:"ti-video",
+  photo:"ti-photo",             file:"ti-file",
+  map:"ti-map-pin",             calendar:"ti-calendar",
+  chat:"ti-message-circle"
+};
+
+function ico(name){ return ICON_MAP[name] || ("ti-" + name); }
+
+let activeModal = null;
+
+function buildCard(){
+  const card = document.getElementById("card");
+  let h = "";
+
+  h += `<div class="avatar" style="background:${PROFILE.avatarBg}">${PROFILE.avatar}</div>`;
+  h += `<p class="name">${PROFILE.name}</p>`;
+  h += `<p class="bio">${PROFILE.bio}</p>`;
+  h += `<hr class="divider">`;
+
+  BUTTONS.forEach((b, i) => {
+    const isModal = b.url === "#wa" || b.modal;
+    if(isModal){
+      h += `<button class="link-btn" onclick="openModal(${i})">`;
+    } else {
+      h += `<a class="link-btn" href="${b.url}" target="_blank">`;
+    }
+    h += `<div class="lico" style="background:${b.bg}"><i class="ti ${ico(b.icon)}" style="color:${b.fg||'#fff'}" aria-hidden="true"></i></div>`;
+    h += `<div class="ltxt"><div class="ltit">${b.title}${b.badge?`<span class="badge">${b.badge}</span>`:""}</div><span class="lsub">${b.sub}</span></div>`;
+    h += `<span class="arr">→</span>`;
+    h += isModal ? `</button>` : `</a>`;
   });
 
-  h+=`<div class="socials">${C.socials.map(s=>`<a class="sbtn" href="${s.url}" aria-label="${s.label}"><i class="ti ${s.icon}" aria-hidden="true"></i></a>`).join('')}</div>`;
-  h+=`<p class="footer">${C.profile.footer}</p>`;
+  h += `<div class="socials">`;
+  SOCIALS.forEach(s => {
+    h += `<a class="sbtn" href="${s.url}" aria-label="${s.label}" target="_blank"><i class="ti ${ico(s.icon)}" aria-hidden="true"></i></a>`;
+  });
+  h += `</div>`;
 
-  document.getElementById('card').innerHTML=h;
+  h += `<p class="footer">${PROFILE.footer}</p>`;
+  card.innerHTML = h;
+}
 
-  const w=C.wa;
-  document.getElementById('mico').innerHTML=`<i class="ti ${w.icon}"></i>`;
-  document.getElementById('mico').style.background=w.iconBg;
-  document.getElementById('mtit').textContent=w.title;
-  document.getElementById('mwarn').innerHTML=w.warning;
-  document.getElementById('mslbl').textContent=w.stepsLabel;
-  document.getElementById('msteps').innerHTML=w.steps.map(s=>`<li>${s}</li>`).join('');
-  document.getElementById('mnote').innerHTML=w.note;
-  document.getElementById('bcft').textContent=w.confirm;
+function openModal(idx){
+  const b = BUTTONS[idx];
+  if(!b || !b.modal) return;
+  const m = b.modal;
+  activeModal = m;
 
-  const modal=document.getElementById('modal');
-  document.getElementById('bbk').onclick=closeModal;
-  document.getElementById('bcf').onclick=goToWA;
-  modal.addEventListener('click',e=>{if(e.target===modal)closeModal();});
-  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
-})();
+  const mico = document.getElementById("mico");
+  mico.innerHTML = `<i class="ti ${ico(b.icon)}"></i>`;
+  mico.style.background = m.iconBg || b.bg;
 
-function openModal(){document.getElementById('modal').classList.add('active');}
-function closeModal(){document.getElementById('modal').classList.remove('active');}
-function goToWA(){window.open('https://wa.me/'+C.wa.number+'?text='+encodeURIComponent(C.wa.message),'_blank');closeModal();}
+  document.getElementById("mtit").textContent = m.title;
+  document.getElementById("mwarn").innerHTML = m.warning;
+  document.getElementById("mslbl").textContent = m.stepsLabel;
+  document.getElementById("msteps").innerHTML = m.steps.map(s=>`<li>${s}</li>`).join("");
+  document.getElementById("mnote").innerHTML = m.note;
+
+  const bcf = document.getElementById("bcf");
+  bcf.style.background = m.confirmBg || "#25d366";
+  bcf.innerHTML = `<i class="ti ${ico(b.icon)}"></i><span>${m.confirmText}</span>`;
+
+  document.getElementById("modal").classList.add("active");
+}
+
+function closeModal(){
+  document.getElementById("modal").classList.remove("active");
+  activeModal = null;
+}
+
+function doConfirm(){
+  if(!activeModal) return;
+  const m = activeModal;
+  if(m.waNumber){
+    window.open("https://wa.me/"+m.waNumber+"?text="+encodeURIComponent(m.waMessage||""),"_blank");
+  } else if(m.confirmUrl){
+    window.open(m.confirmUrl,"_blank");
+  }
+  closeModal();
+}
+
+document.getElementById("modal").addEventListener("click", function(e){
+  if(e.target === this) closeModal();
+});
+document.addEventListener("keydown", e => { if(e.key==="Escape") closeModal(); });
+
+buildCard();
 </script>
