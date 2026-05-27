@@ -3,48 +3,418 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700;900&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
-.wrap{font-family:'Space Grotesk',system-ui,sans-serif;background:#f5f0e8;min-height:500px;padding:clamp(1.25rem,4vw,2.5rem) clamp(1rem,3vw,1.25rem)}
-.card{max-width:520px;margin:0 auto;background:#fff;border:3px solid #111;box-shadow:6px 6px 0 #111;padding:clamp(1.25rem,4vw,2rem) clamp(1rem,4vw,1.75rem)}
-.avatar{width:clamp(68px,14vw,88px);height:clamp(68px,14vw,88px);border-radius:50%;border:3px solid #111;box-shadow:4px 4px 0 #111;display:flex;align-items:center;justify-content:center;font-size:clamp(1.8rem,5vw,2.4rem);font-weight:900;color:#111;margin:0 auto 1rem}
-.name{font-size:clamp(1.2rem,4vw,1.5rem);font-weight:900;color:#111;text-align:center;letter-spacing:-.5px;margin:0 0 .2rem}
-.bio{font-size:clamp(.82rem,2.5vw,.92rem);color:#444;text-align:center;margin:0 0 1.5rem;line-height:1.5}
-.divider{border:none;border-top:3px solid #111;margin:0 0 1.25rem}
-.sec-label{font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#888;margin:0 0 .65rem}
-.link-btn{display:flex;align-items:center;gap:10px;background:#fff;border:2.5px solid #111;box-shadow:4px 4px 0 #111;padding:.7rem 1rem;margin-bottom:.75rem;text-decoration:none;color:#111;font-weight:700;font-size:clamp(.88rem,2.5vw,.98rem);cursor:pointer;transition:transform .08s,box-shadow .08s;width:100%}
-.link-btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 #111}
-.link-btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #111}
-.lico{width:36px;height:36px;border:2px solid #111;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.2rem}
-.ltxt{flex:1;text-align:left}
-.ltit{display:flex;align-items:center;flex-wrap:wrap;gap:4px;line-height:1.3}
-.lsub{font-size:.72rem;color:#666;display:block;margin-top:2px}
-.arr{font-size:1rem;font-weight:900;flex-shrink:0}
-.badge{background:#111;color:#ffe566;font-size:.6rem;font-weight:700;padding:2px 6px;letter-spacing:1px;text-transform:uppercase}
-.socials{display:flex;gap:8px;justify-content:center;margin-top:1.5rem;flex-wrap:wrap}
-.sbtn{width:42px;height:42px;border:2.5px solid #111;box-shadow:3px 3px 0 #111;display:flex;align-items:center;justify-content:center;background:#fff;cursor:pointer;text-decoration:none;color:#111;font-size:1.1rem;transition:transform .08s,box-shadow .08s}
-.sbtn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 #111}
-.sbtn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #111}
-.footer{text-align:center;margin-top:1.75rem;font-size:.75rem;color:#aaa}
-.modal-wrap{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto}
-.modal-wrap.active{display:flex}
-.modal-box{background:#fff;border:3px solid #111;box-shadow:8px 8px 0 #111;padding:clamp(1.25rem,4vw,1.75rem);width:100%;max-width:360px;margin:auto}
-.mico{width:52px;height:52px;border-radius:50%;border:3px solid #111;box-shadow:3px 3px 0 #111;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 1rem;color:#fff}
-.mtit{font-size:1.1rem;font-weight:900;color:#111;text-align:center;margin:0 0 .5rem}
-.mwarn{background:#fffbe6;border:2px solid #111;padding:.75rem .9rem;margin:.9rem 0 1.1rem;font-size:.85rem;color:#111;font-weight:500;line-height:1.55}
-.mslbl{font-size:.82rem;color:#111;font-weight:700;margin:0 0 .4rem}
-.msteps{font-size:.82rem;color:#444;margin:0 0 1.1rem;padding-left:1.1rem;line-height:1.7}
-.mnote{font-size:.78rem;color:#666;margin:0 0 1rem;text-align:center}
-.mbtns{display:flex;gap:10px}
-.bbk{flex:1;padding:.65rem .5rem;background:#ff3b3b;border:2.5px solid #111;box-shadow:3px 3px 0 #111;font-family:inherit;font-size:.88rem;font-weight:700;color:#fff;cursor:pointer}
-.bcf{flex:1.5;padding:.65rem .5rem;border:2.5px solid #111;box-shadow:3px 3px 0 #111;font-family:inherit;font-size:.88rem;font-weight:900;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+
+:root {
+  --bg: #f5f0e8;
+  --card-bg: #fff;
+  --border: #111;
+  --text: #111;
+  --text-muted: #555;
+  --text-hint: #999;
+  --shadow: #111;
+  --accent1: #ffe566;
+  --accent2: #ff6b6b;
+  --accent3: #6bcbff;
+  --accent4: #b6f5a0;
+  --noise-op: 1;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1a1814;
+    --card-bg: #252220;
+    --border: #e8e0d0;
+    --text: #f0e8d8;
+    --text-muted: #b0a890;
+    --text-hint: #706858;
+    --shadow: #000;
+    --accent1: #ffe566;
+    --accent2: #ff6b6b;
+    --accent3: #6bcbff;
+    --accent4: #b6f5a0;
+  }
+}
+
+.wrap {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  background: var(--bg);
+  min-height: 100vh;
+  padding: clamp(1.5rem, 5vw, 3rem) clamp(1rem, 3vw, 1.5rem);
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-deco {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.bg-deco span {
+  position: absolute;
+  border: 3px solid var(--border);
+  opacity: 0.07;
+}
+.bg-deco span:nth-child(1) { width: 180px; height: 180px; top: -40px; right: -40px; transform: rotate(18deg); }
+.bg-deco span:nth-child(2) { width: 100px; height: 100px; bottom: 60px; left: -30px; transform: rotate(35deg); }
+.bg-deco span:nth-child(3) { width: 60px; height: 60px; top: 38%; left: 5%; transform: rotate(12deg); }
+.bg-deco span:nth-child(4) { width: 140px; height: 140px; bottom: -40px; right: 10%; transform: rotate(-22deg); border-radius: 50%; }
+.bg-dot {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(var(--border) 1.2px, transparent 1.2px);
+  background-size: 28px 28px;
+  opacity: 0.055;
+  pointer-events: none;
+}
+
+.card {
+  max-width: 480px;
+  margin: 0 auto;
+  background: var(--card-bg);
+  border: 3px solid var(--border);
+  box-shadow: 7px 7px 0 var(--shadow);
+  padding: clamp(1.5rem, 5vw, 2.25rem) clamp(1.25rem, 5vw, 2rem);
+  position: relative;
+}
+
+.card-tag {
+  position: absolute;
+  top: -2px;
+  left: 20px;
+  background: var(--accent1);
+  border: 2.5px solid var(--border);
+  border-top: none;
+  font-size: .65rem;
+  font-weight: 900;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #111;
+  padding: 3px 10px 5px;
+}
+
+.avatar {
+  width: clamp(72px, 16vw, 92px);
+  height: clamp(72px, 16vw, 92px);
+  border-radius: 50%;
+  border: 3px solid var(--border);
+  box-shadow: 5px 5px 0 var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(2rem, 5vw, 2.6rem);
+  font-weight: 900;
+  color: #111;
+  margin: .5rem auto 1.1rem;
+  position: relative;
+}
+
+.avatar-ring {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 2px dashed var(--border);
+  opacity: 0.3;
+  animation: spin 18s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.name {
+  font-size: clamp(1.25rem, 4.5vw, 1.6rem);
+  font-weight: 900;
+  color: var(--text);
+  text-align: center;
+  letter-spacing: -1px;
+  margin: 0 0 .25rem;
+  line-height: 1.15;
+}
+
+.bio {
+  font-size: clamp(.82rem, 2.5vw, .9rem);
+  color: var(--text-muted);
+  text-align: center;
+  margin: 0 0 .35rem;
+  line-height: 1.55;
+}
+
+.online-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: .7rem;
+  font-weight: 700;
+  color: var(--text-hint);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin: 0 0 1.5rem;
+}
+.online-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4ade80;
+  animation: blink 2s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+.divider {
+  border: none;
+  border-top: 3px solid var(--border);
+  margin: 0 0 1.35rem;
+  position: relative;
+}
+.divider::after {
+  content: '';
+  position: absolute;
+  right: 16px;
+  top: -6px;
+  width: 9px;
+  height: 9px;
+  background: var(--accent2);
+  border: 2px solid var(--border);
+  transform: rotate(45deg);
+}
+
+.sec-label {
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--text-hint);
+  margin: 0 0 .7rem;
+}
+
+.link-btn {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  background: var(--card-bg);
+  border: 2.5px solid var(--border);
+  box-shadow: 4px 4px 0 var(--shadow);
+  padding: .75rem 1rem;
+  margin-bottom: .85rem;
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 700;
+  font-size: clamp(.88rem, 2.5vw, .98rem);
+  cursor: pointer;
+  transition: transform .1s, box-shadow .1s;
+  width: 100%;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+}
+.link-btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--shadow); }
+.link-btn:active { transform: translate(3px,3px); box-shadow: 1px 1px 0 var(--shadow); }
+
+.lico {
+  width: 38px;
+  height: 38px;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1.25rem;
+}
+
+.ltxt { flex: 1; text-align: left; }
+.ltit { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; line-height: 1.3; }
+.lsub { font-size: .72rem; color: var(--text-muted); display: block; margin-top: 2px; }
+.arr { font-size: 1.05rem; font-weight: 900; flex-shrink: 0; color: var(--text); }
+
+.badge {
+  background: var(--border);
+  color: var(--accent1);
+  font-size: .58rem;
+  font-weight: 900;
+  padding: 2px 7px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.acc-strip {
+  height: 4px;
+  display: flex;
+  gap: 3px;
+  margin: 0 0 1rem;
+}
+.acc-strip div {
+  flex: 1;
+  border: 1.5px solid var(--border);
+}
+
+.socials {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 1.6rem;
+  flex-wrap: wrap;
+}
+.sbtn {
+  width: 40px;
+  height: 40px;
+  border: 2.5px solid var(--border);
+  box-shadow: 3px 3px 0 var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card-bg);
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--text);
+  font-size: 1.1rem;
+  transition: transform .08s, box-shadow .08s;
+}
+.sbtn:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 var(--shadow); }
+.sbtn:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 var(--shadow); }
+
+.footer {
+  text-align: center;
+  margin-top: 1.85rem;
+  font-size: .73rem;
+  color: var(--text-hint);
+  letter-spacing: .5px;
+}
+
+.modal-wrap {
+  display: none;
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  z-index: 9999;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1.5rem 1rem;
+  min-height: 100%;
+}
+.modal-wrap.active { display: flex; }
+.modal-box {
+  background: var(--card-bg);
+  border: 3px solid var(--border);
+  box-shadow: 8px 8px 0 var(--shadow);
+  padding: clamp(1.25rem,5vw,1.75rem);
+  width: 100%;
+  max-width: 360px;
+  margin: auto;
+  position: relative;
+}
+.modal-corner {
+  position: absolute;
+  top: 0; right: 0;
+  width: 0; height: 0;
+  border-style: solid;
+  border-width: 0 36px 36px 0;
+  border-color: transparent var(--border) transparent transparent;
+}
+.modal-corner::after {
+  content: '';
+  position: absolute;
+  top: -2px; right: -36px;
+  width: 0; height: 0;
+  border-style: solid;
+  border-width: 0 32px 32px 0;
+  border-color: transparent var(--accent1) transparent transparent;
+}
+
+.mico {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 3px solid var(--border);
+  box-shadow: 3px 3px 0 var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin: 0 auto 1rem;
+  color: #fff;
+}
+
+.mtit { font-size: 1.1rem; font-weight: 900; color: var(--text); text-align: center; margin: 0 0 .5rem; }
+.mwarn {
+  background: var(--accent1);
+  border: 2px solid var(--border);
+  padding: .75rem .9rem;
+  margin: .9rem 0 1.1rem;
+  font-size: .85rem;
+  color: #111;
+  font-weight: 500;
+  line-height: 1.55;
+  position: relative;
+}
+.mwarn::before {
+  content: '';
+  position: absolute;
+  left: -2px; top: 6px;
+  width: 4px; height: calc(100% - 12px);
+  background: var(--border);
+}
+
+.mslbl { font-size: .82rem; color: var(--text); font-weight: 700; margin: 0 0 .4rem; }
+.msteps { font-size: .82rem; color: var(--text-muted); margin: 0 0 1.1rem; padding-left: 1.1rem; line-height: 1.8; }
+.mnote { font-size: .78rem; color: var(--text-hint); margin: 0 0 1rem; text-align: center; }
+
+.mbtns { display: flex; gap: 10px; }
+.bbk {
+  flex: 1;
+  padding: .65rem .5rem;
+  background: var(--card-bg);
+  border: 2.5px solid var(--border);
+  box-shadow: 3px 3px 0 var(--shadow);
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: .88rem;
+  font-weight: 700;
+  color: var(--text);
+  cursor: pointer;
+  transition: transform .08s, box-shadow .08s;
+}
+.bbk:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 var(--shadow); }
+.bbk:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 var(--shadow); }
+.bcf {
+  flex: 1.5;
+  padding: .65rem .5rem;
+  border: 2.5px solid var(--border);
+  box-shadow: 3px 3px 0 var(--shadow);
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: .88rem;
+  font-weight: 900;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: transform .08s, box-shadow .08s;
+}
+.bcf:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 var(--shadow); }
+.bcf:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 var(--shadow); }
+
+@media (max-width: 400px) {
+  .card { padding: 1.25rem 1rem; }
+  .mbtns { flex-direction: column; }
+  .acc-strip { display: none; }
+}
+
+@media (min-width: 768px) {
+  .card { padding: 2.5rem 2.25rem; }
+}
 </style>
 
-<h2 class="sr-only">Link page for @brutalstudio</h2>
+<h2 class="sr-only">Link page untuk @denji</h2>
+
 <div class="wrap">
-<div class="card" id="card"></div>
+  <div class="bg-deco" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+    <div class="bg-dot"></div>
+  </div>
+
+  <div class="card" id="card"></div>
 </div>
 
 <div class="modal-wrap" id="modal" role="dialog" aria-modal="true">
   <div class="modal-box">
+    <div class="modal-corner" aria-hidden="true"></div>
     <div class="mico" id="mico"></div>
     <p class="mtit" id="mtit"></p>
     <div class="mwarn" id="mwarn"></div>
@@ -61,33 +431,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
 
 <script>
-/*
-  ╔══════════════════════════════════════════╗
-  ║        PANDUAN IKON YANG TERSEDIA        ║
-  ╠══════════════════════════════════════════╣
-  ║  Untuk field "icon", tulis nama pendek:  ║
-  ║                                          ║
-  ║  MEDIA SOSIAL:                           ║
-  ║  "whatsapp"  "instagram"  "tiktok"       ║
-  ║  "twitter"   "facebook"   "youtube"      ║
-  ║  "telegram"  "discord"    "linkedin"     ║
-  ║  "github"    "dribbble"   "behance"      ║
-  ║  "twitch"    "reddit"     "snapchat"     ║
-  ║  "pinterest" "threads"    "spotify"      ║
-  ║  "line"      "wechat"     "bluesky"      ║
-  ║                                          ║
-  ║  UMUM:                                   ║
-  ║  "link"      "mail"       "phone"        ║
-  ║  "globe"     "store"      "cart"         ║
-  ║  "star"      "heart"      "music"        ║
-  ║  "video"     "photo"      "file"         ║
-  ║  "map"       "calendar"   "chat"         ║
-  ╚══════════════════════════════════════════╝
-*/
-
-/* ──────────────────────────────────────────
-   PROFIL
-────────────────────────────────────────── */
 const PROFILE = {
   avatar: "✦",
   avatarBg: "#ffe566",
@@ -96,20 +439,6 @@ const PROFILE = {
   footer: "dimas anjai mabar"
 };
 
-/* ──────────────────────────────────────────
-   TOMBOL UTAMA
-   Salin satu blok { ... } untuk tambah tombol baru.
-
-   Field:
-     icon   → nama ikon (lihat panduan di atas)
-     bg     → warna latar ikon
-     fg     → warna ikon (default "#fff")
-     title  → teks judul tombol
-     sub    → teks kecil di bawah judul
-     url    → link tujuan, atau "#wa" untuk buka modal WhatsApp
-     badge  → label kecil (opsional, kosongkan jika tidak perlu)
-     modal  → objek konfigurasi modal (opsional, hanya jika url="#wa" atau perlu konfirmasi)
-────────────────────────────────────────── */
 const BUTTONS = [
   {
     icon: "whatsapp",
@@ -136,83 +465,41 @@ const BUTTONS = [
       waMessage: ""
     }
   },
-{
+  {
     icon: "whatsapp",
     bg: "#e1306c", fg: "#fff",
-    title: "Chat Owner bot (bukan nomor bot)",
-    sub: "Jika butuh bantuan cara penggunaan bot nya",
+    title: "Chat Owner bot",
+    sub: "Jika butuh bantuan cara penggunaan bot",
     url: "https://wa.me/14314009636",
     badge: ""
-  },
-
-  /* ── Contoh tombol tambahan (hapus komentar untuk aktifkan):
-
-  {
-    icon: "instagram",
-    bg: "#e1306c", fg: "#fff",
-    title: "Instagram",
-    sub: "Follow kami di Instagram",
-    url: "https://instagram.com/brutalstudio",
-    badge: "NEW"
-  },
-
-  {
-    icon: "tiktok",
-    bg: "#010101", fg: "#fff",
-    title: "TikTok",
-    sub: "Tonton konten kami",
-    url: "https://tiktok.com/@brutalstudio",
-    badge: ""
-  },
-
-  {
-    icon: "youtube",
-    bg: "#ff0000", fg: "#fff",
-    title: "YouTube",
-    sub: "Subscribe channel kami",
-    url: "https://youtube.com/@brutalstudio",
-    badge: ""
-  },
-
-  ── */
+  }
 ];
 
-/* ──────────────────────────────────────────
-   IKON SOSIAL (baris bawah, kecil-kecil)
-   Tambah/hapus objek sesuai kebutuhan.
-────────────────────────────────────────── */
 const SOCIALS = [
-  { icon: "instagram", label: "Instagram",  url: "#" },
-  { icon: "twitter",   label: "Twitter/X",  url: "#" },
-  { icon: "linkedin",  label: "LinkedIn",   url: "#" },
-  { icon: "dribbble",  label: "Dribbble",   url: "#" },
-  { icon: "tiktok",    label: "TikTok",     url: "#" }
+  { icon: "instagram", label: "Instagram", url: "#" },
+  { icon: "twitter",   label: "Twitter/X", url: "#" },
+  { icon: "linkedin",  label: "LinkedIn",  url: "#" },
+  { icon: "dribbble",  label: "Dribbble",  url: "#" },
+  { icon: "tiktok",    label: "TikTok",    url: "#" }
 ];
 
-/* ══════════════════════════════════════════
-   KODE DI BAWAH INI TIDAK PERLU DIUBAH
-══════════════════════════════════════════ */
+const ACCENT_COLORS = ["#ffe566","#ff6b6b","#6bcbff","#b6f5a0","#ffb347"];
 
 const ICON_MAP = {
   whatsapp:"ti-brand-whatsapp", instagram:"ti-brand-instagram",
-  tiktok:"ti-brand-tiktok",     twitter:"ti-brand-x",
+  tiktok:"ti-brand-tiktok", twitter:"ti-brand-x",
   facebook:"ti-brand-facebook", youtube:"ti-brand-youtube",
   telegram:"ti-brand-telegram", discord:"ti-brand-discord",
   linkedin:"ti-brand-linkedin", github:"ti-brand-github",
   dribbble:"ti-brand-dribbble", behance:"ti-brand-behance",
-  twitch:"ti-brand-twitch",     reddit:"ti-brand-reddit",
+  twitch:"ti-brand-twitch", reddit:"ti-brand-reddit",
   snapchat:"ti-brand-snapchat", pinterest:"ti-brand-pinterest",
-  threads:"ti-brand-threads",   spotify:"ti-brand-spotify",
-  line:"ti-brand-line",         wechat:"ti-brand-wechat",
-  bluesky:"ti-brand-bluesky",
-  link:"ti-link",               mail:"ti-mail",
-  phone:"ti-phone",             globe:"ti-world",
-  store:"ti-building-store",    cart:"ti-shopping-cart",
-  star:"ti-star",               heart:"ti-heart",
-  music:"ti-music",             video:"ti-video",
-  photo:"ti-photo",             file:"ti-file",
-  map:"ti-map-pin",             calendar:"ti-calendar",
-  chat:"ti-message-circle"
+  threads:"ti-brand-threads", spotify:"ti-brand-spotify",
+  line:"ti-brand-line", wechat:"ti-brand-wechat", bluesky:"ti-brand-bluesky",
+  link:"ti-link", mail:"ti-mail", phone:"ti-phone", globe:"ti-world",
+  store:"ti-building-store", cart:"ti-shopping-cart", star:"ti-star",
+  heart:"ti-heart", music:"ti-music", video:"ti-video", photo:"ti-photo",
+  file:"ti-file", map:"ti-map-pin", calendar:"ti-calendar", chat:"ti-message-circle"
 };
 
 function ico(name){ return ICON_MAP[name] || ("ti-" + name); }
@@ -223,17 +510,24 @@ function buildCard(){
   const card = document.getElementById("card");
   let h = "";
 
-  h += `<div class="avatar" style="background:${PROFILE.avatarBg}">${PROFILE.avatar}</div>`;
+  h += `<div class="card-tag">✦ links</div>`;
+
+  const stripColors = ACCENT_COLORS.slice(0,5);
+  h += `<div class="acc-strip" aria-hidden="true">` + stripColors.map(c=>`<div style="background:${c}"></div>`).join("") + `</div>`;
+
+  h += `<div class="avatar" style="background:${PROFILE.avatarBg}"><div class="avatar-ring"></div>${PROFILE.avatar}</div>`;
   h += `<p class="name">${PROFILE.name}</p>`;
   h += `<p class="bio">${PROFILE.bio}</p>`;
+  h += `<div class="online-badge"><span class="online-dot"></span>online</div>`;
   h += `<hr class="divider">`;
 
   BUTTONS.forEach((b, i) => {
     const isModal = b.url === "#wa" || b.modal;
+    const btnStyle = `border-left: 5px solid ${b.bg};`;
     if(isModal){
-      h += `<button class="link-btn" onclick="openModal(${i})">`;
+      h += `<button class="link-btn" style="${btnStyle}" onclick="openModal(${i})">`;
     } else {
-      h += `<a class="link-btn" href="${b.url}" target="_blank">`;
+      h += `<a class="link-btn" style="${btnStyle}" href="${b.url}" target="_blank" rel="noopener">`;
     }
     h += `<div class="lico" style="background:${b.bg}"><i class="ti ${ico(b.icon)}" style="color:${b.fg||'#fff'}" aria-hidden="true"></i></div>`;
     h += `<div class="ltxt"><div class="ltit">${b.title}${b.badge?`<span class="badge">${b.badge}</span>`:""}</div><span class="lsub">${b.sub}</span></div>`;
@@ -243,7 +537,7 @@ function buildCard(){
 
   h += `<div class="socials">`;
   SOCIALS.forEach(s => {
-    h += `<a class="sbtn" href="${s.url}" aria-label="${s.label}" target="_blank"><i class="ti ${ico(s.icon)}" aria-hidden="true"></i></a>`;
+    h += `<a class="sbtn" href="${s.url}" aria-label="${s.label}" target="_blank" rel="noopener"><i class="ti ${ico(s.icon)}" aria-hidden="true"></i></a>`;
   });
   h += `</div>`;
 
@@ -283,9 +577,9 @@ function doConfirm(){
   if(!activeModal) return;
   const m = activeModal;
   if(m.waNumber){
-    window.open("https://wa.me/"+m.waNumber+"?text="+encodeURIComponent(m.waMessage||""),"_blank");
+    window.open("https://wa.me/"+m.waNumber+"?text="+encodeURIComponent(m.waMessage||""),"_blank","noopener");
   } else if(m.confirmUrl){
-    window.open(m.confirmUrl,"_blank");
+    window.open(m.confirmUrl,"_blank","noopener");
   }
   closeModal();
 }
