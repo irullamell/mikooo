@@ -1,0 +1,38 @@
+await sock.relayMessage(jid, {
+  messageContextInfo: {
+    threadId: [],
+    deviceListMetadata: {
+      senderKeyIndexes: [],
+      recipientKeyIndexes: []
+    },
+    deviceListMetadataVersion: 2,
+    botMetadata: {
+      messageDisclaimerText: "",
+      richResponseSourcesMetadata: {
+        sources: []
+      }
+    }
+  },
+  botForwardedMessage: {
+    message: {
+      richResponseMessage: {
+        submessages: [],
+        messageType: 1,
+        unifiedResponse: {
+          data: "eyJyZXNwb25zZV9pZCI6ImQyMDYwNTQ0LTA4NzItNGRhOS05YjcyLTljZGI3YjMxZjY3MiIsInNlY3Rpb25zIjpbeyJ2aWV3X21vZGVsIjp7InByaW1pdGl2ZSI6eyJtZWRpYSI6eyJ1cmwiOiJodHRwczovL2QudG1wZmlsZS5saW5rL3B1YmxpYy8yMDI2LTA1LTI4LzNiMDI2M2I0LTUzMTQtNGNjZS1hMWIxLWI1MWY3OTIzYjIyMy9maWxlXzE3Nzk5NDUwNzc3MjEuanBnIiwibWltZV90eXBlIjoiaW1hZ2UvanBlZyJ9LCJpbWFnaW5lX3R5cGUiOjMsInN0YXR1cyI6eyJzdGF0dXMiOiJSRUFEWSJ9LCJfX3R5cGVuYW1lIjoiR2VuQUlJbWFnaW5lUHJpbWl0aXZlIn0sIl9fdHlwZW5hbWUiOiJHZW5BSVNpbmdsZUxheW91dFZpZXdNb2RlbCJ9fSx7InZpZXdfbW9kZWwiOnsicHJpbWl0aXZlIjp7Im1lZGlhIjp7InVybCI6Imh0dHBzOi8vZC50bXBmaWxlLmxpbmsvcHVibGljLzIwMjYtMDUtMjgvNDFlY2RlN2MtNjU3OS00ZDE4LWFjYzQtMzFmY2QzNDdiOTliL2ZpbGVfMTc3OTk0NTA3MzY5OS5qcGciLCJtaW1lX3R5cGUiOiJpbWFnZS9qcGVnIn0sImltYWdpbmVfdHlwZSI6Mywic3RhdHVzIjp7InN0YXR1cyI6IlJFQURZIn0sIl9fdHlwZW5hbWUiOiJHZW5BSUltYWdpbmVQcmltaXRpdmUifSwiX190eXBlbmFtZSI6IkdlbkFJU2luZ2xlTGF5b3V0Vmlld01vZGVsIn19LHsidmlld19tb2RlbCI6eyJwcmltaXRpdmUiOnsibWVkaWEiOnsidXJsIjoiaHR0cHM6Ly9kLnRtcGZpbGUubGluay9wdWJsaWMvMjAyNi0wNS0yOC8zZjg5YTVkNi1jZWEyLTQzODctYTI3Yi04ZTM0ZDQ0OGRiY2IvZmlsZV8xNzc5OTQ1MDY5Mzc0LmpwZyIsIm1pbWVfdHlwZSI6ImltYWdlL2pwZWcifSwiaW1hZ2luZV90eXBlIjozLCJzdGF0dXMiOnsic3RhdHVzIjoiUkVBRFkifSwiX190eXBlbmFtZSI6IkdlbkFJSW1hZ2luZVByaW1pdGl2ZSJ9LCJfX3R5cGVuYW1lIjoiR2VuQUlTaW5nbGVMYXlvdXRWaWV3TW9kZWwifX0seyJ2aWV3X21vZGVsIjp7InByaW1pdGl2ZSI6eyJtZWRpYSI6eyJ1cmwiOiJodHRwczovL2QudG1wZmlsZS5saW5rL3B1YmxpYy8yMDI2LTA1LTI4LzYyYzJmNzRlLTJhZjYtNDA1Yy1hMTk5LTM0MzRjYWQxZTJmZC9maWxlXzE3Nzk5NDUwNjM3OTIuanBnIiwibWltZV90eXBlIjoiaW1hZ2UvanBlZyJ9LCJpbWFnaW5lX3R5cGUiOjMsInN0YXR1cyI6eyJzdGF0dXMiOiJSRUFEWSJ9LCJfX3R5cGVuYW1lIjoiR2VuQUlJbWFnaW5lUHJpbWl0aXZlIn0sIl9fdHlwZW5hbWUiOiJHZW5BSVNpbmdsZUxheW91dFZpZXdNb2RlbCJ9fSx7InZpZXdfbW9kZWwiOnsicHJpbWl0aXZlIjp7Im1lZGlhIjp7InVybCI6Imh0dHBzOi8vdG1wZmlsZXMub3JnL2RsL3dPd05BTEc1cm45MS9maWxlLmpwZyIsIm1pbWVfdHlwZSI6ImltYWdlL2pwZWcifSwiaW1hZ2luZV90eXBlIjozLCJzdGF0dXMiOnsic3RhdHVzIjoiUkVBRFkifSwiX190eXBlbmFtZSI6IkdlbkFJSW1hZ2luZVByaW1pdGl2ZSJ9LCJfX3R5cGVuYW1lIjoiR2VuQUlTaW5nbGVMYXlvdXRWaWV3TW9kZWwifX1dfQ=="
+        },
+        contextInfo: {
+          mentionedJid: [],
+          groupMentions: [],
+          statusAttributions: [],
+          forwardingScore: 1,
+          isForwarded: true,
+          forwardedAiBotMessageInfo: {
+            botJid: "0@bot"
+          },
+          forwardOrigin: 4
+        }
+      }
+    }
+  }
+}, {})
