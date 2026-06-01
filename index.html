@@ -3,7 +3,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700;900&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
-
 :root{
   --bg:#f5f0e8;--card-bg:#fff;--border:#111;--text:#111;--text-muted:#555;--text-hint:#999;--shadow:#111;
   --accent1:#ffe566;--accent2:#ff6b6b;--accent3:#6bcbff;--accent4:#b6f5a0;
@@ -13,7 +12,98 @@
   --accent1:#ffe566;--accent2:#ff6b6b;--accent3:#6bcbff;--accent4:#b6f5a0;
 }
 
-.wrap{font-family:'Space Grotesk',system-ui,sans-serif;background:var(--bg);min-height:100vh;padding:clamp(1.5rem,5vw,3rem) clamp(1rem,3vw,1.5rem);position:relative;overflow:hidden;transition:background .2s}
+/* INTRO OVERLAY */
+#intro-overlay{
+  position:fixed;inset:0;z-index:99999;
+  background:#111;display:flex;align-items:center;justify-content:center;
+  pointer-events:all;
+}
+#intro-overlay.done{pointer-events:none}
+.intro-grid{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,229,102,.18) 1px,transparent 1px),linear-gradient(90deg,rgba(255,229,102,.18) 1px,transparent 1px);
+  background-size:40px 40px;
+  animation:gridIn .4s ease forwards;
+  opacity:0;
+}
+@keyframes gridIn{to{opacity:1}}
+
+.intro-box{
+  position:relative;z-index:2;text-align:center;
+}
+.intro-tag{
+  font-family:'Space Grotesk',system-ui,sans-serif;
+  font-size:.65rem;font-weight:900;letter-spacing:3px;text-transform:uppercase;
+  color:#ffe566;border:2.5px solid #ffe566;padding:5px 14px;display:inline-block;
+  opacity:0;animation:tagIn .35s .1s cubic-bezier(.22,1,.36,1) forwards;
+  margin-bottom:1rem;
+}
+@keyframes tagIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.intro-name{
+  font-family:'Space Grotesk',system-ui,sans-serif;
+  font-size:clamp(3rem,10vw,6rem);font-weight:900;color:#fff;
+  letter-spacing:-3px;line-height:1;
+  display:flex;gap:0;overflow:hidden;justify-content:center;
+}
+.intro-name span{
+  display:inline-block;
+  opacity:0;transform:translateY(60px) rotate(6deg);
+  animation:charIn .5s cubic-bezier(.22,1,.36,1) forwards;
+}
+
+.intro-accent-row{
+  display:flex;gap:8px;justify-content:center;margin:.9rem 0 .5rem;
+  opacity:0;animation:tagIn .4s .7s cubic-bezier(.22,1,.36,1) forwards;
+}
+.intro-accent-row div{
+  width:36px;height:8px;border:2px solid;
+}
+
+.intro-sub{
+  font-family:'Space Grotesk',system-ui,sans-serif;
+  font-size:.8rem;color:#888;letter-spacing:2px;text-transform:uppercase;font-weight:700;
+  opacity:0;animation:tagIn .4s .85s cubic-bezier(.22,1,.36,1) forwards;
+}
+
+.intro-loader{
+  margin-top:1.5rem;
+  display:flex;gap:5px;justify-content:center;
+  opacity:0;animation:tagIn .3s 1s ease forwards;
+}
+.intro-loader span{
+  width:8px;height:8px;border:2px solid #ffe566;
+  animation:loaderBounce 1s ease infinite;
+}
+.intro-loader span:nth-child(1){animation-delay:.0s}
+.intro-loader span:nth-child(2){animation-delay:.12s}
+.intro-loader span:nth-child(3){animation-delay:.24s}
+.intro-loader span:nth-child(4){animation-delay:.36s}
+@keyframes loaderBounce{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.4)}}
+
+@keyframes charIn{
+  from{opacity:0;transform:translateY(60px) rotate(6deg)}
+  to{opacity:1;transform:none}
+}
+
+/* WIPE EXIT */
+.wipe-piece{
+  position:fixed;z-index:99998;
+  background:#ffe566;
+  transform-origin:left center;
+  transform:scaleX(0);
+}
+
+/* MAIN PAGE */
+#main-page{opacity:0;transition:opacity .3s .05s}
+#main-page.visible{opacity:1}
+
+.wrap{
+  font-family:'Space Grotesk',system-ui,sans-serif;
+  background:var(--bg);min-height:100vh;
+  padding:clamp(1.5rem,5vw,3rem) clamp(1rem,3vw,1.5rem);
+  position:relative;overflow:hidden;transition:background .2s
+}
 .bg-deco{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .bg-deco span{position:absolute;border:3px solid var(--border);opacity:.07}
 .bg-deco span:nth-child(1){width:180px;height:180px;top:-40px;right:-40px;transform:rotate(18deg)}
@@ -33,7 +123,28 @@
 .theme-btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--shadow)}
 .theme-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--shadow)}
 
-.card{max-width:480px;margin:0 auto;background:var(--card-bg);border:3px solid var(--border);box-shadow:7px 7px 0 var(--shadow);padding:clamp(1.5rem,5vw,2.25rem) clamp(1.25rem,5vw,2rem);position:relative;transition:background .2s,box-shadow .2s}
+.card{
+  max-width:480px;margin:0 auto;background:var(--card-bg);
+  border:3px solid var(--border);box-shadow:7px 7px 0 var(--shadow);
+  padding:clamp(1.5rem,5vw,2.25rem) clamp(1.25rem,5vw,2rem);
+  position:relative;transition:background .2s,box-shadow .2s;
+}
+
+/* CARD CHILDREN ANIMATION */
+.card-anim > *{
+  opacity:0;transform:translateY(22px);
+  transition:opacity .45s cubic-bezier(.22,1,.36,1),transform .45s cubic-bezier(.22,1,.36,1);
+}
+.card-anim.run > *:nth-child(1){opacity:1;transform:none;transition-delay:.05s}
+.card-anim.run > *:nth-child(2){opacity:1;transform:none;transition-delay:.12s}
+.card-anim.run > *:nth-child(3){opacity:1;transform:none;transition-delay:.19s}
+.card-anim.run > *:nth-child(4){opacity:1;transform:none;transition-delay:.26s}
+.card-anim.run > *:nth-child(5){opacity:1;transform:none;transition-delay:.33s}
+.card-anim.run > *:nth-child(6){opacity:1;transform:none;transition-delay:.40s}
+.card-anim.run > *:nth-child(7){opacity:1;transform:none;transition-delay:.47s}
+.card-anim.run > *:nth-child(8){opacity:1;transform:none;transition-delay:.54s}
+.card-anim.run > *:nth-child(9){opacity:1;transform:none;transition-delay:.61s}
+
 .card-tag{position:absolute;top:-2px;left:20px;background:var(--accent1);border:2.5px solid var(--border);border-top:none;font-size:.65rem;font-weight:900;letter-spacing:2.5px;text-transform:uppercase;color:#111;padding:3px 10px 5px}
 .avatar{width:clamp(72px,16vw,92px);height:clamp(72px,16vw,92px);border-radius:50%;border:3px solid var(--border);box-shadow:5px 5px 0 var(--shadow);display:flex;align-items:center;justify-content:center;font-size:clamp(2rem,5vw,2.6rem);font-weight:900;color:#111;margin:.5rem auto 1.1rem;position:relative}
 .avatar-ring{position:absolute;inset:-8px;border-radius:50%;border:2px dashed var(--border);opacity:.3;animation:spin 18s linear infinite}
@@ -65,7 +176,8 @@
 
 .modal-wrap{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;align-items:flex-start;justify-content:center;padding:1.5rem 1rem;overflow-y:auto}
 .modal-wrap.active{display:flex}
-.modal-box{background:var(--card-bg);border:3px solid var(--border);box-shadow:8px 8px 0 var(--shadow);padding:clamp(1.25rem,5vw,1.75rem);width:100%;max-width:360px;margin:auto;position:relative;transition:background .2s}
+.modal-box{background:var(--card-bg);border:3px solid var(--border);box-shadow:8px 8px 0 var(--shadow);padding:clamp(1.25rem,5vw,1.75rem);width:100%;max-width:360px;margin:auto;position:relative;transition:background .2s;animation:modalPop .3s cubic-bezier(.22,1,.36,1)}
+@keyframes modalPop{from{opacity:0;transform:translateY(30px) scale(.95)}to{opacity:1;transform:none}}
 .modal-corner{position:absolute;top:0;right:0;width:0;height:0;border-style:solid;border-width:0 36px 36px 0;border-color:transparent var(--border) transparent transparent}
 .modal-corner::after{content:'';position:absolute;top:-2px;right:-36px;width:0;height:0;border-style:solid;border-width:0 32px 32px 0;border-color:transparent var(--accent1) transparent transparent}
 .mico{width:52px;height:52px;border-radius:50%;border:3px solid var(--border);box-shadow:3px 3px 0 var(--shadow);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 1rem;color:#fff}
@@ -87,19 +199,47 @@
 @media(min-width:768px){.card{padding:2.5rem 2.25rem}}
 </style>
 
-<h2 class="sr-only">Link page untuk @denji dengan toggle dark/light mode</h2>
+<h2 class="sr-only">Link page untuk @denji dengan animasi masuk dan toggle dark/light mode</h2>
 
-<div class="wrap" id="wrap" data-theme="light">
-  <div class="bg-deco" aria-hidden="true">
-    <span></span><span></span><span></span><span></span>
-    <div class="bg-dot"></div>
+<!-- INTRO OVERLAY -->
+<div id="intro-overlay">
+  <div class="intro-grid"></div>
+
+  <!-- wipe pieces injected by JS -->
+
+  <div class="intro-box">
+    <div class="intro-tag">✦ links</div>
+    <div class="intro-name" id="introName"></div>
+    <div class="intro-accent-row">
+      <div style="background:#ffe566;border-color:#ffe566"></div>
+      <div style="background:#ff6b6b;border-color:#ff6b6b"></div>
+      <div style="background:#6bcbff;border-color:#6bcbff"></div>
+      <div style="background:#b6f5a0;border-color:#b6f5a0"></div>
+    </div>
+    <div class="intro-sub">bot wa · technology · pokoknya</div>
+    <div class="intro-loader">
+      <span></span><span></span><span></span><span></span>
+    </div>
   </div>
+</div>
 
-  <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark/light mode">
-    <i class="ti ti-moon" id="themeIcon" aria-hidden="true"></i>
-  </button>
+<!-- WIPE PIECES (5 horizontal strips) -->
+<div id="wipe-strips"></div>
 
-  <div class="card" id="card"></div>
+<!-- MAIN PAGE (hidden until intro done) -->
+<div id="main-page">
+  <div class="wrap" id="wrap" data-theme="light">
+    <div class="bg-deco" aria-hidden="true">
+      <span></span><span></span><span></span><span></span>
+      <div class="bg-dot"></div>
+    </div>
+
+    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark/light mode">
+      <i class="ti ti-moon" id="themeIcon" aria-hidden="true"></i>
+    </button>
+
+    <div class="card card-anim" id="card"></div>
+  </div>
 </div>
 
 <div class="modal-wrap" id="modal" role="dialog" aria-modal="true">
@@ -122,31 +262,11 @@
 
 <script>
 const PROFILE={avatar:"✦",avatarBg:"#ffe566",name:"@denji",bio:"bot wa · technology · adalah pokoknya",footer:"dimas anjai mabar"};
-
 const BUTTONS=[
-  {
-    icon:"whatsapp",bg:"#25d366",fg:"#fff",
-    title:"Bot WhatsApp",sub:"Akses fitur bot otomatis kami",
-    url:"#wa",badge:"",
-    modal:{
-      iconBg:"#25d366",
-      title:"⚠️ Perhatian Sebelum Lanjut!",
-      warning:true,
-      warningText:"<strong>Bot hanya bisa diakses melalui grup!</strong><br>Tambahkan nomor bot ke grup WhatsApp-mu terlebih dahulu.",
-      stepsLabel:"Cara menggunakan bot:",
-      steps:["Buka grup WhatsApp yang ingin kamu gunakan","Tambahkan nomor bot sebagai anggota grup","Ketik perintah bot di dalam grup tersebut","Bot akan merespons perintahmu secara otomatis"],
-      note:"Sudah tambahkan bot ke grup? Klik <strong>Konfirmasi</strong> untuk lanjut.",
-      confirmText:"Konfirmasi & Chat",confirmBg:"#25d366",
-      waNumber:"6285179063526",waMessage:""
-    }
-  },
-  {
-    icon:"whatsapp",bg:"#e1306c",fg:"#fff",
-    title:"Chat Owner bot",sub:"Jika butuh bantuan cara penggunaan bot",
-    url:"https://wa.me/33392090906",badge:""
-  }
+  {icon:"whatsapp",bg:"#25d366",fg:"#fff",title:"Bot WhatsApp",sub:"Akses fitur bot otomatis kami",url:"#wa",badge:"",
+   modal:{iconBg:"#25d366",title:"⚠️ Perhatian Sebelum Lanjut!",warning:true,warningText:"<strong>Bot hanya bisa diakses melalui grup!</strong><br>Tambahkan nomor bot ke grup WhatsApp-mu terlebih dahulu.",stepsLabel:"Cara menggunakan bot:",steps:["Buka grup WhatsApp yang ingin kamu gunakan","Tambahkan nomor bot sebagai anggota grup","Ketik perintah bot di dalam grup tersebut","Bot akan merespons perintahmu secara otomatis"],note:"Sudah tambahkan bot ke grup? Klik <strong>Konfirmasi</strong> untuk lanjut.",confirmText:"Konfirmasi & Chat",confirmBg:"#25d366",waNumber:"6285179063526",waMessage:""}}
+ ,{icon:"whatsapp",bg:"#e1306c",fg:"#fff",title:"Chat Owner bot",sub:"Jika butuh bantuan cara penggunaan bot",url:"https://wa.me/33392090906",badge:""}
 ];
-
 const SOCIALS=[
   {icon:"instagram",label:"Instagram",url:"#"},
   {icon:"twitter",label:"Twitter/X",url:"#"},
@@ -154,35 +274,18 @@ const SOCIALS=[
   {icon:"dribbble",label:"Dribbble",url:"#"},
   {icon:"tiktok",label:"TikTok",url:"#"}
 ];
-
 const ACCENT_COLORS=["#ffe566","#ff6b6b","#6bcbff","#b6f5a0","#ffb347"];
-
-const ICON_MAP={
-  whatsapp:"ti-brand-whatsapp",instagram:"ti-brand-instagram",
-  tiktok:"ti-brand-tiktok",twitter:"ti-brand-x",
-  facebook:"ti-brand-facebook",youtube:"ti-brand-youtube",
-  telegram:"ti-brand-telegram",discord:"ti-brand-discord",
-  linkedin:"ti-brand-linkedin",github:"ti-brand-github",
-  dribbble:"ti-brand-dribbble",behance:"ti-brand-behance",
-  twitch:"ti-brand-twitch",reddit:"ti-brand-reddit"
-};
-
+const ICON_MAP={whatsapp:"ti-brand-whatsapp",instagram:"ti-brand-instagram",tiktok:"ti-brand-tiktok",twitter:"ti-brand-x",facebook:"ti-brand-facebook",youtube:"ti-brand-youtube",telegram:"ti-brand-telegram",discord:"ti-brand-discord",linkedin:"ti-brand-linkedin",github:"ti-brand-github",dribbble:"ti-brand-dribbble",behance:"ti-brand-behance",twitch:"ti-brand-twitch",reddit:"ti-brand-reddit"};
 function ico(n){return ICON_MAP[n]||("ti-"+n)}
 
-let activeModal=null;
-let isDark=false;
+let activeModal=null,isDark=false;
 
 function toggleTheme(){
   isDark=!isDark;
   const wrap=document.getElementById("wrap");
   const icon=document.getElementById("themeIcon");
-  if(isDark){
-    wrap.setAttribute("data-theme","dark");
-    icon.className="ti ti-sun";
-  } else {
-    wrap.setAttribute("data-theme","light");
-    icon.className="ti ti-moon";
-  }
+  if(isDark){wrap.setAttribute("data-theme","dark");icon.className="ti ti-sun";}
+  else{wrap.setAttribute("data-theme","light");icon.className="ti ti-moon";}
 }
 
 function buildCard(){
@@ -198,43 +301,30 @@ function buildCard(){
   BUTTONS.forEach((b,i)=>{
     const isModal=b.url==="#wa"||b.modal;
     const btnStyle=`border-left:5px solid ${b.bg};`;
-    if(isModal){
-      h+=`<button class="link-btn" style="${btnStyle}" onclick="openModal(${i})">`;
-    } else {
-      h+=`<a class="link-btn" style="${btnStyle}" href="${b.url}" target="_blank" rel="noopener">`;
-    }
+    if(isModal){h+=`<button class="link-btn" style="${btnStyle}" onclick="openModal(${i})">`;}
+    else{h+=`<a class="link-btn" style="${btnStyle}" href="${b.url}" target="_blank" rel="noopener">`;}
     h+=`<div class="lico" style="background:${b.bg}"><i class="ti ${ico(b.icon)}" style="color:${b.fg||'#fff'}" aria-hidden="true"></i></div>`;
     h+=`<div class="ltxt"><div class="ltit">${b.title}${b.badge?`<span class="badge">${b.badge}</span>`:""}</div><span class="lsub">${b.sub}</span></div>`;
     h+=`<span class="arr">→</span>`;
     h+=isModal?`</button>`:`</a>`;
   });
   h+=`<div class="socials">`;
-  SOCIALS.forEach(s=>{
-    h+=`<a class="sbtn" href="${s.url}" aria-label="${s.label}" target="_blank" rel="noopener"><i class="ti ${ico(s.icon)}" aria-hidden="true"></i></a>`;
-  });
+  SOCIALS.forEach(s=>{h+=`<a class="sbtn" href="${s.url}" aria-label="${s.label}" target="_blank" rel="noopener"><i class="ti ${ico(s.icon)}" aria-hidden="true"></i></a>`;});
   h+=`</div>`;
   h+=`<p class="footer">${PROFILE.footer}</p>`;
   card.innerHTML=h;
 }
 
 function openModal(idx){
-  const b=BUTTONS[idx];
-  if(!b||!b.modal)return;
-  const m=b.modal;
-  activeModal=m;
+  const b=BUTTONS[idx];if(!b||!b.modal)return;
+  const m=b.modal;activeModal=m;
   const mico=document.getElementById("mico");
   mico.innerHTML=`<i class="ti ${ico(b.icon)}"></i>`;
   mico.style.background=m.iconBg||b.bg;
   document.getElementById("mtit").textContent=m.title;
-
   const warnEl=document.getElementById("mwarn");
-  if(m.warning&&m.warningText){
-    warnEl.innerHTML=m.warningText;
-    warnEl.style.display="block";
-  } else {
-    warnEl.style.display="none";
-  }
-
+  if(m.warning&&m.warningText){warnEl.innerHTML=m.warningText;warnEl.style.display="block";}
+  else{warnEl.style.display="none";}
   document.getElementById("mslbl").textContent=m.stepsLabel;
   document.getElementById("msteps").innerHTML=m.steps.map(s=>`<li>${s}</li>`).join("");
   document.getElementById("mnote").innerHTML=m.note;
@@ -243,24 +333,100 @@ function openModal(idx){
   bcf.innerHTML=`<i class="ti ${ico(b.icon)}"></i><span>${m.confirmText}</span>`;
   document.getElementById("modal").classList.add("active");
 }
-
-function closeModal(){
-  document.getElementById("modal").classList.remove("active");
-  activeModal=null;
-}
-
+function closeModal(){document.getElementById("modal").classList.remove("active");activeModal=null;}
 function doConfirm(){
-  if(!activeModal)return;
-  const m=activeModal;
-  if(m.waNumber){
-    window.open("https://wa.me/"+m.waNumber+"?text="+encodeURIComponent(m.waMessage||""),"_blank","noopener");
-  } else if(m.confirmUrl){
-    window.open(m.confirmUrl,"_blank","noopener");
-  }
+  if(!activeModal)return;const m=activeModal;
+  if(m.waNumber){window.open("https://wa.me/"+m.waNumber+"?text="+encodeURIComponent(m.waMessage||""),"_blank","noopener");}
+  else if(m.confirmUrl){window.open(m.confirmUrl,"_blank","noopener");}
   closeModal();
 }
-
 document.getElementById("modal").addEventListener("click",function(e){if(e.target===this)closeModal()});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
+
+/* ======= INTRO ANIMATION ======= */
+
+// Build letter-by-letter name
+(function(){
+  const nm=document.getElementById("introName");
+  const chars="@denji".split("");
+  chars.forEach((ch,i)=>{
+    const s=document.createElement("span");
+    s.textContent=ch==" "?"  ":ch;
+    s.style.animationDelay=(0.25+i*0.07)+"s";
+    nm.appendChild(s);
+  });
+})();
+
+// Build wipe strips
+(function(){
+  const container=document.getElementById("wipe-strips");
+  const N=5;
+  const vh=window.innerHeight||600;
+  for(let i=0;i<N;i++){
+    const el=document.createElement("div");
+    el.className="wipe-piece";
+    el.id="wp"+i;
+    el.style.cssText=`top:${(100/N)*i}%;left:0;right:0;height:${(100/N)+.5}%;`;
+    container.appendChild(el);
+  }
+})();
+
 buildCard();
+
+// Sequence:
+// 0ms    – overlay appears (already visible)
+// 200ms  – grid fades in (CSS)
+// 250ms  – "✦ links" tag appears (CSS)
+// 250-700ms – letters animate in (CSS)
+// 700ms  – accent row + sub + loader (CSS)
+// 1600ms – start stagger-wipe exit
+// 1800ms – show main page
+// 2000ms – run card children animation, hide overlay
+
+function runWipeExit(){
+  const N=5;
+  const vh=window.innerHeight||600;
+  // stagger each strip going right
+  for(let i=0;i<N;i++){
+    const el=document.getElementById("wp"+i);
+    const delay=i*55;
+    setTimeout(()=>{
+      el.style.transition="transform .38s cubic-bezier(.86,0,.07,1)";
+      el.style.transform="scaleX(1)";
+    },delay);
+  }
+  // after strips cover screen, reveal main page
+  setTimeout(()=>{
+    const mp=document.getElementById("main-page");
+    mp.style.opacity="1";
+    mp.classList.add("visible");
+    // fade out intro overlay
+    const ov=document.getElementById("intro-overlay");
+    ov.style.transition="opacity .25s";
+    ov.style.opacity="0";
+  },N*55+160);
+
+  // then wipe out strips (left to right but reversed strip order for cool effect)
+  setTimeout(()=>{
+    const ov=document.getElementById("intro-overlay");
+    ov.style.display="none";
+    ov.classList.add("done");
+    // trigger card stagger
+    document.getElementById("card").classList.add("run");
+    // flip strips off
+    for(let i=N-1;i>=0;i--){
+      const el=document.getElementById("wp"+i);
+      const delay=(N-1-i)*50;
+      setTimeout(()=>{
+        el.style.background="#ffe566";
+        el.style.transition="transform .32s cubic-bezier(.86,0,.07,1)";
+        el.style.transformOrigin="right center";
+        el.style.transform="scaleX(0)";
+      },delay);
+    }
+  },N*55+460);
+}
+
+// Fire sequence
+setTimeout(runWipeExit,1450);
 </script>
