@@ -7,7 +7,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap');
 
-        * {
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -22,8 +22,12 @@
             --green: #00FF88;
             --orange: #FF6B35;
             --border: 3px solid #0a0a0a;
-            --shadow: 6px 6px 0px #0a0a0a;
-            --shadow-lg: 10px 10px 0px #0a0a0a;
+            --shadow: 5px 5px 0px #0a0a0a;
+            --shadow-lg: 8px 8px 0px #0a0a0a;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
@@ -31,18 +35,7 @@
             font-family: 'Space Grotesk', sans-serif;
             min-height: 100vh;
             overflow-x: hidden;
-        }
-
-        /* ===== NOISE OVERLAY ===== */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            opacity: 0.03;
-            pointer-events: none;
-            z-index: 999;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            -webkit-font-smoothing: antialiased;
         }
 
         /* ===== MARQUEE ===== */
@@ -50,25 +43,24 @@
             background: var(--black);
             border-bottom: var(--border);
             overflow: hidden;
-            padding: 12px 0;
-            position: relative;
+            padding: clamp(8px, 1.5vw, 12px) 0;
         }
 
         .marquee-track {
             display: flex;
-            gap: 0;
-            animation: marquee 18s linear infinite;
+            animation: marquee 20s linear infinite;
             white-space: nowrap;
+            width: max-content;
         }
 
         .marquee-item {
             color: var(--yellow);
             font-family: 'Space Mono', monospace;
-            font-size: 13px;
+            font-size: clamp(10px, 1.5vw, 13px);
             font-weight: 700;
             letter-spacing: 2px;
             text-transform: uppercase;
-            padding: 0 24px;
+            padding: 0 clamp(16px, 3vw, 28px);
             flex-shrink: 0;
         }
 
@@ -86,34 +78,37 @@
         nav {
             border-bottom: var(--border);
             background: var(--white);
-            padding: 18px 40px;
+            padding: clamp(12px, 2vw, 18px) clamp(16px, 4vw, 40px);
             display: flex;
             align-items: center;
             justify-content: space-between;
             position: sticky;
             top: 0;
             z-index: 100;
+            gap: 12px;
         }
 
         .nav-logo {
             font-family: 'Space Mono', monospace;
-            font-size: 20px;
+            font-size: clamp(14px, 2.5vw, 20px);
             font-weight: 700;
             color: var(--black);
             letter-spacing: -1px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            flex-shrink: 0;
         }
 
         .nav-logo .dot {
-            width: 12px;
-            height: 12px;
+            width: clamp(8px, 1.5vw, 12px);
+            height: clamp(8px, 1.5vw, 12px);
             background: var(--yellow);
             border: 2px solid var(--black);
             border-radius: 50%;
             display: inline-block;
             animation: blink 1.2s step-end infinite;
+            flex-shrink: 0;
         }
 
         @keyframes blink {
@@ -125,30 +120,46 @@
             background: var(--pink);
             color: var(--white);
             border: var(--border);
-            padding: 6px 14px;
-            font-size: 12px;
+            padding: clamp(5px, 1vw, 8px) clamp(10px, 2vw, 16px);
+            font-size: clamp(10px, 1.5vw, 13px);
             font-weight: 700;
             letter-spacing: 1px;
             text-transform: uppercase;
             box-shadow: 3px 3px 0px var(--black);
             font-family: 'Space Mono', monospace;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: transform 0.1s, box-shadow 0.1s;
+            cursor: pointer;
+        }
+
+        .nav-badge:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 5px 5px 0px var(--black);
+        }
+
+        .nav-badge:active {
+            transform: translate(1px, 1px);
+            box-shadow: 1px 1px 0px var(--black);
         }
 
         /* ===== HERO ===== */
         .hero {
-            padding: 60px 40px 40px;
+            padding: clamp(32px, 5vw, 70px) clamp(16px, 4vw, 40px) clamp(32px, 5vw, 50px);
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            gap: clamp(24px, 4vw, 48px);
             align-items: center;
             max-width: 1200px;
             margin: 0 auto;
+            width: 100%;
         }
 
         .hero-left {
             display: flex;
             flex-direction: column;
-            gap: 28px;
+            gap: clamp(16px, 2.5vw, 28px);
+            min-width: 0;
         }
 
         .hero-tag {
@@ -157,14 +168,14 @@
             gap: 10px;
             background: var(--yellow);
             border: var(--border);
-            padding: 8px 16px;
+            padding: clamp(6px, 1vw, 9px) clamp(12px, 2vw, 16px);
             width: fit-content;
             box-shadow: var(--shadow);
         }
 
         .hero-tag span {
             font-family: 'Space Mono', monospace;
-            font-size: 12px;
+            font-size: clamp(10px, 1.5vw, 13px);
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -172,65 +183,60 @@
         }
 
         .hero-tag .emoji {
-            font-size: 16px;
+            font-size: clamp(14px, 2vw, 18px);
         }
 
         .hero-title {
-            font-size: clamp(48px, 7vw, 88px);
+            font-size: clamp(38px, 6.5vw, 90px);
             font-weight: 900;
-            line-height: 0.95;
+            line-height: 0.92;
             color: var(--black);
-            letter-spacing: -3px;
+            letter-spacing: -2px;
             text-transform: uppercase;
         }
 
-        .hero-title .line-1 {
-            display: block;
-        }
+        .hero-title .line-1 { display: block; }
 
         .hero-title .line-2 {
-            display: block;
+            display: inline-block;
             background: var(--black);
             color: var(--yellow);
-            padding: 4px 12px;
-            margin: 8px 0;
-            display: inline-block;
+            padding: 2px clamp(8px, 1.5vw, 14px);
+            margin: clamp(4px, 1vw, 10px) 0;
         }
 
         .hero-title .line-3 {
             display: block;
-            -webkit-text-stroke: 3px var(--black);
+            -webkit-text-stroke: clamp(2px, 0.3vw, 3px) var(--black);
             color: transparent;
         }
 
         .hero-desc {
-            font-size: 18px;
+            font-size: clamp(14px, 1.8vw, 18px);
             line-height: 1.6;
             color: #333;
-            border-left: 5px solid var(--pink);
-            padding-left: 16px;
+            border-left: 4px solid var(--pink);
+            padding-left: clamp(12px, 2vw, 18px);
             font-weight: 400;
-            max-width: 440px;
         }
 
         .hero-cta {
             display: flex;
-            gap: 16px;
+            gap: clamp(10px, 2vw, 16px);
             flex-wrap: wrap;
             align-items: center;
         }
 
-        /* ===== MAIN CTA BUTTON ===== */
         .btn-main {
             display: inline-flex;
             align-items: center;
-            gap: 12px;
+            gap: clamp(8px, 1.5vw, 14px);
             background: var(--green);
             color: var(--black);
             border: var(--border);
-            padding: 18px 32px;
+            padding: clamp(13px, 2vw, 19px) clamp(18px, 3vw, 34px);
             font-family: 'Space Mono', monospace;
-            font-size: 16px;
+            font-size: clamp(12px, 1.5vw, 16px);
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -238,22 +244,22 @@
             box-shadow: var(--shadow-lg);
             cursor: pointer;
             transition: transform 0.1s, box-shadow 0.1s;
-            position: relative;
+            white-space: nowrap;
         }
 
         .btn-main:hover {
             transform: translate(-3px, -3px);
-            box-shadow: 13px 13px 0px var(--black);
+            box-shadow: 11px 11px 0px var(--black);
         }
 
         .btn-main:active {
-            transform: translate(3px, 3px);
-            box-shadow: 3px 3px 0px var(--black);
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px var(--black);
         }
 
         .btn-main .wa-icon {
-            width: 26px;
-            height: 26px;
+            width: clamp(18px, 2.5vw, 26px);
+            height: clamp(18px, 2.5vw, 26px);
             flex-shrink: 0;
         }
 
@@ -264,20 +270,21 @@
             background: transparent;
             color: var(--black);
             border: var(--border);
-            padding: 18px 24px;
+            padding: clamp(13px, 2vw, 19px) clamp(14px, 2.5vw, 26px);
             font-family: 'Space Mono', monospace;
-            font-size: 14px;
+            font-size: clamp(11px, 1.4vw, 14px);
             font-weight: 700;
             text-transform: uppercase;
             text-decoration: none;
             box-shadow: var(--shadow);
             cursor: pointer;
-            transition: transform 0.1s, box-shadow 0.1s;
+            transition: transform 0.1s, box-shadow 0.1s, background 0.15s;
+            white-space: nowrap;
         }
 
         .btn-secondary:hover {
             transform: translate(-2px, -2px);
-            box-shadow: 8px 8px 0px var(--black);
+            box-shadow: 7px 7px 0px var(--black);
             background: var(--blue);
         }
 
@@ -286,35 +293,37 @@
             box-shadow: 2px 2px 0px var(--black);
         }
 
-        /* ===== HERO RIGHT ===== */
+        /* ===== STICKER BOARD ===== */
         .hero-right {
             position: relative;
+            min-width: 0;
         }
 
         .sticker-board {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 14px;
-            padding: 24px;
+            gap: clamp(8px, 1.5vw, 14px);
+            padding: clamp(16px, 2.5vw, 28px);
             background: var(--yellow);
             border: var(--border);
             box-shadow: var(--shadow-lg);
             position: relative;
         }
 
-        .sticker-board::before {
-            content: 'PREVIEW ✦';
+        .sticker-board-label {
             position: absolute;
-            top: -14px;
-            left: 20px;
+            top: clamp(-13px, -2vw, -16px);
+            left: clamp(12px, 2vw, 20px);
             background: var(--pink);
             border: var(--border);
             padding: 4px 10px;
             font-family: 'Space Mono', monospace;
-            font-size: 11px;
+            font-size: clamp(9px, 1.2vw, 12px);
             font-weight: 700;
             color: var(--white);
             letter-spacing: 1px;
+            white-space: nowrap;
+            z-index: 2;
         }
 
         .sticker-card {
@@ -323,19 +332,34 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 42px;
             background: var(--white);
-            box-shadow: 4px 4px 0px var(--black);
-            transition: transform 0.15s, box-shadow 0.15s;
-            cursor: default;
+            box-shadow: 3px 3px 0px var(--black);
+            transition: transform 0.18s cubic-bezier(.34,1.56,.64,1), box-shadow 0.18s;
+            cursor: pointer;
             user-select: none;
+            overflow: hidden;
+            position: relative;
         }
 
         .sticker-card:hover {
-            transform: translate(-2px, -2px) rotate(-3deg);
+            transform: translate(-3px, -3px) rotate(-4deg) scale(1.05);
             box-shadow: 6px 6px 0px var(--black);
+            z-index: 5;
         }
 
+        .sticker-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.18s;
+        }
+
+        .sticker-card:hover img {
+            transform: scale(1.08);
+        }
+
+        /* Warna background alternatif untuk sticker tanpa gambar */
         .sticker-card:nth-child(2) { background: #FFE600; }
         .sticker-card:nth-child(4) { background: #FF3CAC; }
         .sticker-card:nth-child(5) { background: #00D4FF; }
@@ -344,15 +368,17 @@
 
         .sticker-count-badge {
             position: absolute;
-            bottom: -20px;
-            right: 20px;
+            bottom: clamp(-16px, -2vw, -20px);
+            right: clamp(10px, 2vw, 20px);
             background: var(--black);
             color: var(--yellow);
             border: var(--border);
-            padding: 8px 14px;
+            padding: clamp(5px, 1vw, 8px) clamp(10px, 1.5vw, 14px);
             font-family: 'Space Mono', monospace;
-            font-size: 13px;
+            font-size: clamp(10px, 1.3vw, 13px);
             font-weight: 700;
+            z-index: 2;
+            white-space: nowrap;
         }
 
         /* ===== STATS BAR ===== */
@@ -362,14 +388,15 @@
             background: var(--black);
             display: flex;
             overflow: hidden;
-            margin-top: 60px;
+            margin-top: clamp(40px, 6vw, 70px);
+            flex-wrap: wrap;
         }
 
         .stat-item {
             flex: 1;
-            padding: 24px 32px;
-            border-right: var(--border);
-            border-color: #333;
+            min-width: 100px;
+            padding: clamp(16px, 2.5vw, 26px) clamp(16px, 3vw, 32px);
+            border-right: 2px solid #222;
             display: flex;
             flex-direction: column;
             gap: 4px;
@@ -381,15 +408,15 @@
 
         .stat-num {
             font-family: 'Space Mono', monospace;
-            font-size: 32px;
+            font-size: clamp(22px, 3.5vw, 34px);
             font-weight: 700;
             color: var(--yellow);
             line-height: 1;
         }
 
         .stat-label {
-            font-size: 13px;
-            color: #888;
+            font-size: clamp(10px, 1.3vw, 13px);
+            color: #777;
             font-weight: 400;
             letter-spacing: 1px;
             text-transform: uppercase;
@@ -397,7 +424,7 @@
 
         /* ===== FEATURES ===== */
         .features {
-            padding: 80px 40px;
+            padding: clamp(48px, 7vw, 90px) clamp(16px, 4vw, 40px);
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -405,28 +432,32 @@
         .section-header {
             display: flex;
             align-items: center;
-            gap: 16px;
-            margin-bottom: 48px;
+            gap: clamp(10px, 2vw, 18px);
+            margin-bottom: clamp(28px, 4vw, 50px);
+            flex-wrap: wrap;
         }
 
         .section-number {
             font-family: 'Space Mono', monospace;
-            font-size: 12px;
+            font-size: clamp(11px, 1.3vw, 13px);
             font-weight: 700;
             color: #888;
             letter-spacing: 2px;
+            white-space: nowrap;
         }
 
         .section-title {
-            font-size: 36px;
+            font-size: clamp(22px, 3.5vw, 38px);
             font-weight: 900;
             color: var(--black);
             letter-spacing: -1px;
             text-transform: uppercase;
+            white-space: nowrap;
         }
 
         .section-line {
             flex: 1;
+            min-width: 20px;
             height: 3px;
             background: var(--black);
         }
@@ -434,12 +465,11 @@
         .features-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 0;
             border: var(--border);
         }
 
         .feature-card {
-            padding: 36px;
+            padding: clamp(20px, 3vw, 38px);
             border-right: var(--border);
             border-bottom: var(--border);
             transition: background 0.15s;
@@ -447,50 +477,40 @@
             overflow: hidden;
         }
 
-        .feature-card:last-child,
-        .feature-card:nth-child(3) {
-            border-right: none;
-        }
+        .feature-card:nth-child(3n) { border-right: none; }
+        .feature-card:nth-last-child(-n+3) { border-bottom: none; }
 
-        .feature-card:nth-child(4),
-        .feature-card:nth-child(5),
-        .feature-card:nth-child(6) {
-            border-bottom: none;
-        }
-
-        .feature-card:hover {
-            background: var(--yellow);
-        }
+        .feature-card:hover { background: var(--yellow); }
 
         .feature-icon {
-            font-size: 40px;
-            margin-bottom: 20px;
+            font-size: clamp(28px, 4vw, 42px);
+            margin-bottom: clamp(12px, 2vw, 20px);
             display: block;
         }
 
         .feature-title {
-            font-size: 20px;
+            font-size: clamp(14px, 1.8vw, 20px);
             font-weight: 900;
             color: var(--black);
             text-transform: uppercase;
             letter-spacing: -0.5px;
-            margin-bottom: 12px;
+            margin-bottom: clamp(8px, 1.2vw, 12px);
         }
 
         .feature-desc {
-            font-size: 15px;
+            font-size: clamp(12px, 1.4vw, 15px);
             color: #555;
             line-height: 1.6;
         }
 
         .feature-tag {
             display: inline-block;
-            margin-top: 16px;
+            margin-top: clamp(10px, 1.5vw, 16px);
             background: var(--black);
             color: var(--yellow);
             padding: 4px 10px;
             font-family: 'Space Mono', monospace;
-            font-size: 11px;
+            font-size: clamp(9px, 1.1vw, 11px);
             font-weight: 700;
             letter-spacing: 1px;
         }
@@ -500,195 +520,236 @@
             background: var(--black);
             border-top: var(--border);
             border-bottom: var(--border);
-            padding: 80px 40px;
+            padding: clamp(48px, 7vw, 90px) clamp(16px, 4vw, 40px);
         }
 
-        .how-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+        .how-inner { max-width: 1200px; margin: 0 auto; }
 
-        .how .section-title {
-            color: var(--yellow);
-        }
-
-        .how .section-number {
-            color: #555;
-        }
-
-        .how .section-line {
-            background: #333;
-        }
+        .how .section-title { color: var(--yellow); }
+        .how .section-number { color: #555; }
+        .how .section-line { background: #333; }
 
         .steps {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-top: 48px;
+            gap: clamp(14px, 2.5vw, 26px);
+            margin-top: clamp(28px, 4vw, 50px);
         }
 
         .step {
             border: 2px solid #333;
-            padding: 32px;
+            padding: clamp(20px, 3vw, 34px);
             position: relative;
             transition: border-color 0.15s;
         }
 
-        .step:hover {
-            border-color: var(--yellow);
-        }
+        .step:hover { border-color: var(--yellow); }
 
         .step-num {
             font-family: 'Space Mono', monospace;
-            font-size: 64px;
+            font-size: clamp(40px, 6vw, 70px);
             font-weight: 700;
             color: #222;
             line-height: 1;
-            margin-bottom: 20px;
+            margin-bottom: clamp(12px, 2vw, 20px);
+            transition: color 0.15s;
         }
 
-        .step:hover .step-num {
-            color: var(--yellow);
-        }
+        .step:hover .step-num { color: var(--yellow); }
 
         .step-title {
-            font-size: 20px;
+            font-size: clamp(14px, 1.8vw, 21px);
             font-weight: 700;
             color: var(--white);
             text-transform: uppercase;
             letter-spacing: -0.5px;
-            margin-bottom: 12px;
+            margin-bottom: clamp(8px, 1.2vw, 12px);
         }
 
         .step-desc {
-            font-size: 15px;
+            font-size: clamp(12px, 1.4vw, 15px);
             color: #888;
             line-height: 1.6;
         }
 
-        .step-arrow {
-            position: absolute;
-            right: -36px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #333;
-            font-size: 24px;
-            font-weight: 700;
-            z-index: 2;
+        /* ===== STICKER GALLERY ===== */
+        .gallery {
+            padding: clamp(48px, 7vw, 90px) clamp(16px, 4vw, 40px);
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .step:last-child .step-arrow {
-            display: none;
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(clamp(100px, 15vw, 160px), 1fr));
+            gap: clamp(10px, 1.5vw, 16px);
+            border: var(--border);
+            padding: clamp(16px, 2.5vw, 28px);
+            background: var(--black);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .gallery-item {
+            aspect-ratio: 1;
+            border: 2px solid #333;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+            background: #111;
+        }
+
+        .gallery-item:hover {
+            border-color: var(--yellow);
+            transform: translate(-3px, -3px);
+            box-shadow: 5px 5px 0px var(--yellow);
+            z-index: 5;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.2s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-item .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(255,230,0,0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.15s;
+        }
+
+        .gallery-item:hover .overlay { opacity: 1; }
+
+        .overlay-text {
+            font-family: 'Space Mono', monospace;
+            font-size: clamp(8px, 1.2vw, 11px);
+            font-weight: 700;
+            color: var(--black);
+            text-align: center;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         /* ===== BIG CTA ===== */
         .big-cta {
-            padding: 80px 40px;
+            padding: clamp(48px, 7vw, 90px) clamp(16px, 4vw, 40px);
             max-width: 1200px;
             margin: 0 auto;
-            text-align: center;
         }
 
         .big-cta-box {
             background: var(--pink);
             border: var(--border);
             box-shadow: var(--shadow-lg);
-            padding: 64px 48px;
+            padding: clamp(40px, 6vw, 72px) clamp(24px, 4vw, 56px);
             position: relative;
             overflow: hidden;
+            text-align: center;
         }
 
         .big-cta-box::before {
             content: '★';
             position: absolute;
-            top: -30px;
-            left: 40px;
-            font-size: 100px;
-            opacity: 0.1;
+            top: -20px; left: 30px;
+            font-size: clamp(60px, 10vw, 110px);
+            opacity: 0.08;
             color: var(--black);
+            pointer-events: none;
         }
 
         .big-cta-box::after {
             content: '★';
             position: absolute;
-            bottom: -30px;
-            right: 40px;
-            font-size: 100px;
-            opacity: 0.1;
+            bottom: -20px; right: 30px;
+            font-size: clamp(60px, 10vw, 110px);
+            opacity: 0.08;
             color: var(--black);
+            pointer-events: none;
         }
 
         .big-cta-title {
-            font-size: clamp(36px, 5vw, 64px);
+            font-size: clamp(28px, 5.5vw, 68px);
             font-weight: 900;
             color: var(--black);
             text-transform: uppercase;
             letter-spacing: -2px;
             line-height: 1;
-            margin-bottom: 20px;
+            margin-bottom: clamp(12px, 2vw, 20px);
         }
 
         .big-cta-sub {
-            font-size: 18px;
-            color: rgba(0,0,0,0.7);
-            margin-bottom: 40px;
-            font-weight: 400;
+            font-size: clamp(13px, 2vw, 19px);
+            color: rgba(0,0,0,0.65);
+            margin-bottom: clamp(28px, 4vw, 44px);
         }
 
         .btn-cta-big {
             display: inline-flex;
             align-items: center;
-            gap: 16px;
+            gap: clamp(10px, 2vw, 16px);
             background: var(--black);
             color: var(--yellow);
             border: var(--border);
-            padding: 22px 48px;
+            padding: clamp(16px, 2.5vw, 24px) clamp(24px, 4vw, 52px);
             font-family: 'Space Mono', monospace;
-            font-size: 18px;
+            font-size: clamp(13px, 1.8vw, 18px);
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
             text-decoration: none;
-            box-shadow: 8px 8px 0px rgba(0,0,0,0.4);
+            box-shadow: 6px 6px 0px rgba(0,0,0,0.35);
             cursor: pointer;
             transition: transform 0.1s, box-shadow 0.1s;
         }
 
         .btn-cta-big:hover {
-            transform: translate(-4px, -4px);
-            box-shadow: 12px 12px 0px rgba(0,0,0,0.4);
+            transform: translate(-3px, -3px);
+            box-shadow: 10px 10px 0px rgba(0,0,0,0.35);
         }
 
         .btn-cta-big:active {
             transform: translate(2px, 2px);
-            box-shadow: 4px 4px 0px rgba(0,0,0,0.4);
+            box-shadow: 2px 2px 0px rgba(0,0,0,0.35);
         }
 
         .btn-cta-big .wa-icon {
-            width: 28px;
-            height: 28px;
+            width: clamp(20px, 2.8vw, 28px);
+            height: clamp(20px, 2.8vw, 28px);
+            flex-shrink: 0;
         }
 
         /* ===== FOOTER ===== */
         footer {
             background: var(--black);
             border-top: var(--border);
-            padding: 40px;
+            padding: clamp(24px, 3.5vw, 42px) clamp(16px, 4vw, 40px);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            flex-wrap: gap;
+            flex-wrap: wrap;
+            gap: 14px;
         }
 
         .footer-logo {
             font-family: 'Space Mono', monospace;
-            font-size: 18px;
+            font-size: clamp(14px, 2vw, 19px);
             font-weight: 700;
             color: var(--yellow);
         }
 
         .footer-text {
-            font-size: 13px;
+            font-size: clamp(10px, 1.3vw, 13px);
             color: #555;
             font-family: 'Space Mono', monospace;
         }
@@ -696,6 +757,7 @@
         .footer-dots {
             display: flex;
             gap: 8px;
+            align-items: center;
         }
 
         .footer-dot {
@@ -709,11 +771,11 @@
         .footer-dot:nth-child(2) { border-color: var(--pink); background: var(--pink); }
         .footer-dot:nth-child(3) { border-color: var(--blue); background: var(--blue); }
 
-        /* ===== FLOATING ELEMENTS ===== */
+        /* ===== FLOATING CTA ===== */
         .float-sticker {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
+            bottom: clamp(16px, 3vw, 30px);
+            right: clamp(16px, 3vw, 30px);
             z-index: 200;
         }
 
@@ -724,114 +786,218 @@
             background: var(--green);
             color: var(--black);
             border: var(--border);
-            padding: 14px 20px;
+            padding: clamp(10px, 1.8vw, 14px) clamp(14px, 2.2vw, 20px);
             font-family: 'Space Mono', monospace;
-            font-size: 13px;
+            font-size: clamp(10px, 1.4vw, 13px);
             font-weight: 700;
             text-decoration: none;
             box-shadow: var(--shadow);
             text-transform: uppercase;
             transition: transform 0.1s, box-shadow 0.1s;
-            animation: float 3s ease-in-out infinite;
+            animation: floatAnim 3s ease-in-out infinite;
+            white-space: nowrap;
         }
 
         .float-btn:hover {
             transform: translate(-2px, -2px) rotate(-2deg);
-            box-shadow: 8px 8px 0px var(--black);
+            box-shadow: 7px 7px 0px var(--black);
+            animation-play-state: paused;
         }
 
-        @keyframes float {
+        .float-btn .wa-icon {
+            width: clamp(16px, 2.2vw, 20px);
+            height: clamp(16px, 2.2vw, 20px);
+            flex-shrink: 0;
+        }
+
+        @keyframes floatAnim {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-6px); }
         }
 
-        .float-btn .wa-icon {
-            width: 20px;
-            height: 20px;
+        /* ===== LIGHTBOX ===== */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
 
-        /* ===== RESPONSIVE ===== */
+        .lightbox.active { display: flex; }
+
+        .lightbox-inner {
+            position: relative;
+            max-width: min(90vw, 480px);
+            width: 100%;
+            border: var(--border);
+            box-shadow: 12px 12px 0px var(--yellow);
+            background: var(--white);
+        }
+
+        .lightbox-img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: contain;
+            display: block;
+            background: #f0f0f0;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -16px;
+            right: -16px;
+            width: 38px;
+            height: 38px;
+            background: var(--pink);
+            border: var(--border);
+            color: white;
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 3px 3px 0px var(--black);
+            transition: transform 0.1s;
+            line-height: 1;
+        }
+
+        .lightbox-close:hover { transform: scale(1.1) rotate(5deg); }
+
+        /* ===== RESPONSIVE BREAKPOINTS ===== */
+
+        /* Tablet landscape & besar */
         @media (max-width: 900px) {
             .hero {
                 grid-template-columns: 1fr;
-                padding: 40px 24px;
-                gap: 48px;
             }
 
+            .hero-right {
+                margin-top: clamp(24px, 4vw, 40px);
+                padding-bottom: clamp(24px, 3vw, 30px);
+            }
+
+            .sticker-board {
+                max-width: 480px;
+                margin: 0 auto;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .feature-card:nth-child(3n) { border-right: var(--border); }
+            .feature-card:nth-child(2n) { border-right: none; }
+            .feature-card:nth-last-child(-n+3) { border-bottom: var(--border); }
+            .feature-card:nth-last-child(-n+2) { border-bottom: none; }
+            /* edge case fix for 6 items */
+            .feature-card:nth-child(5),
+            .feature-card:nth-child(6) { border-bottom: none; }
+            .feature-card:nth-child(5) { border-right: var(--border); }
+
+            .steps {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+        }
+
+        /* Tablet portrait */
+        @media (max-width: 700px) {
             .features-grid {
                 grid-template-columns: 1fr;
             }
 
-            .feature-card {
-                border-right: none !important;
-                border-bottom: var(--border) !important;
-            }
-
-            .feature-card:last-child {
-                border-bottom: none !important;
-            }
-
-            .steps {
-                grid-template-columns: 1fr;
-            }
-
-            .step-arrow {
-                display: none;
-            }
+            .feature-card { border-right: none !important; border-bottom: var(--border) !important; }
+            .feature-card:last-child { border-bottom: none !important; }
 
             .stats-bar {
-                flex-direction: column;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
             }
 
             .stat-item {
-                border-right: none;
-                border-bottom: 1px solid #333;
+                border-right: 2px solid #222;
+                border-bottom: 2px solid #222;
             }
 
-            nav {
-                padding: 16px 24px;
+            .stat-item:nth-child(2n) { border-right: none; }
+            .stat-item:nth-last-child(-n+2) { border-bottom: none; }
+        }
+
+        /* Mobile */
+        @media (max-width: 480px) {
+            :root {
+                --border: 2.5px solid #0a0a0a;
+                --shadow: 4px 4px 0px #0a0a0a;
+                --shadow-lg: 6px 6px 0px #0a0a0a;
             }
 
-            .features, .how, .big-cta {
-                padding: 60px 24px;
+            .hero-cta {
+                flex-direction: column;
+                align-items: stretch;
             }
 
-            .hero-title {
-                letter-spacing: -2px;
+            .btn-main,
+            .btn-secondary {
+                justify-content: center;
+                width: 100%;
             }
 
             .sticker-board {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 600px) {
-            .hero-cta {
-                flex-direction: column;
-                align-items: flex-start;
+                max-width: 100%;
             }
 
-            .btn-main, .btn-secondary {
-                width: 100%;
-                justify-content: center;
+            .stats-bar {
+                grid-template-columns: 1fr 1fr;
             }
 
             footer {
                 flex-direction: column;
-                gap: 16px;
                 text-align: center;
-                padding: 30px 24px;
+                align-items: center;
             }
 
-            .big-cta-box {
-                padding: 40px 24px;
+            .big-cta-title {
+                letter-spacing: -1px;
             }
 
-            .btn-cta-big {
-                width: 100%;
-                justify-content: center;
-                font-size: 14px;
-                padding: 18px 24px;
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+                gap: 8px;
+                padding: 12px;
+            }
+
+            .float-btn span.float-text { display: none; }
+            .float-btn {
+                border-radius: 0;
+                padding: 14px;
+            }
+        }
+
+        /* Layar sangat kecil */
+        @media (max-width: 340px) {
+            .hero-title {
+                font-size: 30px;
+                letter-spacing: -1.5px;
+            }
+
+            .nav-logo { font-size: 13px; }
+
+            .sticker-board {
+                gap: 6px;
+                padding: 10px;
+            }
+        }
+
+        /* Layar besar / wide */
+        @media (min-width: 1400px) {
+            .hero, .features, .gallery, .big-cta {
+                max-width: 1320px;
             }
         }
     </style>
@@ -840,7 +1006,8 @@
 
     <!-- MARQUEE -->
     <div class="marquee-wrapper">
-        <div class="marquee-track">
+        <div class="marquee-track" aria-hidden="true">
+            <div class="marquee-item">STICKER RANDOM <span>✦</span> WHATSAPP CHANNEL <span>✦</span> UPDATE TIAP HARI <span>✦</span> GRATIS 100% <span>✦</span> JOIN SEKARANG <span>✦</span></div>
             <div class="marquee-item">STICKER RANDOM <span>✦</span> WHATSAPP CHANNEL <span>✦</span> UPDATE TIAP HARI <span>✦</span> GRATIS 100% <span>✦</span> JOIN SEKARANG <span>✦</span></div>
             <div class="marquee-item">STICKER RANDOM <span>✦</span> WHATSAPP CHANNEL <span>✦</span> UPDATE TIAP HARI <span>✦</span> GRATIS 100% <span>✦</span> JOIN SEKARANG <span>✦</span></div>
             <div class="marquee-item">STICKER RANDOM <span>✦</span> WHATSAPP CHANNEL <span>✦</span> UPDATE TIAP HARI <span>✦</span> GRATIS 100% <span>✦</span> JOIN SEKARANG <span>✦</span></div>
@@ -850,20 +1017,20 @@
     <!-- NAVBAR -->
     <nav>
         <div class="nav-logo">
-            <span class="dot"></span>
+            <span class="dot" aria-hidden="true"></span>
             STICKERANDOM
         </div>
-        <a href="https://whatsapp.com/channel/YOUR_CHANNEL_ID" target="_blank" class="nav-badge">
+        <a href="https://whatsapp.com/channel/YOUR_CHANNEL_ID" target="_blank" rel="noopener" class="nav-badge">
             JOIN CHANNEL →
         </a>
     </nav>
 
     <!-- HERO -->
-    <section>
+    <section aria-label="Hero">
         <div class="hero">
             <div class="hero-left">
                 <div class="hero-tag">
-                    <span class="emoji">🎲</span>
+                    <span class="emoji" aria-hidden="true">🎲</span>
                     <span>WhatsApp Channel</span>
                 </div>
 
@@ -874,12 +1041,12 @@
                 </h1>
 
                 <p class="hero-desc">
-                    Dapatkan kiriman sticker unik, lucu, & random setiap hari langsung di WhatsApp kamu. 100% gratis, tanpa spam, cuma sticker terbaik.
+                    Dapatkan kiriman sticker unik, lucu, &amp; random setiap hari langsung di WhatsApp kamu. 100% gratis, tanpa spam, cuma sticker terbaik.
                 </p>
 
                 <div class="hero-cta">
-                    <a href="https://whatsapp.com/channel/YOUR_CHANNEL_ID" target="_blank" class="btn-main">
-                        <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <a href="https://whatsapp.com/channel/YOUR_CHANNEL_ID" target="_blank" rel="noopener" class="btn-main">
+                        <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                         </svg>
                         JOIN CHANNEL
@@ -890,17 +1057,45 @@
                 </div>
             </div>
 
+            <!-- STICKER BOARD PREVIEW DENGAN FOTO -->
             <div class="hero-right">
                 <div class="sticker-board">
-                    <div class="sticker-card">😂</div>
-                    <div class="sticker-card">🔥</div>
-                    <div class="sticker-card">💀</div>
-                    <div class="sticker-card">🥹</div>
-                    <div class="sticker-card">✨</div>
-                    <div class="sticker-card">🫠</div>
-                    <div class="sticker-card">🤡</div>
-                    <div class="sticker-card">💅</div>
-                    <div class="sticker-card">🐸</div>
+                    <span class="sticker-board-label">PREVIEW ✦</span>
+
+                    <!--
+                        GANTI src="..." dengan link foto sticker kamu
+                        Contoh: src="https://i.imgur.com/xxxxx.png"
+                        atau    src="https://example.com/sticker1.webp"
+                        atau    src="foto-lokal.png"
+                    -->
+                    <div class="sticker-card" onclick="openLightbox(this)">
+                        <img src="https://picsum.photos/seed/s1/200/200" alt="Sticker 1" loading="lazy">
+                    </div>
+                    <div class="sticker-card" onclick="openLightbox(this)">
+                        <img src="https://picsum.photos/seed/s2/200/200" alt="Sticker 2" loading="lazy">
+                    </div>
+                    <div class="sticker-card" onclick="openLightbox(this)">
+                        <img src="https://picsum.photos/seed/s3/200/200" alt="Sticker 3" loading="lazy">
+                    </div>
+                    <div class="sticker-card" onclick="openLightbox(this)">
+                        <img src="https://picsum.photos/seed/s4/200/200" alt="Sticker 4" loading="lazy">
+                    </div>
+                    <div class="sticker-card" onclick="openLightbox(this)">
+                        <img src="https://picsum.photos/seed/s5/200/200" alt="Sticker 5" loading="lazy">
+                    </div>
+                    <div class="sticker-card" onclick="openLightbox(this)">
+                        <img src="https://picsum.photos/seed/s6/200/200" alt="Sticker 6" loading="lazy">
+                    </div>
+                    <div class="sticker-card" onclick="openLightbox(this)">
+                        <img src="https://picsum.photos/seed/s7/200/200" alt="Sticker 7" loading="lazy">
+                    </div>
+                    <div class="sticker-card" onclick="openLightbox(this)">
+                        <img src="https://picsum.photos/seed/s8/200/200" alt="Sticker 8" loading="lazy">
+                    </div>
+                    <div class="sticker-card" onclick="openLightbox(this)">
+                        <img src="https://picsum.photos/seed/s9/200/200" alt="Sticker 9" loading="lazy">
+                    </div>
+
                     <div class="sticker-count-badge">+999 STICKER</div>
                 </div>
             </div>
@@ -908,7 +1103,7 @@
     </section>
 
     <!-- STATS BAR -->
-    <div class="stats-bar">
+    <div class="stats-bar" aria-label="Statistik channel">
         <div class="stat-item">
             <span class="stat-num">10K+</span>
             <span class="stat-label">Subscriber</span>
@@ -927,8 +1122,72 @@
         </div>
     </div>
 
+    <!-- GALLERY -->
+    <section class="gallery" aria-label="Galeri sticker">
+        <div class="section-header">
+            <span class="section-number">00 /</span>
+            <h2 class="section-title">Galeri Sticker</h2>
+            <div class="section-line"></div>
+        </div>
+
+        <div class="gallery-grid">
+            <!--
+                GANTI src="..." sesuai link foto sticker kamu
+                Tambah atau kurangi item sesuai kebutuhan
+            -->
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://picsum.photos/seed/g1/300/300" alt="Gallery sticker 1" loading="lazy">
+                <div class="overlay"><span class="overlay-text">LIHAT<br>STICKER</span></div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://picsum.photos/seed/g2/300/300" alt="Gallery sticker 2" loading="lazy">
+                <div class="overlay"><span class="overlay-text">LIHAT<br>STICKER</span></div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://picsum.photos/seed/g3/300/300" alt="Gallery sticker 3" loading="lazy">
+                <div class="overlay"><span class="overlay-text">LIHAT<br>STICKER</span></div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://picsum.photos/seed/g4/300/300" alt="Gallery sticker 4" loading="lazy">
+                <div class="overlay"><span class="overlay-text">LIHAT<br>STICKER</span></div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://picsum.photos/seed/g5/300/300" alt="Gallery sticker 5" loading="lazy">
+                <div class="overlay"><span class="overlay-text">LIHAT<br>STICKER</span></div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://picsum.photos/seed/g6/300/300" alt="Gallery sticker 6" loading="lazy">
+                <div class="overlay"><span class="overlay-text">LIHAT<br>STICKER</span></div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://picsum.photos/seed/g7/300/300" alt="Gallery sticker 7" loading="lazy">
+                <div class="overlay"><span class="overlay-text">LIHAT<br>STICKER</span></div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://picsum.photos/seed/g8/300/300" alt="Gallery sticker 8" loading="lazy">
+                <div class="overlay"><span class="overlay-text">LIHAT<br>STICKER</span></div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://picsum.photos/seed/g9/300/300" alt="Gallery sticker 9" loading="lazy">
+                <div class="overlay"><span class="overlay-text">LIHAT<br>STICKER</span></div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://picsum.photos/seed/g10/300/300" alt="Gallery sticker 10" loading="lazy">
+                <div class="overlay"><span class="overlay-text">LIHAT<br>STICKER</span></div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://picsum.photos/seed/g11/300/300" alt="Gallery sticker 11" loading="lazy">
+                <div class="overlay"><span class="overlay-text">LIHAT<br>STICKER</span></div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://picsum.photos/seed/g12/300/300" alt="Gallery sticker 12" loading="lazy">
+                <div class="overlay"><span class="overlay-text">LIHAT<br>STICKER</span></div>
+            </div>
+        </div>
+    </section>
+
     <!-- FEATURES -->
-    <section class="features">
+    <section class="features" aria-label="Fitur unggulan">
         <div class="section-header">
             <span class="section-number">01 /</span>
             <h2 class="section-title">Kenapa Kita?</h2>
@@ -937,37 +1196,37 @@
 
         <div class="features-grid">
             <div class="feature-card">
-                <span class="feature-icon">🎲</span>
+                <span class="feature-icon" aria-hidden="true">🎲</span>
                 <h3 class="feature-title">Random Setiap Hari</h3>
                 <p class="feature-desc">Sticker yang dikirim selalu random dan surprise. Lo gak akan pernah tau sticker apa yang bakal dateng hari ini!</p>
                 <span class="feature-tag">SURPRISE</span>
             </div>
             <div class="feature-card">
-                <span class="feature-icon">⚡</span>
+                <span class="feature-icon" aria-hidden="true">⚡</span>
                 <h3 class="feature-title">Update Cepat</h3>
                 <p class="feature-desc">Sticker terbaru, trending, dan viral langsung masuk ke channel. Lo selalu jadi yang pertama punya.</p>
                 <span class="feature-tag">TRENDING</span>
             </div>
             <div class="feature-card">
-                <span class="feature-icon">🛡️</span>
+                <span class="feature-icon" aria-hidden="true">🛡️</span>
                 <h3 class="feature-title">No Spam</h3>
                 <p class="feature-desc">Kami hanya kirim sticker, tidak ada iklan, tidak ada spam link, tidak ada promosi barang gajelas. Pure sticker only.</p>
                 <span class="feature-tag">CLEAN</span>
             </div>
             <div class="feature-card">
-                <span class="feature-icon">🎨</span>
+                <span class="feature-icon" aria-hidden="true">🎨</span>
                 <h3 class="feature-title">Desain Keren</h3>
                 <p class="feature-desc">Semua sticker dipilih secara kurasi dengan selera desain tinggi. Aesthetik, funny, dan relatable.</p>
                 <span class="feature-tag">CURATED</span>
             </div>
             <div class="feature-card">
-                <span class="feature-icon">💰</span>
+                <span class="feature-icon" aria-hidden="true">💰</span>
                 <h3 class="feature-title">100% Gratis</h3>
                 <p class="feature-desc">Tidak ada biaya langganan, tidak ada premium tier. Semua konten bisa dinikmati gratis selamanya.</p>
                 <span class="feature-tag">FREE FOREVER</span>
             </div>
             <div class="feature-card">
-                <span class="feature-icon">🤝</span>
+                <span class="feature-icon" aria-hidden="true">🤝</span>
                 <h3 class="feature-title">Komunitas Aktif</h3>
                 <p class="feature-desc">Bergabung dengan ribuan member yang sama-sama cinta sticker lucu. Request sticker juga bisa!</p>
                 <span class="feature-tag">COMMUNITY</span>
@@ -976,7 +1235,7 @@
     </section>
 
     <!-- HOW IT WORKS -->
-    <section class="how" id="how">
+    <section class="how" id="how" aria-label="Cara bergabung">
         <div class="how-inner">
             <div class="section-header">
                 <span class="section-number">02 /</span>
@@ -986,19 +1245,17 @@
 
             <div class="steps">
                 <div class="step">
-                    <div class="step-num">01</div>
+                    <div class="step-num" aria-hidden="true">01</div>
                     <h3 class="step-title">Klik Tombol Join</h3>
                     <p class="step-desc">Tekan tombol "JOIN CHANNEL" di halaman ini dan kamu akan diarahkan langsung ke WhatsApp Channel kami.</p>
-                    <div class="step-arrow">→</div>
                 </div>
                 <div class="step">
-                    <div class="step-num">02</div>
+                    <div class="step-num" aria-hidden="true">02</div>
                     <h3 class="step-title">Follow Channel</h3>
                     <p class="step-desc">Di dalam WhatsApp, tekan tombol "Follow" untuk mulai menerima update sticker setiap harinya secara otomatis.</p>
-                    <div class="step-arrow">→</div>
                 </div>
                 <div class="step">
-                    <div class="step-num">03</div>
+                    <div class="step-num" aria-hidden="true">03</div>
                     <h3 class="step-title">Nikmati Sticker</h3>
                     <p class="step-desc">Sticker random baru akan muncul setiap hari! Simpan, share, dan pakai di chat kamu. Sesederhana itu.</p>
                 </div>
@@ -1007,12 +1264,12 @@
     </section>
 
     <!-- BIG CTA -->
-    <section class="big-cta">
+    <section class="big-cta" aria-label="Call to action">
         <div class="big-cta-box">
             <h2 class="big-cta-title">Siap Dapat<br>Sticker Keren?</h2>
             <p class="big-cta-sub">Ribuan orang udah join. Giliran kamu sekarang. Gratis selamanya.</p>
-            <a href="https://whatsapp.com/channel/YOUR_CHANNEL_ID" target="_blank" class="btn-cta-big">
-                <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor">
+            <a href="https://whatsapp.com/channel/YOUR_CHANNEL_ID" target="_blank" rel="noopener" class="btn-cta-big">
+                <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                 </svg>
                 JOIN GRATIS SEKARANG
@@ -1023,23 +1280,89 @@
     <!-- FOOTER -->
     <footer>
         <div class="footer-logo">STICKERANDOM™</div>
-        <div class="footer-dots">
+        <div class="footer-dots" aria-hidden="true">
             <div class="footer-dot"></div>
             <div class="footer-dot"></div>
             <div class="footer-dot"></div>
         </div>
-        <div class="footer-text">© 2025 — MADE WITH 🖤 & 🎲</div>
+        <div class="footer-text">© 2025 — MADE WITH 🖤 &amp; 🎲</div>
     </footer>
 
     <!-- FLOATING CTA -->
     <div class="float-sticker">
-        <a href="https://whatsapp.com/channel/YOUR_CHANNEL_ID" target="_blank" class="float-btn">
-            <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor">
+        <a href="https://whatsapp.com/channel/YOUR_CHANNEL_ID" target="_blank" rel="noopener" class="float-btn" aria-label="Join WhatsApp Channel">
+            <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
             </svg>
-            JOIN NOW
+            <span class="float-text">JOIN NOW</span>
         </a>
     </div>
 
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Preview sticker">
+        <div class="lightbox-inner">
+            <img src="" alt="Preview sticker" class="lightbox-img" id="lightboxImg">
+            <button class="lightbox-close" onclick="closeLightbox()" aria-label="Tutup preview">✕</button>
+        </div>
+    </div>
+
+    <script>
+        // ===== LIGHTBOX =====
+        function openLightbox(card) {
+            const img = card.querySelector('img');
+            if (!img) return;
+            const lb = document.getElementById('lightbox');
+            const lbImg = document.getElementById('lightboxImg');
+            lbImg.src = img.src;
+            lbImg.alt = img.alt;
+            lb.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            const lb = document.getElementById('lightbox');
+            lb.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Tutup lightbox saat klik luar
+        document.getElementById('lightbox').addEventListener('click', function(e) {
+            if (e.target === this) closeLightbox();
+        });
+
+        // Tutup lightbox dengan tombol Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+        // ===== SMOOTH COUNTER ANIMATION =====
+        function animateCounter(el, target, suffix) {
+            let current = 0;
+            const step = Math.ceil(target / 40);
+            const timer = setInterval(() => {
+                current = Math.min(current + step, target);
+                el.textContent = current.toLocaleString('id') + suffix;
+                if (current >= target) clearInterval(timer);
+            }, 40);
+        }
+
+        // Intersection observer untuk animasi stats
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const nums = entry.target.querySelectorAll('.stat-num');
+                    nums.forEach(num => {
+                        const text = num.textContent.trim();
+                        if (text === '10K+') animateCounter(num, 10, 'K+');
+                        else if (text === '999+') animateCounter(num, 999, '+');
+                    });
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        const statsBar = document.querySelector('.stats-bar');
+        if (statsBar) statsObserver.observe(statsBar);
+    </script>
 </body>
 </html>
