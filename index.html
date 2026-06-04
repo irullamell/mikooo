@@ -2,692 +2,291 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="theme-color" content="#FFE500">
+    <meta name="mobile-web-app-capable" content="yes">
     <title>REDIRECTING...</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700;900&family=Bebas+Neue&display=swap');
 
+        /* ============================
+           CSS CUSTOM PROPERTIES
+        ============================ */
         :root {
-            --yellow: #FFE500;
-            --red: #FF3D00;
-            --black: #0A0A0A;
-            --white: #FAFAFA;
-            --blue: #0066FF;
-            --green: #00FF88;
-            --border: 4px solid #0A0A0A;
-            --shadow: 8px 8px 0px #0A0A0A;
+            --yellow:  #FFE500;
+            --red:     #FF3D00;
+            --black:   #0A0A0A;
+            --white:   #FAFAFA;
+            --blue:    #0055FF;
+            --green:   #00E87A;
+            --purple:  #8B00FF;
+
+            /* Fluid spacing */
+            --space-xs:  clamp(4px,  1vw,  8px);
+            --space-sm:  clamp(8px,  2vw,  14px);
+            --space-md:  clamp(14px, 3vw,  24px);
+            --space-lg:  clamp(20px, 4vw,  40px);
+            --space-xl:  clamp(28px, 5vw,  56px);
+
+            /* Fluid typography */
+            --fs-xs:   clamp(8px,  1.8vw,  11px);
+            --fs-sm:   clamp(10px, 2.2vw,  13px);
+            --fs-md:   clamp(12px, 2.5vw,  16px);
+            --fs-lg:   clamp(16px, 3.5vw,  24px);
+            --fs-xl:   clamp(28px, 7vw,    56px);
+            --fs-2xl:  clamp(40px, 10vw,   88px);
+            --fs-3xl:  clamp(56px, 14vw,   120px);
+
+            /* Borders */
+            --border-sm: clamp(2px, 0.4vw, 3px) solid var(--black);
+            --border-md: clamp(3px, 0.5vw, 4px) solid var(--black);
+            --border-lg: clamp(4px, 0.7vw, 6px) solid var(--black);
+
+            /* Shadows */
+            --shadow-sm: clamp(3px, 0.8vw, 5px) clamp(3px, 0.8vw, 5px) 0px var(--black);
+            --shadow-md: clamp(5px, 1.2vw, 8px) clamp(5px, 1.2vw, 8px) 0px var(--black);
+            --shadow-lg: clamp(8px, 2vw, 14px) clamp(8px, 2vw, 14px) 0px var(--black);
+
+            /* Safe areas (iOS notch/home bar) */
+            --safe-top:    env(safe-area-inset-top, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+            --safe-left:   env(safe-area-inset-left, 0px);
+            --safe-right:  env(safe-area-inset-right, 0px);
         }
 
+        /* ============================
+           RESET & BASE
+        ============================ */
         *, *::before, *::after {
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
+        html {
+            scroll-behavior: smooth;
+            text-size-adjust: 100%;
+            -webkit-text-size-adjust: 100%;
         }
 
         body {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: 'Space Grotesk', system-ui, -apple-system,
+                         BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background-color: var(--yellow);
+            min-height: 100vh;
+            min-height: 100dvh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto;
+            padding:
+                calc(var(--safe-top) + var(--space-lg))
+                calc(var(--safe-right) + var(--space-md))
+                calc(var(--safe-bottom) + clamp(40px, 8vw, 60px))
+                calc(var(--safe-left) + var(--space-md));
             position: relative;
         }
 
-        /* ========== BACKGROUND GRID ========== */
+        /* ============================
+           BACKGROUND GRID
+        ============================ */
         .bg-grid {
             position: fixed;
             inset: 0;
             background-image:
-                linear-gradient(rgba(0,0,0,0.07) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0,0,0,0.07) 1px, transparent 1px);
-            background-size: clamp(30px, 5vw, 60px) clamp(30px, 5vw, 60px);
+                linear-gradient(rgba(0,0,0,0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px);
+            background-size:
+                clamp(28px, 5vw, 56px)
+                clamp(28px, 5vw, 56px);
             pointer-events: none;
             z-index: 0;
         }
 
-        /* ========== FLOATING SHAPES ========== */
-        .shape {
-            position: fixed;
-            pointer-events: none;
-            z-index: 0;
-            border: 4px solid var(--black);
-        }
+        /* ============================
+           FLOATING SHAPES
+        ============================ */
+        .shapes { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
 
-        .shape-1 {
-            width: clamp(40px, 8vw, 100px);
-            height: clamp(40px, 8vw, 100px);
-            background: var(--red);
-            top: 8%;
-            left: 5%;
-            animation: floatShape1 4s ease-in-out infinite;
-        }
-
-        .shape-2 {
-            width: clamp(30px, 5vw, 70px);
-            height: clamp(30px, 5vw, 70px);
-            background: var(--blue);
-            top: 15%;
-            right: 8%;
-            border-radius: 50%;
-            animation: floatShape2 3.5s ease-in-out infinite;
-        }
-
-        .shape-3 {
-            width: clamp(50px, 10vw, 130px);
-            height: clamp(50px, 10vw, 130px);
-            background: var(--black);
-            bottom: 10%;
-            left: 3%;
-            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-            border: none;
-            animation: floatShape3 5s ease-in-out infinite;
-        }
-
-        .shape-4 {
-            width: clamp(35px, 6vw, 80px);
-            height: clamp(35px, 6vw, 80px);
-            background: var(--green);
-            bottom: 15%;
-            right: 5%;
-            transform: rotate(45deg);
-            animation: floatShape4 4.5s ease-in-out infinite;
-        }
-
-        .shape-5 {
-            width: clamp(20px, 4vw, 55px);
-            height: clamp(20px, 4vw, 55px);
-            background: var(--red);
-            top: 50%;
-            left: 2%;
-            border-radius: 50%;
-            animation: floatShape2 6s ease-in-out infinite reverse;
-        }
-
-        .shape-6 {
-            width: clamp(25px, 5vw, 65px);
-            height: clamp(25px, 5vw, 65px);
-            background: var(--white);
-            top: 40%;
-            right: 3%;
-            animation: floatShape1 3s ease-in-out infinite reverse;
-        }
-
-        @keyframes floatShape1 {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(15deg); }
-        }
-        @keyframes floatShape2 {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-15px) scale(1.1); }
-        }
-        @keyframes floatShape3 {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-25px) rotate(-10deg); }
-        }
-        @keyframes floatShape4 {
-            0%, 100% { transform: rotate(45deg) translateY(0); }
-            50% { transform: rotate(60deg) translateY(-18px); }
-        }
-
-        /* ========== GLITCH TEXT ========== */
-        @keyframes glitch1 {
-            0%, 90%, 100% { clip-path: inset(0 0 100% 0); transform: translate(0); }
-            91% { clip-path: inset(10% 0 50% 0); transform: translate(-4px, 2px); }
-            93% { clip-path: inset(60% 0 10% 0); transform: translate(4px, -2px); }
-            95% { clip-path: inset(30% 0 40% 0); transform: translate(-2px, 1px); }
-        }
-        @keyframes glitch2 {
-            0%, 88%, 100% { clip-path: inset(0 0 100% 0); transform: translate(0); }
-            89% { clip-path: inset(40% 0 20% 0); transform: translate(4px, -2px); color: var(--blue); }
-            91% { clip-path: inset(70% 0 5% 0); transform: translate(-4px, 2px); }
-            94% { clip-path: inset(20% 0 60% 0); transform: translate(2px, -1px); }
-        }
-
-        .glitch-wrapper {
-            position: relative;
-            display: inline-block;
-        }
-
-        .glitch-wrapper::before,
-        .glitch-wrapper::after {
-            content: attr(data-text);
+        .sh {
             position: absolute;
-            top: 0; left: 0;
-            width: 100%;
-            height: 100%;
-            font-size: inherit;
-            font-weight: inherit;
-            font-family: inherit;
-            line-height: inherit;
-            letter-spacing: inherit;
+            border: var(--border-md);
+            will-change: transform;
         }
 
-        .glitch-wrapper::before {
-            color: var(--red);
-            animation: glitch1 4s infinite;
+        .sh-1 {
+            width: clamp(36px, 7vw, 90px);
+            height: clamp(36px, 7vw, 90px);
+            background: var(--red);
+            top: 6%; left: 3%;
+            animation: flt1 4.2s ease-in-out infinite;
+        }
+        .sh-2 {
+            width: clamp(24px, 4.5vw, 60px);
+            height: clamp(24px, 4.5vw, 60px);
+            background: var(--blue);
+            border-radius: 50%;
+            top: 12%; right: 5%;
+            animation: flt2 3.8s ease-in-out infinite;
+        }
+        .sh-3 {
+            width: clamp(44px, 9vw, 110px);
+            height: clamp(44px, 9vw, 110px);
+            background: var(--black);
+            bottom: 8%; left: 2%;
+            clip-path: polygon(50% 0%,0% 100%,100% 100%);
+            border: none;
+            animation: flt3 5s ease-in-out infinite;
+        }
+        .sh-4 {
+            width: clamp(28px, 5.5vw, 70px);
+            height: clamp(28px, 5.5vw, 70px);
+            background: var(--green);
+            bottom: 14%; right: 4%;
+            transform: rotate(45deg);
+            animation: flt4 4.6s ease-in-out infinite;
+        }
+        .sh-5 {
+            width: clamp(16px, 3vw, 42px);
+            height: clamp(16px, 3vw, 42px);
+            background: var(--purple);
+            border-radius: 50%;
+            top: 48%; left: 1%;
+            animation: flt2 6.5s ease-in-out infinite reverse;
+        }
+        .sh-6 {
+            width: clamp(20px, 4vw, 52px);
+            height: clamp(20px, 4vw, 52px);
+            background: var(--white);
+            top: 38%; right: 2%;
+            animation: flt1 3.4s ease-in-out infinite reverse;
+        }
+        .sh-7 {
+            width: clamp(18px, 3.5vw, 46px);
+            height: clamp(18px, 3.5vw, 46px);
+            background: var(--yellow);
+            top: 25%; left: 6%;
+            transform: rotate(30deg);
+            animation: flt4 5.5s ease-in-out infinite;
         }
 
-        .glitch-wrapper::after {
-            color: var(--blue);
-            animation: glitch2 4s infinite;
+        @keyframes flt1 {
+            0%,100% { transform: translateY(0) rotate(0deg); }
+            50%      { transform: translateY(-18px) rotate(14deg); }
+        }
+        @keyframes flt2 {
+            0%,100% { transform: translateY(0) scale(1); }
+            50%      { transform: translateY(-14px) scale(1.12); }
+        }
+        @keyframes flt3 {
+            0%,100% { transform: translateY(0) rotate(0deg); }
+            50%      { transform: translateY(-22px) rotate(-12deg); }
+        }
+        @keyframes flt4 {
+            0%,100% { transform: rotate(45deg) translateY(0); }
+            50%      { transform: rotate(60deg) translateY(-16px); }
         }
 
-        /* ========== MAIN CARD ========== */
+        /* ============================
+           CORNER STAMPS
+        ============================ */
+        .stamp {
+            position: fixed;
+            font-family: 'Bebas Neue', sans-serif;
+            color: rgba(0,0,0,0.05);
+            pointer-events: none;
+            z-index: 0;
+            line-height: 1;
+            font-size: clamp(60px, 15vw, 180px);
+        }
+        .stamp-tl { top: -10px; left: -5px; }
+        .stamp-br { bottom: 30px; right: -5px; }
+
+        /* ============================
+           MAIN CARD
+        ============================ */
         .card {
             position: relative;
             z-index: 10;
             background: var(--white);
-            border: 4px solid var(--black);
-            box-shadow: clamp(6px, 1.5vw, 12px) clamp(6px, 1.5vw, 12px) 0px var(--black);
-            width: min(90vw, 580px);
-            padding: clamp(24px, 5vw, 50px) clamp(20px, 5vw, 50px);
-            animation: cardEntrance 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            border: var(--border-lg);
+            box-shadow: var(--shadow-lg);
+            width: min(92vw, 600px);
+            padding: var(--space-lg) var(--space-lg);
+            padding-top: calc(var(--space-md) + clamp(10px, 2vw, 16px));
+            animation: cardIn 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) both;
         }
 
-        @keyframes cardEntrance {
-            from {
-                transform: translateY(60px) rotate(-3deg) scale(0.8);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0) rotate(0deg) scale(1);
-                opacity: 1;
-            }
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(50px) rotate(-2deg) scale(0.85); }
+            to   { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
         }
 
-        /* ========== TICKET TAPE TOP ========== */
-        .ticket-tape {
+        /* Ticket tape top */
+        .tape {
             position: absolute;
-            top: -4px;
-            left: -4px;
-            right: -4px;
-            height: clamp(8px, 1.5vw, 14px);
+            top: -4px; left: -4px; right: -4px;
+            height: clamp(9px, 1.8vw, 15px);
             background: repeating-linear-gradient(
                 90deg,
-                var(--red) 0px,
-                var(--red) 20px,
-                var(--black) 20px,
-                var(--black) 40px
+                var(--red)   0, var(--red)   18px,
+                var(--black) 18px, var(--black) 36px
             );
-            border-bottom: 4px solid var(--black);
+            border-bottom: var(--border-md);
         }
 
-        /* ========== BADGE LABEL ========== */
-        .badge-row {
-            display: flex;
-            gap: clamp(6px, 1.5vw, 10px);
-            margin-top: clamp(8px, 2vw, 14px);
-            margin-bottom: clamp(14px, 3vw, 24px);
-            flex-wrap: wrap;
-        }
-
-        .badge {
-            background: var(--black);
-            color: var(--yellow);
-            font-size: clamp(8px, 1.5vw, 11px);
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            padding: 4px clamp(8px, 2vw, 14px);
-            border: 3px solid var(--black);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .badge.red { background: var(--red); color: var(--white); }
-        .badge.blue { background: var(--blue); color: var(--white); }
-
-        .badge .dot {
-            width: 7px;
-            height: 7px;
-            background: var(--green);
-            border-radius: 50%;
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        /* ========== HEADLINE ========== */
-        .headline {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(38px, 10vw, 80px);
-            color: var(--black);
-            line-height: 0.9;
-            letter-spacing: -1px;
-            margin-bottom: clamp(12px, 2.5vw, 20px);
-            text-transform: uppercase;
-        }
-
-        .headline .highlight {
-            color: var(--red);
-            -webkit-text-stroke: 2px var(--black);
-            display: inline-block;
-            animation: highlight-flicker 5s infinite;
-        }
-
-        @keyframes highlight-flicker {
-            0%, 95%, 100% { color: var(--red); }
-            96% { color: var(--blue); }
-            97% { color: var(--red); }
-            98% { color: var(--yellow); filter: brightness(0.5); }
-            99% { color: var(--red); }
-        }
-
-        /* ========== DIVIDER ========== */
-        .divider {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: clamp(14px, 3vw, 24px);
-        }
-
-        .divider-line {
-            flex: 1;
-            height: 4px;
-            background: var(--black);
-        }
-
-        .divider-icon {
-            font-size: clamp(14px, 3vw, 20px);
-            animation: spin 3s linear infinite;
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        /* ========== URL BOX ========== */
-        .url-box {
-            background: var(--black);
-            border: 4px solid var(--black);
-            padding: clamp(10px, 2.5vw, 16px) clamp(12px, 3vw, 20px);
-            margin-bottom: clamp(16px, 3.5vw, 28px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .url-box::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 60%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
-            animation: shimmer 2.5s infinite;
-        }
-
-        @keyframes shimmer {
-            from { left: -100%; }
-            to { left: 200%; }
-        }
-
-        .url-label {
-            font-size: clamp(9px, 1.8vw, 11px);
-            font-weight: 700;
-            letter-spacing: 3px;
-            color: var(--green);
-            text-transform: uppercase;
-            margin-bottom: 5px;
-        }
-
-        .url-text {
-            font-size: clamp(11px, 2.2vw, 14px);
-            font-weight: 700;
-            color: var(--yellow);
-            word-break: break-all;
-            letter-spacing: 0.5px;
-        }
-
-        /* ========== COUNTDOWN DISPLAY ========== */
-        .countdown-section {
-            display: flex;
-            align-items: center;
-            gap: clamp(10px, 3vw, 20px);
-            margin-bottom: clamp(16px, 3.5vw, 28px);
-            padding: clamp(10px, 2.5vw, 18px);
-            background: var(--yellow);
-            border: 4px solid var(--black);
-            position: relative;
-        }
-
-        .countdown-number {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(56px, 14vw, 110px);
-            color: var(--black);
-            line-height: 1;
-            min-width: clamp(70px, 16vw, 130px);
-            text-align: center;
-            position: relative;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .countdown-number.tick {
-            animation: numberTick 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        @keyframes numberTick {
-            0% { transform: scale(1.5) rotate(-5deg); color: var(--red); }
-            100% { transform: scale(1) rotate(0deg); color: var(--black); }
-        }
-
-        .countdown-info {
-            flex: 1;
-        }
-
-        .countdown-info .sec-label {
-            font-size: clamp(9px, 2vw, 12px);
-            font-weight: 900;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--black);
-            display: block;
-            margin-bottom: 6px;
-        }
-
-        .countdown-info .status-text {
-            font-size: clamp(10px, 2vw, 13px);
-            font-weight: 700;
-            color: var(--red);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            animation: statusPulse 1s ease-in-out infinite;
-        }
-
-        @keyframes statusPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-
-        /* ========== PROGRESS BAR NEO ========== */
-        .progress-section {
-            margin-bottom: clamp(16px, 3.5vw, 28px);
-        }
-
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .progress-title {
-            font-size: clamp(9px, 1.8vw, 11px);
-            font-weight: 900;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--black);
-        }
-
-        .progress-pct {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(18px, 4vw, 28px);
-            color: var(--black);
-            letter-spacing: 2px;
-        }
-
-        .progress-track {
-            width: 100%;
-            height: clamp(22px, 4.5vw, 36px);
-            background: var(--white);
-            border: 4px solid var(--black);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            position: relative;
-            transition: width 0.15s linear;
-            background: repeating-linear-gradient(
-                -45deg,
-                var(--black),
-                var(--black) 10px,
-                var(--red) 10px,
-                var(--red) 20px
-            );
-            background-size: 28px 28px;
-            animation: stripeAnim 0.4s linear infinite;
-        }
-
-        @keyframes stripeAnim {
-            from { background-position: 0 0; }
-            to { background-position: 28px 0; }
-        }
-
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 4px;
-            height: 100%;
-            background: var(--white);
-            animation: leadBlink 0.5s infinite;
-        }
-
-        @keyframes leadBlink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        /* Segment markers */
-        .progress-segments {
-            display: flex;
-            justify-content: space-between;
-            padding: 0 2px;
-            margin-top: 5px;
-        }
-
-        .seg {
-            font-size: clamp(7px, 1.5vw, 9px);
-            font-weight: 700;
-            color: var(--black);
-            letter-spacing: 1px;
-        }
-
-        /* ========== LOADING BLOCKS ANIMATION ========== */
-        .blocks-loader {
-            display: flex;
-            gap: clamp(4px, 1vw, 8px);
-            justify-content: center;
-            margin-bottom: clamp(14px, 3vw, 24px);
-        }
-
-        .block {
-            width: clamp(12px, 3vw, 22px);
-            height: clamp(24px, 5vw, 44px);
-            background: var(--black);
-            border: 3px solid var(--black);
-            animation: blockLoad 1.2s ease-in-out infinite;
-        }
-
-        .block:nth-child(1) { animation-delay: 0s; background: var(--red); }
-        .block:nth-child(2) { animation-delay: 0.1s; background: var(--black); }
-        .block:nth-child(3) { animation-delay: 0.2s; background: var(--blue); }
-        .block:nth-child(4) { animation-delay: 0.3s; background: var(--black); }
-        .block:nth-child(5) { animation-delay: 0.4s; background: var(--red); }
-        .block:nth-child(6) { animation-delay: 0.5s; background: var(--black); }
-        .block:nth-child(7) { animation-delay: 0.6s; background: var(--blue); }
-        .block:nth-child(8) { animation-delay: 0.7s; background: var(--black); }
-
-        @keyframes blockLoad {
-            0%, 100% { transform: scaleY(0.3); opacity: 0.3; }
-            50% { transform: scaleY(1); opacity: 1; }
-        }
-
-        /* ========== BUTTONS ========== */
-        .btn-row {
-            display: flex;
-            gap: clamp(8px, 2vw, 14px);
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            flex: 1;
-            min-width: clamp(100px, 25vw, 150px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            padding: clamp(10px, 2.5vw, 16px) clamp(12px, 3vw, 20px);
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(10px, 2.2vw, 14px);
-            font-weight: 900;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            text-decoration: none;
-            border: 4px solid var(--black);
-            cursor: pointer;
-            transition: transform 0.08s, box-shadow 0.08s;
-            white-space: nowrap;
-        }
-
-        .btn-primary {
-            background: var(--black);
-            color: var(--yellow);
-            box-shadow: 6px 6px 0px var(--red);
-        }
-
-        .btn-primary:hover {
-            transform: translate(-3px, -3px);
-            box-shadow: 9px 9px 0px var(--red);
-        }
-
-        .btn-primary:active {
-            transform: translate(3px, 3px);
-            box-shadow: 2px 2px 0px var(--red);
-        }
-
-        .btn-secondary {
-            background: var(--white);
-            color: var(--black);
-            box-shadow: 6px 6px 0px var(--black);
-        }
-
-        .btn-secondary:hover {
-            transform: translate(-3px, -3px);
-            box-shadow: 9px 9px 0px var(--black);
-            background: var(--red);
-            color: var(--white);
-        }
-
-        .btn-secondary:active {
-            transform: translate(3px, 3px);
-            box-shadow: 2px 2px 0px var(--black);
-        }
-
-        /* ========== BOTTOM TICKER ========== */
-        .ticker-wrap {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--black);
-            border-top: 4px solid var(--red);
-            height: clamp(28px, 5vw, 40px);
-            overflow: hidden;
-            z-index: 100;
-        }
-
-        .ticker {
-            display: flex;
-            align-items: center;
-            height: 100%;
-            white-space: nowrap;
-            animation: tickerMove 20s linear infinite;
-        }
-
-        @keyframes tickerMove {
-            from { transform: translateX(100vw); }
-            to { transform: translateX(-100%); }
-        }
-
-        .ticker-item {
-            font-size: clamp(9px, 2vw, 13px);
-            font-weight: 900;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--yellow);
-            margin-right: clamp(20px, 5vw, 50px);
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .ticker-sep {
-            color: var(--red);
-            font-size: clamp(14px, 3vw, 20px);
-        }
-
-        /* ========== CORNER STAMPS ========== */
-        .corner-stamp {
-            position: fixed;
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(50px, 12vw, 160px);
-            color: rgba(0,0,0,0.04);
-            pointer-events: none;
-            z-index: 0;
-            line-height: 1;
-        }
-        .corner-stamp.tl { top: 0; left: 0; }
-        .corner-stamp.br { bottom: 30px; right: 0; }
-
-        /* ========== CANCELLED STATE ========== */
-        .cancelled-overlay {
+        /* ============================
+           CANCELLED OVERLAY
+        ============================ */
+        .overlay-cancelled {
             display: none;
             position: absolute;
-            inset: 0;
+            inset: -4px;
             background: var(--red);
-            border: 4px solid var(--black);
+            border: var(--border-lg);
+            z-index: 30;
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            gap: 16px;
-            z-index: 20;
-        }
-
-        .cancelled-overlay.show {
-            display: flex;
-            animation: overlayIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        @keyframes overlayIn {
-            from { transform: scale(0.8) rotate(-5deg); opacity: 0; }
-            to { transform: scale(1) rotate(0deg); opacity: 1; }
-        }
-
-        .cancelled-text {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(40px, 10vw, 80px);
-            color: var(--white);
-            letter-spacing: 4px;
+            gap: var(--space-sm);
+            padding: var(--space-lg);
             text-align: center;
-            -webkit-text-stroke: 2px var(--black);
         }
-
-        .cancelled-sub {
-            font-size: clamp(10px, 2vw, 14px);
+        .overlay-cancelled.show {
+            display: flex;
+            animation: ovIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+        @keyframes ovIn {
+            from { transform: scale(0.8) rotate(-4deg); opacity: 0; }
+            to   { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+        .ov-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: var(--fs-2xl);
+            color: var(--white);
+            -webkit-text-stroke: clamp(1px, 0.3vw, 2px) var(--black);
+            letter-spacing: 4px;
+            line-height: 1;
+        }
+        .ov-sub {
+            font-size: var(--fs-sm);
             font-weight: 700;
             letter-spacing: 2px;
             color: var(--yellow);
             text-transform: uppercase;
+            margin-bottom: var(--space-sm);
         }
 
-        /* ========== SUCCESS FLASH ========== */
-        .success-flash {
+        /* ============================
+           SUCCESS FLASH
+        ============================ */
+        .flash-success {
             display: none;
             position: fixed;
             inset: 0;
@@ -695,239 +294,739 @@
             z-index: 999;
             align-items: center;
             justify-content: center;
-            border: 8px solid var(--black);
+            flex-direction: column;
+            gap: var(--space-md);
         }
-
-        .success-flash.show {
+        .flash-success.show {
             display: flex;
-            animation: flashIn 0.25s ease-out;
+            animation: flashBg 0.3s ease-out both;
         }
-
-        @keyframes flashIn {
+        @keyframes flashBg {
             from { opacity: 0; }
-            to { opacity: 1; }
+            to   { opacity: 1; }
         }
-
-        .success-text {
+        .flash-text {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(50px, 15vw, 140px);
+            font-size: var(--fs-3xl);
             color: var(--black);
-            letter-spacing: 6px;
-            animation: successBounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            letter-spacing: 5px;
+            text-align: center;
+            animation: flashBounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+            padding: 0 var(--space-md);
+        }
+        @keyframes flashBounce {
+            from { transform: scale(0) rotate(-10deg); }
+            to   { transform: scale(1) rotate(0deg); }
+        }
+        .flash-sub {
+            font-size: var(--fs-md);
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--black);
+            border: var(--border-md);
+            background: var(--yellow);
+            padding: var(--space-xs) var(--space-md);
         }
 
-        @keyframes successBounce {
-            from { transform: scale(0); }
-            to { transform: scale(1); }
+        /* ============================
+           BADGE ROW
+        ============================ */
+        .badge-row {
+            display: flex;
+            gap: var(--space-xs);
+            flex-wrap: wrap;
+            margin-bottom: var(--space-md);
+            margin-top: var(--space-sm);
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            padding: clamp(3px, 0.8vw, 5px) clamp(8px, 2vw, 14px);
+            font-size: var(--fs-xs);
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: var(--border-sm);
+        }
+        .badge-dark  { background: var(--black); color: var(--yellow); }
+        .badge-red   { background: var(--red);   color: var(--white); }
+        .badge-blue  { background: var(--blue);  color: var(--white); }
+        .badge-green { background: var(--green); color: var(--black); }
+
+        .live-dot {
+            width: clamp(5px, 1.2vw, 8px);
+            height: clamp(5px, 1.2vw, 8px);
+            background: var(--green);
+            border-radius: 50%;
+            border: 1px solid var(--black);
+            animation: blink 1s step-start infinite;
+        }
+        @keyframes blink {
+            0%,100% { opacity: 1; }
+            50%      { opacity: 0; }
         }
 
-        /* ========== SHAKE ANIMATION ========== */
-        @keyframes shakeCard {
-            0%, 100% { transform: translateX(0) rotate(0deg); }
-            15% { transform: translateX(-8px) rotate(-2deg); }
-            30% { transform: translateX(8px) rotate(2deg); }
-            45% { transform: translateX(-6px) rotate(-1deg); }
-            60% { transform: translateX(6px) rotate(1deg); }
-            75% { transform: translateX(-4px); }
-            90% { transform: translateX(4px); }
+        /* ============================
+           GLITCH HEADLINE
+        ============================ */
+        .headline-wrap {
+            position: relative;
+            margin-bottom: var(--space-sm);
+            display: inline-block;
+            width: 100%;
+        }
+        .headline {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: var(--fs-2xl);
+            color: var(--black);
+            line-height: 0.92;
+            letter-spacing: clamp(-1px, -0.2vw, -2px);
+            text-transform: uppercase;
+            display: block;
+        }
+        .headline .hl { color: var(--red); -webkit-text-stroke: clamp(1px, 0.2vw, 2px) var(--black); }
+
+        /* Glitch layers */
+        .headline-wrap::before,
+        .headline-wrap::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0; left: 0;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: var(--fs-2xl);
+            line-height: 0.92;
+            letter-spacing: clamp(-1px, -0.2vw, -2px);
+            width: 100%;
+            pointer-events: none;
+        }
+        .headline-wrap::before {
+            color: var(--blue);
+            animation: gl1 5s infinite;
+        }
+        .headline-wrap::after {
+            color: var(--red);
+            animation: gl2 5s infinite;
+        }
+        @keyframes gl1 {
+            0%,89%,100%  { clip-path: inset(0 0 100% 0); transform: translate(0); }
+            90%  { clip-path: inset(15% 0 55% 0); transform: translate(-5px, 2px); }
+            92%  { clip-path: inset(65% 0  8% 0); transform: translate(4px, -2px); }
+            94%  { clip-path: inset(35% 0 45% 0); transform: translate(-3px, 1px); }
+        }
+        @keyframes gl2 {
+            0%,85%,100%  { clip-path: inset(0 0 100% 0); transform: translate(0); }
+            86%  { clip-path: inset(45% 0 18% 0); transform: translate(5px, -2px); }
+            88%  { clip-path: inset(75% 0  4% 0); transform: translate(-4px, 3px); }
+            91%  { clip-path: inset(22% 0 62% 0); transform: translate(2px, -1px); }
         }
 
-        .card.shake {
-            animation: shakeCard 0.5s ease-in-out;
+        /* ============================
+           DIVIDER
+        ============================ */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            margin: var(--space-sm) 0 var(--space-md);
+        }
+        .div-line { flex: 1; height: clamp(3px, 0.5vw, 4px); background: var(--black); }
+        .div-icon {
+            font-size: var(--fs-lg);
+            animation: spin360 3s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin360 {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ============================
+           URL BOX
+        ============================ */
+        .url-box {
+            background: var(--black);
+            border: var(--border-md);
+            padding: var(--space-sm) var(--space-md);
+            margin-bottom: var(--space-md);
+            position: relative;
+            overflow: hidden;
+        }
+        .url-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 55%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(255,255,255,0.07),
+                transparent);
+            animation: shimmer 2.5s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            from { left: -100%; }
+            to   { left: 200%; }
+        }
+        .url-label {
+            font-size: var(--fs-xs);
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--green);
+            margin-bottom: 4px;
+        }
+        .url-value {
+            font-size: var(--fs-sm);
+            font-weight: 700;
+            color: var(--yellow);
+            word-break: break-all;
+            letter-spacing: 0.3px;
+        }
+
+        /* ============================
+           COUNTDOWN SECTION
+        ============================ */
+        .countdown-section {
+            display: flex;
+            align-items: stretch;
+            border: var(--border-lg);
+            margin-bottom: var(--space-md);
+            overflow: hidden;
+        }
+        .cd-number-wrap {
+            background: var(--yellow);
+            border-right: var(--border-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-sm) var(--space-md);
+            min-width: clamp(80px, 20vw, 150px);
+            flex-shrink: 0;
+        }
+        .cd-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: var(--fs-3xl);
+            color: var(--black);
+            line-height: 1;
+            transition: color 0.2s;
+            will-change: transform;
+        }
+        .cd-number.tick {
+            animation: numPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+        @keyframes numPop {
+            0%   { transform: scale(1.6) rotate(-6deg); color: var(--red); }
+            100% { transform: scale(1) rotate(0deg);   color: var(--black); }
+        }
+        .cd-info {
+            background: var(--white);
+            flex: 1;
+            padding: var(--space-sm) var(--space-md);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: var(--space-xs);
+        }
+        .cd-label {
+            font-size: var(--fs-xs);
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--black);
+        }
+        .cd-status {
+            font-size: var(--fs-sm);
+            font-weight: 700;
+            color: var(--red);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: pulse 1s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%,100% { opacity: 1; }
+            50%      { opacity: 0.35; }
+        }
+
+        /* ============================
+           PROGRESS BAR
+        ============================ */
+        .progress-wrap {
+            margin-bottom: var(--space-md);
+        }
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: var(--space-xs);
+        }
+        .progress-label {
+            font-size: var(--fs-xs);
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        .progress-pct {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: var(--fs-xl);
+            color: var(--black);
+            letter-spacing: 2px;
+        }
+        .progress-track {
+            width: 100%;
+            height: clamp(20px, 4.5vw, 36px);
+            background: var(--white);
+            border: var(--border-md);
+            overflow: hidden;
+            position: relative;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            position: relative;
+            transition: width 0.12s linear;
+            background: repeating-linear-gradient(
+                -45deg,
+                var(--black)  0, var(--black)  10px,
+                var(--red)    10px, var(--red)  20px
+            );
+            background-size: 28px 28px;
+            animation: stripe 0.4s linear infinite;
+        }
+        @keyframes stripe {
+            from { background-position: 0 0; }
+            to   { background-position: 28px 0; }
+        }
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            right: 0; top: 0;
+            width: clamp(3px, 0.6vw, 5px);
+            height: 100%;
+            background: var(--white);
+            animation: leadEdge 0.5s infinite;
+        }
+        @keyframes leadEdge {
+            0%,100% { opacity: 1; }
+            50%      { opacity: 0; }
+        }
+        .seg-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4px;
+        }
+        .seg-tick {
+            font-size: var(--fs-xs);
+            font-weight: 700;
+            color: var(--black);
+        }
+
+        /* ============================
+           BLOCK LOADER
+        ============================ */
+        .block-loader {
+            display: flex;
+            gap: clamp(3px, 0.8vw, 7px);
+            justify-content: center;
+            align-items: flex-end;
+            margin-bottom: var(--space-md);
+            height: clamp(28px, 6vw, 52px);
+        }
+        .bl {
+            flex: 1;
+            max-width: clamp(14px, 3.5vw, 28px);
+            background: var(--black);
+            border: var(--border-sm);
+            animation: blk 1.3s ease-in-out infinite;
+            border-radius: 1px;
+        }
+        .bl:nth-child(1) { animation-delay: 0.00s; background: var(--red); }
+        .bl:nth-child(2) { animation-delay: 0.10s; background: var(--black); }
+        .bl:nth-child(3) { animation-delay: 0.20s; background: var(--blue); }
+        .bl:nth-child(4) { animation-delay: 0.30s; background: var(--black); }
+        .bl:nth-child(5) { animation-delay: 0.40s; background: var(--red); }
+        .bl:nth-child(6) { animation-delay: 0.50s; background: var(--purple); }
+        .bl:nth-child(7) { animation-delay: 0.60s; background: var(--black); }
+        .bl:nth-child(8) { animation-delay: 0.70s; background: var(--blue); }
+        .bl:nth-child(9) { animation-delay: 0.80s; background: var(--black); }
+        .bl:nth-child(10){ animation-delay: 0.90s; background: var(--red); }
+        @keyframes blk {
+            0%,100% { transform: scaleY(0.2); opacity: 0.25; }
+            50%      { transform: scaleY(1);   opacity: 1; }
+        }
+
+        /* ============================
+           BUTTONS
+        ============================ */
+        .btn-row {
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+        }
+        .btn {
+            flex: 1;
+            min-width: clamp(120px, 30vw, 180px);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-xs);
+            padding: clamp(10px, 2.5vw, 16px) clamp(12px, 3vw, 22px);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: var(--fs-sm);
+            font-weight: 900;
+            letter-spacing: clamp(1px, 0.3vw, 2px);
+            text-transform: uppercase;
+            text-decoration: none;
+            border: var(--border-md);
+            cursor: pointer;
+            transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.1s;
+            -webkit-user-select: none;
+            user-select: none;
+            touch-action: manipulation;
+            white-space: nowrap;
+        }
+        .btn:focus-visible {
+            outline: 3px solid var(--blue);
+            outline-offset: 3px;
+        }
+        .btn-primary {
+            background: var(--black);
+            color: var(--yellow);
+            box-shadow: var(--shadow-md);
+            --sh-color: var(--red);
+            box-shadow: clamp(5px,1.2vw,8px) clamp(5px,1.2vw,8px) 0 var(--red);
+        }
+        .btn-primary:hover, .btn-primary:focus-visible {
+            transform: translate(-3px, -3px);
+            box-shadow: clamp(8px,2vw,12px) clamp(8px,2vw,12px) 0 var(--red);
+        }
+        .btn-primary:active {
+            transform: translate(3px, 3px);
+            box-shadow: 2px 2px 0 var(--red);
+        }
+        .btn-secondary {
+            background: var(--white);
+            color: var(--black);
+            box-shadow: clamp(5px,1.2vw,8px) clamp(5px,1.2vw,8px) 0 var(--black);
+        }
+        .btn-secondary:hover, .btn-secondary:focus-visible {
+            transform: translate(-3px, -3px);
+            box-shadow: clamp(8px,2vw,12px) clamp(8px,2vw,12px) 0 var(--black);
+            background: var(--red);
+            color: var(--white);
+        }
+        .btn-secondary:active {
+            transform: translate(3px, 3px);
+            box-shadow: 2px 2px 0 var(--black);
+        }
+
+        /* ============================
+           BOTTOM TICKER
+        ============================ */
+        .ticker-bar {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            height: clamp(26px, 5.5vw, 42px);
+            background: var(--black);
+            border-top: clamp(3px, 0.6vw, 5px) solid var(--red);
+            overflow: hidden;
+            z-index: 100;
+            padding-bottom: var(--safe-bottom);
+        }
+        .ticker-inner {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            white-space: nowrap;
+            animation: ticker 22s linear infinite;
+        }
+        @keyframes ticker {
+            from { transform: translateX(100vw); }
+            to   { transform: translateX(-100%); }
+        }
+        .ticker-item {
+            font-size: var(--fs-xs);
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--yellow);
+            padding-right: clamp(24px, 5vw, 48px);
+            display: inline-flex;
+            align-items: center;
+            gap: clamp(8px, 2vw, 16px);
+        }
+        .ticker-dot { color: var(--red); font-size: var(--fs-md); }
+
+        /* ============================
+           SHAKE ANIMATION
+        ============================ */
+        @keyframes shake {
+            0%,100% { transform: translateX(0) rotate(0); }
+            15%      { transform: translateX(-9px) rotate(-2deg); }
+            30%      { transform: translateX(9px)  rotate(2deg); }
+            45%      { transform: translateX(-6px) rotate(-1deg); }
+            60%      { transform: translateX(6px)  rotate(1deg); }
+            75%      { transform: translateX(-4px); }
+            90%      { transform: translateX(4px); }
+        }
+        .shake { animation: shake 0.5s ease-in-out; }
+
+        /* ============================
+           RESPONSIVE TWEAKS
+        ============================ */
+
+        /* Small phones (≤ 360px) */
+        @media (max-width: 360px) {
+            .card { padding: var(--space-md) var(--space-sm); }
+            .btn-row { flex-direction: column; }
+            .btn { min-width: 0; }
+            .cd-number-wrap { min-width: clamp(60px, 18vw, 90px); }
+        }
+
+        /* Landscape phone */
+        @media (max-height: 500px) and (orientation: landscape) {
+            body { padding-top: calc(var(--safe-top) + 8px); padding-bottom: calc(var(--safe-bottom) + 36px); }
+            .countdown-section, .progress-wrap { margin-bottom: var(--space-sm); }
+            .block-loader { margin-bottom: var(--space-sm); height: clamp(20px, 5vw, 36px); }
+            .badge-row { margin-bottom: var(--space-sm); }
+            .divider { margin: var(--space-xs) 0 var(--space-sm); }
+            .headline { font-size: clamp(28px, 7vw, 56px); }
+        }
+
+        /* Tablet */
+        @media (min-width: 600px) and (max-width: 1024px) {
+            .card { width: min(80vw, 580px); }
+        }
+
+        /* Large desktop */
+        @media (min-width: 1280px) {
+            .card { width: 580px; }
+        }
+
+        /* Hover-capable devices only */
+        @media (hover: none) {
+            .btn:hover { transform: none; }
+            .btn:active { transform: translate(2px, 2px); }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Dark mode accent (card stays white for readability) */
+        @media (prefers-color-scheme: dark) {
+            :root { --white: #F0F0F0; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Background -->
-    <div class="bg-grid"></div>
+    <!-- Backgrounds -->
+    <div class="bg-grid" aria-hidden="true"></div>
 
-    <!-- Floating Shapes -->
-    <div class="shape shape-1"></div>
-    <div class="shape shape-2"></div>
-    <div class="shape shape-3"></div>
-    <div class="shape shape-4"></div>
-    <div class="shape shape-5"></div>
-    <div class="shape shape-6"></div>
+    <!-- Floating shapes -->
+    <div class="shapes" aria-hidden="true">
+        <div class="sh sh-1"></div>
+        <div class="sh sh-2"></div>
+        <div class="sh sh-3"></div>
+        <div class="sh sh-4"></div>
+        <div class="sh sh-5"></div>
+        <div class="sh sh-6"></div>
+        <div class="sh sh-7"></div>
+    </div>
 
-    <!-- Corner Stamps -->
-    <div class="corner-stamp tl">→</div>
-    <div class="corner-stamp br">GO</div>
+    <!-- Corner stamps -->
+    <div class="stamp stamp-tl" aria-hidden="true">→</div>
+    <div class="stamp stamp-br" aria-hidden="true">GO</div>
 
-    <!-- Success Flash -->
-    <div class="success-flash" id="successFlash">
-        <div class="success-text">LAUNCHING! 🚀</div>
+    <!-- Success Flash Screen -->
+    <div class="flash-success" id="flashSuccess" role="status" aria-live="assertive">
+        <div class="flash-text">LAUNCHING! 🚀</div>
+        <div class="flash-sub">Menuju Destinasi...</div>
     </div>
 
     <!-- Main Card -->
-    <div class="card" id="mainCard">
-        <div class="ticket-tape"></div>
+    <main class="card" id="mainCard" role="main">
+        <div class="tape" aria-hidden="true"></div>
 
         <!-- Cancelled Overlay -->
-        <div class="cancelled-overlay" id="cancelledOverlay">
-            <div class="cancelled-text">CANCELLED!</div>
-            <div class="cancelled-sub">⚠ Redirect Dihentikan</div>
-            <button class="btn btn-secondary" onclick="restartRedirect()" style="margin-top:10px; flex:0;">
+        <div class="overlay-cancelled" id="cancelOverlay" role="alert" aria-live="assertive">
+            <div class="ov-title">CANCELLED!</div>
+            <div class="ov-sub">⚠ Redirect Dihentikan</div>
+            <button class="btn btn-secondary"
+                    onclick="restartRedirect()"
+                    style="flex:0; min-width:0;"
+                    aria-label="Mulai ulang redirect">
                 ↺ &nbsp;MULAI ULANG
             </button>
         </div>
 
-        <!-- Badges -->
-        <div class="badge-row">
-            <div class="badge"><span class="dot"></span> LIVE</div>
-            <div class="badge red">⚡ AUTO REDIRECT</div>
-            <div class="badge blue">SYS-01</div>
+        <!-- Badge Row -->
+        <div class="badge-row" aria-label="Status badges">
+            <span class="badge badge-dark">
+                <span class="live-dot" aria-hidden="true"></span> LIVE
+            </span>
+            <span class="badge badge-red">⚡ AUTO REDIRECT</span>
+            <span class="badge badge-blue">SYS-01</span>
+            <span class="badge badge-green">ONLINE</span>
         </div>
 
         <!-- Headline -->
-        <div class="glitch-wrapper" data-text="REDIRECTING">
-            <h1 class="headline">
-                REDI<span class="highlight">RECT</span>ING
-            </h1>
+        <div class="headline-wrap" data-text="REDIRECTING" aria-hidden="true">
+            <span class="headline">REDI<span class="hl">RECT</span>ING</span>
         </div>
+        <span class="sr-only">Halaman sedang melakukan redirect otomatis</span>
 
         <!-- Divider -->
-        <div class="divider">
-            <div class="divider-line"></div>
-            <span class="divider-icon">⚙</span>
-            <div class="divider-line"></div>
+        <div class="divider" aria-hidden="true">
+            <div class="div-line"></div>
+            <span class="div-icon">⚙</span>
+            <div class="div-line"></div>
         </div>
 
         <!-- URL Box -->
-        <div class="url-box">
+        <div class="url-box" role="region" aria-label="URL tujuan">
             <div class="url-label">▶ Destination URL</div>
-            <div class="url-text" id="displayUrl">https://example.com</div>
+            <div class="url-value" id="displayUrl">https://example.com</div>
         </div>
 
-        <!-- Countdown + Status -->
-        <div class="countdown-section">
-            <div class="countdown-number" id="countdownNum">5</div>
-            <div class="countdown-info">
-                <span class="sec-label">Detik Tersisa</span>
-                <div class="status-text" id="statusText">● MEMPROSES...</div>
+        <!-- Countdown -->
+        <div class="countdown-section" role="timer" aria-live="polite" aria-label="Hitung mundur redirect">
+            <div class="cd-number-wrap">
+                <div class="cd-number" id="cdNum">5</div>
+            </div>
+            <div class="cd-info">
+                <span class="cd-label">Detik Tersisa</span>
+                <span class="cd-status" id="cdStatus">● MEMPROSES...</span>
             </div>
         </div>
 
         <!-- Progress Bar -->
-        <div class="progress-section">
+        <div class="progress-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressBar">
             <div class="progress-header">
-                <div class="progress-title">▓ Transfer Progress</div>
-                <div class="progress-pct" id="pctText">000%</div>
+                <span class="progress-label">▓ Transfer Progress</span>
+                <span class="progress-pct" id="pctNum">000%</span>
             </div>
             <div class="progress-track">
                 <div class="progress-fill" id="progressFill"></div>
             </div>
-            <div class="progress-segments">
-                <span class="seg">0%</span>
-                <span class="seg">25%</span>
-                <span class="seg">50%</span>
-                <span class="seg">75%</span>
-                <span class="seg">100%</span>
+            <div class="seg-row" aria-hidden="true">
+                <span class="seg-tick">0%</span>
+                <span class="seg-tick">25%</span>
+                <span class="seg-tick">50%</span>
+                <span class="seg-tick">75%</span>
+                <span class="seg-tick">100%</span>
             </div>
         </div>
 
         <!-- Block Loader -->
-        <div class="blocks-loader">
-            <div class="block"></div>
-            <div class="block"></div>
-            <div class="block"></div>
-            <div class="block"></div>
-            <div class="block"></div>
-            <div class="block"></div>
-            <div class="block"></div>
-            <div class="block"></div>
+        <div class="block-loader" aria-hidden="true">
+            <div class="bl"></div><div class="bl"></div><div class="bl"></div>
+            <div class="bl"></div><div class="bl"></div><div class="bl"></div>
+            <div class="bl"></div><div class="bl"></div><div class="bl"></div>
+            <div class="bl"></div>
         </div>
 
         <!-- Buttons -->
         <div class="btn-row">
-            <a href="#" id="goBtn" class="btn btn-primary" onclick="goNow(event)">
+            <a  href="#"
+                id="goBtn"
+                class="btn btn-primary"
+                onclick="goNow(event)"
+                role="button"
+                aria-label="Pergi sekarang ke URL tujuan">
                 ⚡ PERGI SEKARANG
             </a>
-            <button class="btn btn-secondary" id="cancelBtn" onclick="cancelRedirect()">
+            <button class="btn btn-secondary"
+                    id="cancelBtn"
+                    onclick="cancelRedirect()"
+                    aria-label="Batalkan redirect">
                 ✕ BATALKAN
             </button>
         </div>
-    </div>
+    </main>
 
     <!-- Bottom Ticker -->
-    <div class="ticker-wrap">
-        <div class="ticker">
-            <span class="ticker-item">⚡ AUTO REDIRECT AKTIF <span class="ticker-sep">★</span></span>
-            <span class="ticker-item">MENUJU DESTINASI <span class="ticker-sep">★</span></span>
-            <span class="ticker-item">HARAP TUNGGU <span class="ticker-sep">★</span></span>
-            <span class="ticker-item">NEO BRUTALISM <span class="ticker-sep">★</span></span>
-            <span class="ticker-item">⚡ AUTO REDIRECT AKTIF <span class="ticker-sep">★</span></span>
-            <span class="ticker-item">SISTEM BERJALAN <span class="ticker-sep">★</span></span>
-            <span class="ticker-item">LOADING... <span class="ticker-sep">★</span></span>
-            <span class="ticker-item">JANGAN TUTUP TAB INI <span class="ticker-sep">★</span></span>
+    <div class="ticker-bar" aria-hidden="true">
+        <div class="ticker-inner">
+            <span class="ticker-item">⚡ AUTO REDIRECT AKTIF <span class="ticker-dot">★</span></span>
+            <span class="ticker-item">MENUJU DESTINASI <span class="ticker-dot">★</span></span>
+            <span class="ticker-item">HARAP TUNGGU <span class="ticker-dot">★</span></span>
+            <span class="ticker-item">NEO BRUTALISM 2025 <span class="ticker-dot">★</span></span>
+            <span class="ticker-item">SISTEM BERJALAN <span class="ticker-dot">★</span></span>
+            <span class="ticker-item">JANGAN TUTUP TAB INI <span class="ticker-dot">★</span></span>
+            <span class="ticker-item">LOADING... <span class="ticker-dot">★</span></span>
+            <span class="ticker-item">⚡ AUTO REDIRECT AKTIF <span class="ticker-dot">★</span></span>
         </div>
     </div>
 
     <script>
-        // ╔══════════════════════════════════╗
-        // ║   KONFIGURASI — EDIT DI SINI     ║
-        // ╠══════════════════════════════════╣
-        const REDIRECT_URL      = "https://example.com"; // URL tujuan
-        const COUNTDOWN_SECONDS = 5;                     // Durasi (detik)
-        // ╚══════════════════════════════════╝
-
-        let timeLeft   = COUNTDOWN_SECONDS;
-        let timerId    = null;
-        let cancelled  = false;
-
-        const countdownEl  = document.getElementById('countdownNum');
-        const progressFill = document.getElementById('progressFill');
-        const pctText      = document.getElementById('pctText');
-        const statusText   = document.getElementById('statusText');
-        const displayUrl   = document.getElementById('displayUrl');
-        const goBtn        = document.getElementById('goBtn');
-        const successFlash = document.getElementById('successFlash');
-        const cancelOverlay= document.getElementById('cancelledOverlay');
+        /* ============================================
+           ✏️  KONFIGURASI — GANTI DI SINI
+        ============================================ */
+        const REDIRECT_URL      = "https://example.com";
+        const COUNTDOWN_SECONDS = 5;
+        /* ============================================ */
 
         const statusMessages = [
-            '● MEMPROSES...',
-            '● RESOLVING DNS...',
-            '● MEMBANGUN KONEKSI...',
-            '● MENTRANSFER DATA...',
-            '● HAMPIR SAMPAI...',
+            "● MEMPROSES...",
+            "● RESOLVING DNS...",
+            "● MEMBANGUN KONEKSI...",
+            "● MENTRANSFER DATA...",
+            "● HAMPIR SAMPAI..."
         ];
 
-        function formatPct(n) {
-            return String(Math.round(n)).padStart(3, '0') + '%';
-        }
+        let timeLeft  = COUNTDOWN_SECONDS;
+        let timerId   = null;
+        let cancelled = false;
+
+        /* DOM refs */
+        const cdNum      = document.getElementById("cdNum");
+        const cdStatus   = document.getElementById("cdStatus");
+        const pctNum     = document.getElementById("pctNum");
+        const progressFill = document.getElementById("progressFill");
+        const progressBar  = document.getElementById("progressBar");
+        const flashSuccess = document.getElementById("flashSuccess");
+        const cancelOverlay= document.getElementById("cancelOverlay");
+        const mainCard   = document.getElementById("mainCard");
+        const goBtn      = document.getElementById("goBtn");
+        const displayUrl = document.getElementById("displayUrl");
+
+        function pad(n) { return String(Math.round(n)).padStart(3,"0") + "%"; }
 
         function updateUI() {
             const elapsed = COUNTDOWN_SECONDS - timeLeft;
             const pct     = (elapsed / COUNTDOWN_SECONDS) * 100;
 
-            progressFill.style.width = pct + '%';
-            pctText.textContent       = formatPct(pct);
-            countdownEl.textContent   = timeLeft;
+            progressFill.style.width = pct + "%";
+            pctNum.textContent        = pad(pct);
+            cdNum.textContent         = timeLeft;
+            progressBar.setAttribute("aria-valuenow", Math.round(pct));
 
-            const msgIdx = Math.min(
+            const idx = Math.min(
                 Math.floor((elapsed / COUNTDOWN_SECONDS) * statusMessages.length),
                 statusMessages.length - 1
             );
-            statusText.textContent = statusMessages[msgIdx];
+            cdStatus.textContent = statusMessages[idx];
         }
 
         function triggerSuccess() {
-            progressFill.style.width = '100%';
-            pctText.textContent = '100%';
-            countdownEl.textContent = '✓';
-            statusText.textContent = '● LAUNCHING!';
-
-            successFlash.classList.add('show');
-
-            setTimeout(() => {
-                window.location.href = REDIRECT_URL;
-            }, 600);
+            progressFill.style.width = "100%";
+            pctNum.textContent       = "100%";
+            cdNum.textContent        = "✓";
+            cdStatus.textContent     = "● LAUNCHING!";
+            flashSuccess.classList.add("show");
+            setTimeout(() => { window.location.href = REDIRECT_URL; }, 700);
         }
 
         function startCountdown() {
             displayUrl.textContent = REDIRECT_URL;
             goBtn.href = REDIRECT_URL;
-
             updateUI();
 
             timerId = setInterval(() => {
@@ -935,16 +1034,16 @@
 
                 timeLeft--;
 
-                countdownEl.classList.remove('tick');
-                void countdownEl.offsetWidth; // reflow
-                countdownEl.classList.add('tick');
+                /* Trigger tick animation */
+                cdNum.classList.remove("tick");
+                void cdNum.offsetWidth;            /* reflow */
+                cdNum.classList.add("tick");
 
                 if (timeLeft <= 0) {
                     clearInterval(timerId);
                     triggerSuccess();
                     return;
                 }
-
                 updateUI();
             }, 1000);
         }
@@ -960,28 +1059,28 @@
             cancelled = true;
             clearInterval(timerId);
 
-            const card = document.getElementById('mainCard');
-            card.classList.remove('shake');
-            void card.offsetWidth;
-            card.classList.add('shake');
+            /* Shake the card */
+            mainCard.classList.remove("shake");
+            void mainCard.offsetWidth;
+            mainCard.classList.add("shake");
 
-            cancelOverlay.classList.add('show');
+            cancelOverlay.classList.add("show");
         }
 
         function restartRedirect() {
-            cancelled  = false;
-            timeLeft   = COUNTDOWN_SECONDS;
+            cancelled = false;
+            timeLeft  = COUNTDOWN_SECONDS;
 
-            cancelOverlay.classList.remove('show');
-            progressFill.style.width = '0%';
-            countdownEl.style.color  = '';
-            statusText.textContent   = statusMessages[0];
+            cancelOverlay.classList.remove("show");
+            progressFill.style.width = "0%";
+            cdNum.style.color = "";
 
             startCountdown();
         }
 
-        window.addEventListener('load', () => {
-            setTimeout(startCountdown, 400);
+        /* Boot */
+        window.addEventListener("load", () => {
+            setTimeout(startCountdown, 450);
         });
     </script>
 </body>
