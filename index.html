@@ -1,432 +1,399 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REDIRECTING...</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700;900&display=swap');
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700;900&display=swap');
-*{box-sizing:border-box;margin:0;padding:0}
-.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
-:root{
-  --bg:#f5f0e8;--card-bg:#fff;--border:#111;--text:#111;--text-muted:#555;--text-hint:#999;--shadow:#111;
-  --accent1:#ffe566;--accent2:#ff6b6b;--accent3:#6bcbff;--accent4:#b6f5a0;
-}
-[data-theme="dark"]{
-  --bg:#1a1814;--card-bg:#252220;--border:#e8e0d0;--text:#f0e8d8;--text-muted:#b0a890;--text-hint:#706858;--shadow:#000;
-  --accent1:#ffe566;--accent2:#ff6b6b;--accent3:#6bcbff;--accent4:#b6f5a0;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-/* INTRO OVERLAY */
-#intro-overlay{
-  position:fixed;inset:0;z-index:99999;
-  background:#111;display:flex;align-items:center;justify-content:center;
-  pointer-events:all;
-}
-#intro-overlay.done{pointer-events:none}
-.intro-grid{
-  position:absolute;inset:0;
-  background-image:linear-gradient(rgba(255,229,102,.18) 1px,transparent 1px),linear-gradient(90deg,rgba(255,229,102,.18) 1px,transparent 1px);
-  background-size:40px 40px;
-  animation:gridIn .4s ease forwards;
-  opacity:0;
-}
-@keyframes gridIn{to{opacity:1}}
+        body {
+            background-color: #FFE500;
+            font-family: 'Space Grotesk', monospace, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
 
-.intro-box{
-  position:relative;z-index:2;text-align:center;
-}
-.intro-tag{
-  font-family:'Space Grotesk',system-ui,sans-serif;
-  font-size:.65rem;font-weight:900;letter-spacing:3px;text-transform:uppercase;
-  color:#ffe566;border:2.5px solid #ffe566;padding:5px 14px;display:inline-block;
-  opacity:0;animation:tagIn .35s .1s cubic-bezier(.22,1,.36,1) forwards;
-  margin-bottom:1rem;
-}
-@keyframes tagIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+        .container {
+            text-align: center;
+            padding: 40px;
+        }
 
-.intro-name{
-  font-family:'Space Grotesk',system-ui,sans-serif;
-  font-size:clamp(3rem,10vw,6rem);font-weight:900;color:#fff;
-  letter-spacing:-3px;line-height:1;
-  display:flex;gap:0;overflow:hidden;justify-content:center;
-}
-.intro-name span{
-  display:inline-block;
-  opacity:0;transform:translateY(60px) rotate(6deg);
-  animation:charIn .5s cubic-bezier(.22,1,.36,1) forwards;
-}
+        .card {
+            background-color: #ffffff;
+            border: 4px solid #000000;
+            box-shadow: 10px 10px 0px #000000;
+            padding: 50px 60px;
+            max-width: 600px;
+            position: relative;
+        }
 
-.intro-accent-row{
-  display:flex;gap:8px;justify-content:center;margin:.9rem 0 .5rem;
-  opacity:0;animation:tagIn .4s .7s cubic-bezier(.22,1,.36,1) forwards;
-}
-.intro-accent-row div{
-  width:36px;height:8px;border:2px solid;
-}
+        .tag {
+            position: absolute;
+            top: -18px;
+            left: 30px;
+            background-color: #FF3D00;
+            border: 4px solid #000;
+            color: #fff;
+            font-weight: 900;
+            font-size: 13px;
+            padding: 2px 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
 
-.intro-sub{
-  font-family:'Space Grotesk',system-ui,sans-serif;
-  font-size:.8rem;color:#888;letter-spacing:2px;text-transform:uppercase;font-weight:700;
-  opacity:0;animation:tagIn .4s .85s cubic-bezier(.22,1,.36,1) forwards;
-}
+        .icon {
+            font-size: 70px;
+            display: block;
+            margin-bottom: 20px;
+            animation: bounce 0.6s infinite alternate;
+        }
 
-.intro-loader{
-  margin-top:1.5rem;
-  display:flex;gap:5px;justify-content:center;
-  opacity:0;animation:tagIn .3s 1s ease forwards;
-}
-.intro-loader span{
-  width:8px;height:8px;border:2px solid #ffe566;
-  animation:loaderBounce 1s ease infinite;
-}
-.intro-loader span:nth-child(1){animation-delay:.0s}
-.intro-loader span:nth-child(2){animation-delay:.12s}
-.intro-loader span:nth-child(3){animation-delay:.24s}
-.intro-loader span:nth-child(4){animation-delay:.36s}
-@keyframes loaderBounce{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.4)}}
+        @keyframes bounce {
+            from { transform: translateY(0px); }
+            to { transform: translateY(-12px); }
+        }
 
-@keyframes charIn{
-  from{opacity:0;transform:translateY(60px) rotate(6deg)}
-  to{opacity:1;transform:none}
-}
+        h1 {
+            font-size: 52px;
+            font-weight: 900;
+            color: #000;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
 
-/* WIPE EXIT */
-.wipe-piece{
-  position:fixed;z-index:99998;
-  background:#ffe566;
-  transform-origin:left center;
-  transform:scaleX(0);
-}
+        h1 span {
+            color: #FF3D00;
+            text-decoration: underline;
+            text-decoration-thickness: 4px;
+        }
 
-/* MAIN PAGE */
-#main-page{opacity:0;transition:opacity .3s .05s}
-#main-page.visible{opacity:1}
+        .subtitle {
+            font-size: 16px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-left: 5px solid #000;
+            padding-left: 12px;
+            text-align: left;
+        }
 
-.wrap{
-  font-family:'Space Grotesk',system-ui,sans-serif;
-  background:var(--bg);min-height:100vh;
-  padding:clamp(1.5rem,5vw,3rem) clamp(1rem,3vw,1.5rem);
-  position:relative;overflow:hidden;transition:background .2s
-}
-.bg-deco{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-.bg-deco span{position:absolute;border:3px solid var(--border);opacity:.07}
-.bg-deco span:nth-child(1){width:180px;height:180px;top:-40px;right:-40px;transform:rotate(18deg)}
-.bg-deco span:nth-child(2){width:100px;height:100px;bottom:60px;left:-30px;transform:rotate(35deg)}
-.bg-deco span:nth-child(3){width:60px;height:60px;top:38%;left:5%;transform:rotate(12deg)}
-.bg-deco span:nth-child(4){width:140px;height:140px;bottom:-40px;right:10%;transform:rotate(-22deg);border-radius:50%}
-.bg-dot{position:absolute;inset:0;background-image:radial-gradient(var(--border) 1.2px,transparent 1.2px);background-size:28px 28px;opacity:.055;pointer-events:none}
+        .destination-box {
+            background-color: #000;
+            color: #FFE500;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 12px 20px;
+            margin-bottom: 30px;
+            text-align: left;
+            word-break: break-all;
+            letter-spacing: 1px;
+        }
 
-.theme-btn{
-  position:absolute;top:16px;right:16px;z-index:10;
-  width:44px;height:44px;border:3px solid var(--border);
-  box-shadow:4px 4px 0 var(--shadow);background:var(--card-bg);
-  cursor:pointer;display:flex;align-items:center;justify-content:center;
-  font-size:1.2rem;color:var(--text);transition:transform .08s,box-shadow .08s,background .2s,color .2s;
-  font-family:'Space Grotesk',sans-serif;
-}
-.theme-btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--shadow)}
-.theme-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--shadow)}
+        .destination-box span {
+            color: #fff;
+            font-weight: 400;
+        }
 
-.card{
-  max-width:480px;margin:0 auto;background:var(--card-bg);
-  border:3px solid var(--border);box-shadow:7px 7px 0 var(--shadow);
-  padding:clamp(1.5rem,5vw,2.25rem) clamp(1.25rem,5vw,2rem);
-  position:relative;transition:background .2s,box-shadow .2s;
-}
+        /* Progress Bar */
+        .progress-wrapper {
+            margin-bottom: 25px;
+        }
 
-/* CARD CHILDREN ANIMATION */
-.card-anim > *{
-  opacity:0;transform:translateY(22px);
-  transition:opacity .45s cubic-bezier(.22,1,.36,1),transform .45s cubic-bezier(.22,1,.36,1);
-}
-.card-anim.run > *:nth-child(1){opacity:1;transform:none;transition-delay:.05s}
-.card-anim.run > *:nth-child(2){opacity:1;transform:none;transition-delay:.12s}
-.card-anim.run > *:nth-child(3){opacity:1;transform:none;transition-delay:.19s}
-.card-anim.run > *:nth-child(4){opacity:1;transform:none;transition-delay:.26s}
-.card-anim.run > *:nth-child(5){opacity:1;transform:none;transition-delay:.33s}
-.card-anim.run > *:nth-child(6){opacity:1;transform:none;transition-delay:.40s}
-.card-anim.run > *:nth-child(7){opacity:1;transform:none;transition-delay:.47s}
-.card-anim.run > *:nth-child(8){opacity:1;transform:none;transition-delay:.54s}
-.card-anim.run > *:nth-child(9){opacity:1;transform:none;transition-delay:.61s}
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
 
-.card-tag{position:absolute;top:-2px;left:20px;background:var(--accent1);border:2.5px solid var(--border);border-top:none;font-size:.65rem;font-weight:900;letter-spacing:2.5px;text-transform:uppercase;color:#111;padding:3px 10px 5px}
-.avatar{width:clamp(72px,16vw,92px);height:clamp(72px,16vw,92px);border-radius:50%;border:3px solid var(--border);box-shadow:5px 5px 0 var(--shadow);display:flex;align-items:center;justify-content:center;font-size:clamp(2rem,5vw,2.6rem);font-weight:900;color:#111;margin:.5rem auto 1.1rem;position:relative}
-.avatar-ring{position:absolute;inset:-8px;border-radius:50%;border:2px dashed var(--border);opacity:.3;animation:spin 18s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.name{font-size:clamp(1.25rem,4.5vw,1.6rem);font-weight:900;color:var(--text);text-align:center;letter-spacing:-1px;margin:0 0 .25rem;line-height:1.15}
-.bio{font-size:clamp(.82rem,2.5vw,.9rem);color:var(--text-muted);text-align:center;margin:0 0 .35rem;line-height:1.55}
-.online-badge{display:flex;align-items:center;justify-content:center;gap:5px;font-size:.7rem;font-weight:700;color:var(--text-hint);letter-spacing:1.5px;text-transform:uppercase;margin:0 0 1.5rem}
-.online-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;animation:blink 2s ease-in-out infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.divider{border:none;border-top:3px solid var(--border);margin:0 0 1.35rem;position:relative}
-.divider::after{content:'';position:absolute;right:16px;top:-6px;width:9px;height:9px;background:var(--accent2);border:2px solid var(--border);transform:rotate(45deg)}
-.sec-label{font-size:.68rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-hint);margin:0 0 .7rem}
-.link-btn{display:flex;align-items:center;gap:11px;background:var(--card-bg);border:2.5px solid var(--border);box-shadow:4px 4px 0 var(--shadow);padding:.75rem 1rem;margin-bottom:.85rem;text-decoration:none;color:var(--text);font-weight:700;font-size:clamp(.88rem,2.5vw,.98rem);cursor:pointer;transition:transform .1s,box-shadow .1s;width:100%;font-family:'Space Grotesk',system-ui,sans-serif}
-.link-btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--shadow)}
-.link-btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--shadow)}
-.lico{width:38px;height:38px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.25rem}
-.ltxt{flex:1;text-align:left}
-.ltit{display:flex;align-items:center;flex-wrap:wrap;gap:5px;line-height:1.3}
-.lsub{font-size:.72rem;color:var(--text-muted);display:block;margin-top:2px}
-.arr{font-size:1.05rem;font-weight:900;flex-shrink:0;color:var(--text)}
-.badge{background:var(--border);color:var(--accent1);font-size:.58rem;font-weight:900;padding:2px 7px;letter-spacing:1.5px;text-transform:uppercase}
-.acc-strip{height:4px;display:flex;gap:3px;margin:0 0 1rem}
-.acc-strip div{flex:1;border:1.5px solid var(--border)}
-.socials{display:flex;gap:8px;justify-content:center;margin-top:1.6rem;flex-wrap:wrap}
-.sbtn{width:40px;height:40px;border:2.5px solid var(--border);box-shadow:3px 3px 0 var(--shadow);display:flex;align-items:center;justify-content:center;background:var(--card-bg);cursor:pointer;text-decoration:none;color:var(--text);font-size:1.1rem;transition:transform .08s,box-shadow .08s}
-.sbtn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--shadow)}
-.sbtn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--shadow)}
-.footer{text-align:center;margin-top:1.85rem;font-size:.73rem;color:var(--text-hint);letter-spacing:.5px}
+        .progress-bar-outer {
+            width: 100%;
+            height: 28px;
+            background-color: #fff;
+            border: 4px solid #000;
+            box-shadow: 4px 4px 0px #000;
+            overflow: hidden;
+        }
 
-.modal-wrap{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;align-items:flex-start;justify-content:center;padding:1.5rem 1rem;overflow-y:auto}
-.modal-wrap.active{display:flex}
-.modal-box{background:var(--card-bg);border:3px solid var(--border);box-shadow:8px 8px 0 var(--shadow);padding:clamp(1.25rem,5vw,1.75rem);width:100%;max-width:360px;margin:auto;position:relative;transition:background .2s;animation:modalPop .3s cubic-bezier(.22,1,.36,1)}
-@keyframes modalPop{from{opacity:0;transform:translateY(30px) scale(.95)}to{opacity:1;transform:none}}
-.modal-corner{position:absolute;top:0;right:0;width:0;height:0;border-style:solid;border-width:0 36px 36px 0;border-color:transparent var(--border) transparent transparent}
-.modal-corner::after{content:'';position:absolute;top:-2px;right:-36px;width:0;height:0;border-style:solid;border-width:0 32px 32px 0;border-color:transparent var(--accent1) transparent transparent}
-.mico{width:52px;height:52px;border-radius:50%;border:3px solid var(--border);box-shadow:3px 3px 0 var(--shadow);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 1rem;color:#fff}
-.mtit{font-size:1.1rem;font-weight:900;color:var(--text);text-align:center;margin:0 0 .5rem}
-.mwarn{background:var(--accent1);border:2px solid var(--border);padding:.75rem .9rem;margin:.9rem 0 1.1rem;font-size:.85rem;color:#111;font-weight:500;line-height:1.55;position:relative}
-.mwarn::before{content:'';position:absolute;left:-2px;top:6px;width:4px;height:calc(100% - 12px);background:var(--border)}
-.mslbl{font-size:.82rem;color:var(--text);font-weight:700;margin:0 0 .4rem}
-.msteps{font-size:.82rem;color:var(--text-muted);margin:0 0 1.1rem;padding-left:1.1rem;line-height:1.8}
-.mnote{font-size:.78rem;color:var(--text-hint);margin:0 0 1rem;text-align:center}
-.mbtns{display:flex;gap:10px}
-.bbk{flex:1;padding:.65rem .5rem;background:var(--card-bg);border:2.5px solid var(--border);box-shadow:3px 3px 0 var(--shadow);font-family:'Space Grotesk',system-ui,sans-serif;font-size:.88rem;font-weight:700;color:var(--text);cursor:pointer;transition:transform .08s,box-shadow .08s}
-.bbk:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--shadow)}
-.bbk:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--shadow)}
-.bcf{flex:1.5;padding:.65rem .5rem;border:2.5px solid var(--border);box-shadow:3px 3px 0 var(--shadow);font-family:'Space Grotesk',system-ui,sans-serif;font-size:.88rem;font-weight:900;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:transform .08s,box-shadow .08s}
-.bcf:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--shadow)}
-.bcf:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--shadow)}
+        .progress-bar-inner {
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                #FF3D00,
+                #FF3D00 15px,
+                #000 15px,
+                #000 30px
+            );
+            width: 0%;
+            transition: width 0.1s linear;
+            background-size: 42px 42px;
+            animation: stripe-move 0.5s linear infinite;
+        }
 
-@media(max-width:400px){.card{padding:1.25rem 1rem}.mbtns{flex-direction:column}.acc-strip{display:none}}
-@media(min-width:768px){.card{padding:2.5rem 2.25rem}}
-</style>
+        @keyframes stripe-move {
+            from { background-position: 0 0; }
+            to { background-position: 42px 0; }
+        }
 
-<h2 class="sr-only">Link page untuk @denji dengan animasi masuk dan toggle dark/light mode</h2>
+        .countdown {
+            font-size: 72px;
+            font-weight: 900;
+            color: #000;
+            line-height: 1;
+            margin-bottom: 5px;
+            font-variant-numeric: tabular-nums;
+        }
 
-<!-- INTRO OVERLAY -->
-<div id="intro-overlay">
-  <div class="intro-grid"></div>
+        .countdown-label {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #000;
+            margin-bottom: 30px;
+        }
 
-  <!-- wipe pieces injected by JS -->
+        .btn {
+            display: inline-block;
+            background-color: #000;
+            color: #FFE500;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 15px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 14px 32px;
+            border: 4px solid #000;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 6px 6px 0px #FF3D00;
+            transition: all 0.1s;
+            margin: 5px;
+        }
 
-  <div class="intro-box">
-    <div class="intro-tag">✦ links</div>
-    <div class="intro-name" id="introName"></div>
-    <div class="intro-accent-row">
-      <div style="background:#ffe566;border-color:#ffe566"></div>
-      <div style="background:#ff6b6b;border-color:#ff6b6b"></div>
-      <div style="background:#6bcbff;border-color:#6bcbff"></div>
-      <div style="background:#b6f5a0;border-color:#b6f5a0"></div>
+        .btn:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 9px 9px 0px #FF3D00;
+        }
+
+        .btn:active {
+            transform: translate(3px, 3px);
+            box-shadow: 3px 3px 0px #FF3D00;
+        }
+
+        .btn-outline {
+            background-color: #fff;
+            color: #000;
+            box-shadow: 6px 6px 0px #000;
+        }
+
+        .btn-outline:hover {
+            box-shadow: 9px 9px 0px #000;
+        }
+
+        .btn-outline:active {
+            box-shadow: 3px 3px 0px #000;
+        }
+
+        .divider {
+            width: 100%;
+            height: 4px;
+            background: #000;
+            margin: 25px 0;
+        }
+
+        .noise-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        .corner-deco {
+            position: fixed;
+            font-size: 120px;
+            font-weight: 900;
+            color: rgba(0,0,0,0.06);
+            line-height: 1;
+            user-select: none;
+        }
+
+        .corner-deco.tl { top: -20px; left: -10px; }
+        .corner-deco.br { bottom: -20px; right: -10px; }
+
+        /* Redirect Done State */
+        .redirect-done {
+            display: none;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .shake {
+            animation: shake 0.3s ease-in-out 3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="noise-bg"></div>
+    <div class="corner-deco tl">→</div>
+    <div class="corner-deco br">→</div>
+
+    <div class="container">
+        <div class="card">
+            <div class="tag">⚡ Auto Redirect</div>
+
+            <span class="icon">🚀</span>
+
+            <h1>KAMU DI<span>PINDAH</span>KAN!</h1>
+
+            <div class="divider"></div>
+
+            <p class="subtitle">Menuju destinasi berikut:</p>
+
+            <div class="destination-box">
+                🔗 <span>URL Tujuan: </span>
+                <span id="display-url">https://example.com</span>
+            </div>
+
+            <div class="progress-wrapper">
+                <div class="progress-label">
+                    <span>Progress</span>
+                    <span id="percent-text">0%</span>
+                </div>
+                <div class="progress-bar-outer">
+                    <div class="progress-bar-inner" id="progress-bar"></div>
+                </div>
+            </div>
+
+            <div class="countdown" id="countdown">5</div>
+            <div class="countdown-label">detik tersisa</div>
+
+            <div>
+                <a href="#" id="go-now-btn" class="btn" onclick="goNow()">
+                    ⚡ Pergi Sekarang
+                </a>
+                <a href="#" id="cancel-btn" class="btn btn-outline" onclick="cancelRedirect()">
+                    ✕ Batalkan
+                </a>
+            </div>
+        </div>
     </div>
-    <div class="intro-sub">bot wa · technology · pokoknya</div>
-    <div class="intro-loader">
-      <span></span><span></span><span></span><span></span>
-    </div>
-  </div>
-</div>
 
-<!-- WIPE PIECES (5 horizontal strips) -->
-<div id="wipe-strips"></div>
+    <script>
+        // =============================================
+        // ✏️  GANTI URL DI SINI
+        // =============================================
+        const REDIRECT_URL = "https://example.com";
+        const COUNTDOWN_SECONDS = 5; // durasi countdown (detik)
+        // =============================================
 
-<!-- MAIN PAGE (hidden until intro done) -->
-<div id="main-page">
-  <div class="wrap" id="wrap" data-theme="light">
-    <div class="bg-deco" aria-hidden="true">
-      <span></span><span></span><span></span><span></span>
-      <div class="bg-dot"></div>
-    </div>
+        let timeLeft = COUNTDOWN_SECONDS;
+        let intervalId = null;
+        let cancelled = false;
 
-    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark/light mode">
-      <i class="ti ti-moon" id="themeIcon" aria-hidden="true"></i>
-    </button>
+        // Tampilkan URL di card
+        document.getElementById('display-url').textContent = REDIRECT_URL;
+        document.getElementById('go-now-btn').href = REDIRECT_URL;
 
-    <div class="card card-anim" id="card"></div>
-  </div>
-</div>
+        function updateProgress() {
+            const elapsed = COUNTDOWN_SECONDS - timeLeft;
+            const percent = Math.round((elapsed / COUNTDOWN_SECONDS) * 100);
 
-<div class="modal-wrap" id="modal" role="dialog" aria-modal="true">
-  <div class="modal-box">
-    <div class="modal-corner" aria-hidden="true"></div>
-    <div class="mico" id="mico"></div>
-    <p class="mtit" id="mtit"></p>
-    <div class="mwarn" id="mwarn" style="display:none"></div>
-    <p class="mslbl" id="mslbl"></p>
-    <ol class="msteps" id="msteps"></ol>
-    <p class="mnote" id="mnote"></p>
-    <div class="mbtns">
-      <button class="bbk" onclick="closeModal()">← Kembali</button>
-      <button class="bcf" id="bcf" onclick="doConfirm()"></button>
-    </div>
-  </div>
-</div>
+            document.getElementById('progress-bar').style.width = percent + '%';
+            document.getElementById('percent-text').textContent = percent + '%';
+            document.getElementById('countdown').textContent = timeLeft;
+        }
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
+        function startCountdown() {
+            updateProgress();
 
-<script>
-const PROFILE={avatar:"✦",avatarBg:"#ffe566",name:"@denji",bio:"bot wa · technology · adalah pokoknya",footer:"dimas anjai mabar"};
-const BUTTONS=[
-  {icon:"whatsapp",bg:"#25d366",fg:"#fff",title:"Bot WhatsApp",sub:"Akses fitur bot otomatis kami",url:"#wa",badge:"",
-   modal:{iconBg:"#25d366",title:"⚠️ Perhatian Sebelum Lanjut!",warning:true,warningText:"<strong>Bot hanya bisa diakses melalui grup!</strong><br>Tambahkan nomor bot ke grup WhatsApp-mu terlebih dahulu.",stepsLabel:"Cara menggunakan bot:",steps:["Buka grup WhatsApp yang ingin kamu gunakan","Tambahkan nomor bot sebagai anggota grup","Ketik perintah bot di dalam grup tersebut","Bot akan merespons perintahmu secara otomatis"],note:"Sudah tambahkan bot ke grup? Klik <strong>Konfirmasi</strong> untuk lanjut.",confirmText:"Konfirmasi & Chat",confirmBg:"#25d366",waNumber:"6285179063526",waMessage:""}}
- ,{icon:"whatsapp",bg:"#e1306c",fg:"#fff",title:"Chat Owner bot",sub:"Jika butuh bantuan cara penggunaan bot",url:"https://wa.me/33392090906",badge:""}
-];
-const SOCIALS=[
-  {icon:"instagram",label:"Instagram",url:"#"},
-  {icon:"twitter",label:"Twitter/X",url:"#"},
-  {icon:"linkedin",label:"LinkedIn",url:"#"},
-  {icon:"dribbble",label:"Dribbble",url:"#"},
-  {icon:"tiktok",label:"TikTok",url:"#"}
-];
-const ACCENT_COLORS=["#ffe566","#ff6b6b","#6bcbff","#b6f5a0","#ffb347"];
-const ICON_MAP={whatsapp:"ti-brand-whatsapp",instagram:"ti-brand-instagram",tiktok:"ti-brand-tiktok",twitter:"ti-brand-x",facebook:"ti-brand-facebook",youtube:"ti-brand-youtube",telegram:"ti-brand-telegram",discord:"ti-brand-discord",linkedin:"ti-brand-linkedin",github:"ti-brand-github",dribbble:"ti-brand-dribbble",behance:"ti-brand-behance",twitch:"ti-brand-twitch",reddit:"ti-brand-reddit"};
-function ico(n){return ICON_MAP[n]||("ti-"+n)}
+            intervalId = setInterval(() => {
+                if (cancelled) {
+                    clearInterval(intervalId);
+                    return;
+                }
 
-let activeModal=null,isDark=false;
+                timeLeft--;
+                updateProgress();
 
-function toggleTheme(){
-  isDark=!isDark;
-  const wrap=document.getElementById("wrap");
-  const icon=document.getElementById("themeIcon");
-  if(isDark){wrap.setAttribute("data-theme","dark");icon.className="ti ti-sun";}
-  else{wrap.setAttribute("data-theme","light");icon.className="ti ti-moon";}
-}
+                if (timeLeft <= 0) {
+                    clearInterval(intervalId);
 
-function buildCard(){
-  const card=document.getElementById("card");
-  let h="";
-  h+=`<div class="card-tag">✦ links</div>`;
-  h+=`<div class="acc-strip" aria-hidden="true">`+ACCENT_COLORS.map(c=>`<div style="background:${c}"></div>`).join("")+`</div>`;
-  h+=`<div class="avatar" style="background:${PROFILE.avatarBg}"><div class="avatar-ring"></div>${PROFILE.avatar}</div>`;
-  h+=`<p class="name">${PROFILE.name}</p>`;
-  h+=`<p class="bio">${PROFILE.bio}</p>`;
-  h+=`<div class="online-badge"><span class="online-dot"></span>online</div>`;
-  h+=`<hr class="divider">`;
-  BUTTONS.forEach((b,i)=>{
-    const isModal=b.url==="#wa"||b.modal;
-    const btnStyle=`border-left:5px solid ${b.bg};`;
-    if(isModal){h+=`<button class="link-btn" style="${btnStyle}" onclick="openModal(${i})">`;}
-    else{h+=`<a class="link-btn" style="${btnStyle}" href="${b.url}" target="_blank" rel="noopener">`;}
-    h+=`<div class="lico" style="background:${b.bg}"><i class="ti ${ico(b.icon)}" style="color:${b.fg||'#fff'}" aria-hidden="true"></i></div>`;
-    h+=`<div class="ltxt"><div class="ltit">${b.title}${b.badge?`<span class="badge">${b.badge}</span>`:""}</div><span class="lsub">${b.sub}</span></div>`;
-    h+=`<span class="arr">→</span>`;
-    h+=isModal?`</button>`:`</a>`;
-  });
-  h+=`<div class="socials">`;
-  SOCIALS.forEach(s=>{h+=`<a class="sbtn" href="${s.url}" aria-label="${s.label}" target="_blank" rel="noopener"><i class="ti ${ico(s.icon)}" aria-hidden="true"></i></a>`;});
-  h+=`</div>`;
-  h+=`<p class="footer">${PROFILE.footer}</p>`;
-  card.innerHTML=h;
-}
+                    // Final state
+                    document.getElementById('progress-bar').style.width = '100%';
+                    document.getElementById('percent-text').textContent = '100%';
+                    document.getElementById('countdown').textContent = '✓';
 
-function openModal(idx){
-  const b=BUTTONS[idx];if(!b||!b.modal)return;
-  const m=b.modal;activeModal=m;
-  const mico=document.getElementById("mico");
-  mico.innerHTML=`<i class="ti ${ico(b.icon)}"></i>`;
-  mico.style.background=m.iconBg||b.bg;
-  document.getElementById("mtit").textContent=m.title;
-  const warnEl=document.getElementById("mwarn");
-  if(m.warning&&m.warningText){warnEl.innerHTML=m.warningText;warnEl.style.display="block";}
-  else{warnEl.style.display="none";}
-  document.getElementById("mslbl").textContent=m.stepsLabel;
-  document.getElementById("msteps").innerHTML=m.steps.map(s=>`<li>${s}</li>`).join("");
-  document.getElementById("mnote").innerHTML=m.note;
-  const bcf=document.getElementById("bcf");
-  bcf.style.background=m.confirmBg||"#25d366";
-  bcf.innerHTML=`<i class="ti ${ico(b.icon)}"></i><span>${m.confirmText}</span>`;
-  document.getElementById("modal").classList.add("active");
-}
-function closeModal(){document.getElementById("modal").classList.remove("active");activeModal=null;}
-function doConfirm(){
-  if(!activeModal)return;const m=activeModal;
-  if(m.waNumber){window.open("https://wa.me/"+m.waNumber+"?text="+encodeURIComponent(m.waMessage||""),"_blank","noopener");}
-  else if(m.confirmUrl){window.open(m.confirmUrl,"_blank","noopener");}
-  closeModal();
-}
-document.getElementById("modal").addEventListener("click",function(e){if(e.target===this)closeModal()});
-document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
+                    // Redirect!
+                    setTimeout(() => {
+                        window.location.href = REDIRECT_URL;
+                    }, 300);
+                }
+            }, 1000);
+        }
 
-/* ======= INTRO ANIMATION ======= */
+        function goNow() {
+            cancelled = true;
+            clearInterval(intervalId);
+            window.location.href = REDIRECT_URL;
+        }
 
-// Build letter-by-letter name
-(function(){
-  const nm=document.getElementById("introName");
-  const chars="@denji".split("");
-  chars.forEach((ch,i)=>{
-    const s=document.createElement("span");
-    s.textContent=ch==" "?"  ":ch;
-    s.style.animationDelay=(0.25+i*0.07)+"s";
-    nm.appendChild(s);
-  });
-})();
+        function cancelRedirect() {
+            cancelled = true;
+            clearInterval(intervalId);
 
-// Build wipe strips
-(function(){
-  const container=document.getElementById("wipe-strips");
-  const N=5;
-  const vh=window.innerHeight||600;
-  for(let i=0;i<N;i++){
-    const el=document.createElement("div");
-    el.className="wipe-piece";
-    el.id="wp"+i;
-    el.style.cssText=`top:${(100/N)*i}%;left:0;right:0;height:${(100/N)+.5}%;`;
-    container.appendChild(el);
-  }
-})();
+            document.getElementById('countdown').classList.add('shake');
+            document.getElementById('countdown').textContent = '✕';
+            document.getElementById('countdown').style.color = '#FF3D00';
+            document.getElementById('countdown-label');
+            document.getElementById('progress-bar').style.background = '#000';
 
-buildCard();
+            document.querySelector('.countdown-label').textContent = 'redirect dibatalkan';
+            document.getElementById('cancel-btn').textContent = '↺ Mulai Ulang';
+            document.getElementById('cancel-btn').setAttribute('onclick', 'restartRedirect()');
+        }
 
-// Sequence:
-// 0ms    – overlay appears (already visible)
-// 200ms  – grid fades in (CSS)
-// 250ms  – "✦ links" tag appears (CSS)
-// 250-700ms – letters animate in (CSS)
-// 700ms  – accent row + sub + loader (CSS)
-// 1600ms – start stagger-wipe exit
-// 1800ms – show main page
-// 2000ms – run card children animation, hide overlay
+        function restartRedirect() {
+            cancelled = false;
+            timeLeft = COUNTDOWN_SECONDS;
+            document.getElementById('countdown').textContent = timeLeft;
+            document.getElementById('countdown').style.color = '#000';
+            document.getElementById('countdown').classList.remove('shake');
+            document.querySelector('.countdown-label').textContent = 'detik tersisa';
+            document.getElementById('cancel-btn').textContent = '✕ Batalkan';
+            document.getElementById('cancel-btn').setAttribute('onclick', 'cancelRedirect()');
 
-function runWipeExit(){
-  const N=5;
-  const vh=window.innerHeight||600;
-  // stagger each strip going right
-  for(let i=0;i<N;i++){
-    const el=document.getElementById("wp"+i);
-    const delay=i*55;
-    setTimeout(()=>{
-      el.style.transition="transform .38s cubic-bezier(.86,0,.07,1)";
-      el.style.transform="scaleX(1)";
-    },delay);
-  }
-  // after strips cover screen, reveal main page
-  setTimeout(()=>{
-    const mp=document.getElementById("main-page");
-    mp.style.opacity="1";
-    mp.classList.add("visible");
-    // fade out intro overlay
-    const ov=document.getElementById("intro-overlay");
-    ov.style.transition="opacity .25s";
-    ov.style.opacity="0";
-  },N*55+160);
+            document.getElementById('progress-bar').style.background = '';
+            startCountdown();
+        }
 
-  // then wipe out strips (left to right but reversed strip order for cool effect)
-  setTimeout(()=>{
-    const ov=document.getElementById("intro-overlay");
-    ov.style.display="none";
-    ov.classList.add("done");
-    // trigger card stagger
-    document.getElementById("card").classList.add("run");
-    // flip strips off
-    for(let i=N-1;i>=0;i--){
-      const el=document.getElementById("wp"+i);
-      const delay=(N-1-i)*50;
-      setTimeout(()=>{
-        el.style.background="#ffe566";
-        el.style.transition="transform .32s cubic-bezier(.86,0,.07,1)";
-        el.style.transformOrigin="right center";
-        el.style.transform="scaleX(0)";
-      },delay);
-    }
-  },N*55+460);
-}
-
-// Fire sequence
-setTimeout(runWipeExit,1450);
-</script>
+        // Start on load
+        window.onload = () => {
+            startCountdown();
+        };
+    </script>
+</body>
+</html>
