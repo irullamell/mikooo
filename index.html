@@ -966,12 +966,27 @@
     </div>
 
     <script>
-        /* ============================================
-           ✏️  KONFIGURASI — GANTI DI SINI
-        ============================================ */
-        const REDIRECT_URL      = "https://example.com";
-        const COUNTDOWN_SECONDS = 5;
-        /* ============================================ */
+        /* ╔═══════════════════════════════════════════════════════════════╗
+           ║   🔧 KONFIGURASI MUDAH - UBAH NILAI DI BAWAH INI SAJA 🔧    ║
+           ╠═══════════════════════════════════════════════════════════════╣
+           ║                                                               ║
+           ║  1. TARGET_URL  → Ubah URL tujuan redirect di sini          ║
+           ║  2. COUNTDOWN   → Ubah jumlah detik hitung mundur           ║
+           ║                                                               ║
+           ╚═══════════════════════════════════════════════════════════════╝
+        */
+
+        const CONFIG = {
+            // 🎯 URL TUJUAN REDIRECT - GANTI DENGAN URL YANG DIINGINKAN
+            TARGET_URL: "https://whatsapp.com/channel/0029VbCQ0s9Bqbr9PqRlhV0k",
+
+            // ⏱️  WAKTU HITUNG MUNDUR (DALAM DETIK)
+            COUNTDOWN_SECONDS: 5
+        };
+
+        /* ══════════════════════════════════════════════════════════════ */
+        /* ⚠️  JANGAN UBAH KODE DI BAWAH INI JIKA TIDAK TAHU                */
+        /* ══════════════════════════════════════════════════════════════ */
 
         const statusMessages = [
             "● MEMPROSES...",
@@ -981,7 +996,7 @@
             "● HAMPIR SAMPAI..."
         ];
 
-        let timeLeft  = COUNTDOWN_SECONDS;
+        let timeLeft  = CONFIG.COUNTDOWN_SECONDS;
         let timerId   = null;
         let cancelled = false;
 
@@ -1000,8 +1015,8 @@
         function pad(n) { return String(Math.round(n)).padStart(3,"0") + "%"; }
 
         function updateUI() {
-            const elapsed = COUNTDOWN_SECONDS - timeLeft;
-            const pct     = (elapsed / COUNTDOWN_SECONDS) * 100;
+            const elapsed = CONFIG.COUNTDOWN_SECONDS - timeLeft;
+            const pct     = (elapsed / CONFIG.COUNTDOWN_SECONDS) * 100;
 
             progressFill.style.width = pct + "%";
             pctNum.textContent        = pad(pct);
@@ -1009,7 +1024,7 @@
             progressBar.setAttribute("aria-valuenow", Math.round(pct));
 
             const idx = Math.min(
-                Math.floor((elapsed / COUNTDOWN_SECONDS) * statusMessages.length),
+                Math.floor((elapsed / CONFIG.COUNTDOWN_SECONDS) * statusMessages.length),
                 statusMessages.length - 1
             );
             cdStatus.textContent = statusMessages[idx];
@@ -1021,12 +1036,12 @@
             cdNum.textContent        = "✓";
             cdStatus.textContent     = "● LAUNCHING!";
             flashSuccess.classList.add("show");
-            setTimeout(() => { window.location.href = REDIRECT_URL; }, 700);
+            setTimeout(() => { window.location.href = CONFIG.TARGET_URL; }, 700);
         }
 
         function startCountdown() {
-            displayUrl.textContent = REDIRECT_URL;
-            goBtn.href = REDIRECT_URL;
+            displayUrl.textContent = CONFIG.TARGET_URL;
+            goBtn.href = CONFIG.TARGET_URL;
             updateUI();
 
             timerId = setInterval(() => {
@@ -1069,7 +1084,7 @@
 
         function restartRedirect() {
             cancelled = false;
-            timeLeft  = COUNTDOWN_SECONDS;
+            timeLeft  = CONFIG.COUNTDOWN_SECONDS;
 
             cancelOverlay.classList.remove("show");
             progressFill.style.width = "0%";
@@ -1083,5 +1098,6 @@
             setTimeout(startCountdown, 450);
         });
     </script>
+
 </body>
 </html>
