@@ -2,398 +2,987 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>REDIRECTING...</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700;900&family=Bebas+Neue&display=swap');
 
-        * {
+        :root {
+            --yellow: #FFE500;
+            --red: #FF3D00;
+            --black: #0A0A0A;
+            --white: #FAFAFA;
+            --blue: #0066FF;
+            --green: #00FF88;
+            --border: 4px solid #0A0A0A;
+            --shadow: 8px 8px 0px #0A0A0A;
+        }
+
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
         body {
-            background-color: #FFE500;
-            font-family: 'Space Grotesk', monospace, sans-serif;
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--yellow);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow: hidden;
-        }
-
-        .container {
-            text-align: center;
-            padding: 40px;
-        }
-
-        .card {
-            background-color: #ffffff;
-            border: 4px solid #000000;
-            box-shadow: 10px 10px 0px #000000;
-            padding: 50px 60px;
-            max-width: 600px;
             position: relative;
         }
 
-        .tag {
+        /* ========== BACKGROUND GRID ========== */
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0,0,0,0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.07) 1px, transparent 1px);
+            background-size: clamp(30px, 5vw, 60px) clamp(30px, 5vw, 60px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ========== FLOATING SHAPES ========== */
+        .shape {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            border: 4px solid var(--black);
+        }
+
+        .shape-1 {
+            width: clamp(40px, 8vw, 100px);
+            height: clamp(40px, 8vw, 100px);
+            background: var(--red);
+            top: 8%;
+            left: 5%;
+            animation: floatShape1 4s ease-in-out infinite;
+        }
+
+        .shape-2 {
+            width: clamp(30px, 5vw, 70px);
+            height: clamp(30px, 5vw, 70px);
+            background: var(--blue);
+            top: 15%;
+            right: 8%;
+            border-radius: 50%;
+            animation: floatShape2 3.5s ease-in-out infinite;
+        }
+
+        .shape-3 {
+            width: clamp(50px, 10vw, 130px);
+            height: clamp(50px, 10vw, 130px);
+            background: var(--black);
+            bottom: 10%;
+            left: 3%;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            border: none;
+            animation: floatShape3 5s ease-in-out infinite;
+        }
+
+        .shape-4 {
+            width: clamp(35px, 6vw, 80px);
+            height: clamp(35px, 6vw, 80px);
+            background: var(--green);
+            bottom: 15%;
+            right: 5%;
+            transform: rotate(45deg);
+            animation: floatShape4 4.5s ease-in-out infinite;
+        }
+
+        .shape-5 {
+            width: clamp(20px, 4vw, 55px);
+            height: clamp(20px, 4vw, 55px);
+            background: var(--red);
+            top: 50%;
+            left: 2%;
+            border-radius: 50%;
+            animation: floatShape2 6s ease-in-out infinite reverse;
+        }
+
+        .shape-6 {
+            width: clamp(25px, 5vw, 65px);
+            height: clamp(25px, 5vw, 65px);
+            background: var(--white);
+            top: 40%;
+            right: 3%;
+            animation: floatShape1 3s ease-in-out infinite reverse;
+        }
+
+        @keyframes floatShape1 {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(15deg); }
+        }
+        @keyframes floatShape2 {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-15px) scale(1.1); }
+        }
+        @keyframes floatShape3 {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-25px) rotate(-10deg); }
+        }
+        @keyframes floatShape4 {
+            0%, 100% { transform: rotate(45deg) translateY(0); }
+            50% { transform: rotate(60deg) translateY(-18px); }
+        }
+
+        /* ========== GLITCH TEXT ========== */
+        @keyframes glitch1 {
+            0%, 90%, 100% { clip-path: inset(0 0 100% 0); transform: translate(0); }
+            91% { clip-path: inset(10% 0 50% 0); transform: translate(-4px, 2px); }
+            93% { clip-path: inset(60% 0 10% 0); transform: translate(4px, -2px); }
+            95% { clip-path: inset(30% 0 40% 0); transform: translate(-2px, 1px); }
+        }
+        @keyframes glitch2 {
+            0%, 88%, 100% { clip-path: inset(0 0 100% 0); transform: translate(0); }
+            89% { clip-path: inset(40% 0 20% 0); transform: translate(4px, -2px); color: var(--blue); }
+            91% { clip-path: inset(70% 0 5% 0); transform: translate(-4px, 2px); }
+            94% { clip-path: inset(20% 0 60% 0); transform: translate(2px, -1px); }
+        }
+
+        .glitch-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .glitch-wrapper::before,
+        .glitch-wrapper::after {
+            content: attr(data-text);
             position: absolute;
-            top: -18px;
-            left: 30px;
-            background-color: #FF3D00;
-            border: 4px solid #000;
-            color: #fff;
-            font-weight: 900;
-            font-size: 13px;
-            padding: 2px 14px;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            font-size: inherit;
+            font-weight: inherit;
+            font-family: inherit;
+            line-height: inherit;
+            letter-spacing: inherit;
+        }
+
+        .glitch-wrapper::before {
+            color: var(--red);
+            animation: glitch1 4s infinite;
+        }
+
+        .glitch-wrapper::after {
+            color: var(--blue);
+            animation: glitch2 4s infinite;
+        }
+
+        /* ========== MAIN CARD ========== */
+        .card {
+            position: relative;
+            z-index: 10;
+            background: var(--white);
+            border: 4px solid var(--black);
+            box-shadow: clamp(6px, 1.5vw, 12px) clamp(6px, 1.5vw, 12px) 0px var(--black);
+            width: min(90vw, 580px);
+            padding: clamp(24px, 5vw, 50px) clamp(20px, 5vw, 50px);
+            animation: cardEntrance 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes cardEntrance {
+            from {
+                transform: translateY(60px) rotate(-3deg) scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* ========== TICKET TAPE TOP ========== */
+        .ticket-tape {
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            height: clamp(8px, 1.5vw, 14px);
+            background: repeating-linear-gradient(
+                90deg,
+                var(--red) 0px,
+                var(--red) 20px,
+                var(--black) 20px,
+                var(--black) 40px
+            );
+            border-bottom: 4px solid var(--black);
+        }
+
+        /* ========== BADGE LABEL ========== */
+        .badge-row {
+            display: flex;
+            gap: clamp(6px, 1.5vw, 10px);
+            margin-top: clamp(8px, 2vw, 14px);
+            margin-bottom: clamp(14px, 3vw, 24px);
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: var(--black);
+            color: var(--yellow);
+            font-size: clamp(8px, 1.5vw, 11px);
+            font-weight: 700;
             letter-spacing: 2px;
             text-transform: uppercase;
-        }
-
-        .icon {
-            font-size: 70px;
-            display: block;
-            margin-bottom: 20px;
-            animation: bounce 0.6s infinite alternate;
-        }
-
-        @keyframes bounce {
-            from { transform: translateY(0px); }
-            to { transform: translateY(-12px); }
-        }
-
-        h1 {
-            font-size: 52px;
-            font-weight: 900;
-            color: #000;
-            text-transform: uppercase;
-            letter-spacing: -2px;
-            line-height: 1;
-            margin-bottom: 10px;
-        }
-
-        h1 span {
-            color: #FF3D00;
-            text-decoration: underline;
-            text-decoration-thickness: 4px;
-        }
-
-        .subtitle {
-            font-size: 16px;
-            font-weight: 700;
-            color: #000;
-            margin-bottom: 30px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-left: 5px solid #000;
-            padding-left: 12px;
-            text-align: left;
-        }
-
-        .destination-box {
-            background-color: #000;
-            color: #FFE500;
-            font-size: 13px;
-            font-weight: 700;
-            padding: 12px 20px;
-            margin-bottom: 30px;
-            text-align: left;
-            word-break: break-all;
-            letter-spacing: 1px;
-        }
-
-        .destination-box span {
-            color: #fff;
-            font-weight: 400;
-        }
-
-        /* Progress Bar */
-        .progress-wrapper {
-            margin-bottom: 25px;
-        }
-
-        .progress-label {
+            padding: 4px clamp(8px, 2vw, 14px);
+            border: 3px solid var(--black);
             display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 8px;
+            align-items: center;
+            gap: 5px;
         }
 
-        .progress-bar-outer {
-            width: 100%;
-            height: 28px;
-            background-color: #fff;
-            border: 4px solid #000;
-            box-shadow: 4px 4px 0px #000;
+        .badge.red { background: var(--red); color: var(--white); }
+        .badge.blue { background: var(--blue); color: var(--white); }
+
+        .badge .dot {
+            width: 7px;
+            height: 7px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* ========== HEADLINE ========== */
+        .headline {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(38px, 10vw, 80px);
+            color: var(--black);
+            line-height: 0.9;
+            letter-spacing: -1px;
+            margin-bottom: clamp(12px, 2.5vw, 20px);
+            text-transform: uppercase;
+        }
+
+        .headline .highlight {
+            color: var(--red);
+            -webkit-text-stroke: 2px var(--black);
+            display: inline-block;
+            animation: highlight-flicker 5s infinite;
+        }
+
+        @keyframes highlight-flicker {
+            0%, 95%, 100% { color: var(--red); }
+            96% { color: var(--blue); }
+            97% { color: var(--red); }
+            98% { color: var(--yellow); filter: brightness(0.5); }
+            99% { color: var(--red); }
+        }
+
+        /* ========== DIVIDER ========== */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: clamp(14px, 3vw, 24px);
+        }
+
+        .divider-line {
+            flex: 1;
+            height: 4px;
+            background: var(--black);
+        }
+
+        .divider-icon {
+            font-size: clamp(14px, 3vw, 20px);
+            animation: spin 3s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* ========== URL BOX ========== */
+        .url-box {
+            background: var(--black);
+            border: 4px solid var(--black);
+            padding: clamp(10px, 2.5vw, 16px) clamp(12px, 3vw, 20px);
+            margin-bottom: clamp(16px, 3.5vw, 28px);
+            position: relative;
             overflow: hidden;
         }
 
-        .progress-bar-inner {
+        .url-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 60%;
             height: 100%;
-            background: repeating-linear-gradient(
-                45deg,
-                #FF3D00,
-                #FF3D00 15px,
-                #000 15px,
-                #000 30px
-            );
-            width: 0%;
-            transition: width 0.1s linear;
-            background-size: 42px 42px;
-            animation: stripe-move 0.5s linear infinite;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+            animation: shimmer 2.5s infinite;
         }
 
-        @keyframes stripe-move {
-            from { background-position: 0 0; }
-            to { background-position: 42px 0; }
+        @keyframes shimmer {
+            from { left: -100%; }
+            to { left: 200%; }
         }
 
-        .countdown {
-            font-size: 72px;
-            font-weight: 900;
-            color: #000;
-            line-height: 1;
-            margin-bottom: 5px;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .countdown-label {
-            font-size: 12px;
+        .url-label {
+            font-size: clamp(9px, 1.8vw, 11px);
             font-weight: 700;
             letter-spacing: 3px;
+            color: var(--green);
             text-transform: uppercase;
-            color: #000;
-            margin-bottom: 30px;
+            margin-bottom: 5px;
+        }
+
+        .url-text {
+            font-size: clamp(11px, 2.2vw, 14px);
+            font-weight: 700;
+            color: var(--yellow);
+            word-break: break-all;
+            letter-spacing: 0.5px;
+        }
+
+        /* ========== COUNTDOWN DISPLAY ========== */
+        .countdown-section {
+            display: flex;
+            align-items: center;
+            gap: clamp(10px, 3vw, 20px);
+            margin-bottom: clamp(16px, 3.5vw, 28px);
+            padding: clamp(10px, 2.5vw, 18px);
+            background: var(--yellow);
+            border: 4px solid var(--black);
+            position: relative;
+        }
+
+        .countdown-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(56px, 14vw, 110px);
+            color: var(--black);
+            line-height: 1;
+            min-width: clamp(70px, 16vw, 130px);
+            text-align: center;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .countdown-number.tick {
+            animation: numberTick 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes numberTick {
+            0% { transform: scale(1.5) rotate(-5deg); color: var(--red); }
+            100% { transform: scale(1) rotate(0deg); color: var(--black); }
+        }
+
+        .countdown-info {
+            flex: 1;
+        }
+
+        .countdown-info .sec-label {
+            font-size: clamp(9px, 2vw, 12px);
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--black);
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .countdown-info .status-text {
+            font-size: clamp(10px, 2vw, 13px);
+            font-weight: 700;
+            color: var(--red);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: statusPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* ========== PROGRESS BAR NEO ========== */
+        .progress-section {
+            margin-bottom: clamp(16px, 3.5vw, 28px);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .progress-title {
+            font-size: clamp(9px, 1.8vw, 11px);
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--black);
+        }
+
+        .progress-pct {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(18px, 4vw, 28px);
+            color: var(--black);
+            letter-spacing: 2px;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: clamp(22px, 4.5vw, 36px);
+            background: var(--white);
+            border: 4px solid var(--black);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            position: relative;
+            transition: width 0.15s linear;
+            background: repeating-linear-gradient(
+                -45deg,
+                var(--black),
+                var(--black) 10px,
+                var(--red) 10px,
+                var(--red) 20px
+            );
+            background-size: 28px 28px;
+            animation: stripeAnim 0.4s linear infinite;
+        }
+
+        @keyframes stripeAnim {
+            from { background-position: 0 0; }
+            to { background-position: 28px 0; }
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--white);
+            animation: leadBlink 0.5s infinite;
+        }
+
+        @keyframes leadBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Segment markers */
+        .progress-segments {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 2px;
+            margin-top: 5px;
+        }
+
+        .seg {
+            font-size: clamp(7px, 1.5vw, 9px);
+            font-weight: 700;
+            color: var(--black);
+            letter-spacing: 1px;
+        }
+
+        /* ========== LOADING BLOCKS ANIMATION ========== */
+        .blocks-loader {
+            display: flex;
+            gap: clamp(4px, 1vw, 8px);
+            justify-content: center;
+            margin-bottom: clamp(14px, 3vw, 24px);
+        }
+
+        .block {
+            width: clamp(12px, 3vw, 22px);
+            height: clamp(24px, 5vw, 44px);
+            background: var(--black);
+            border: 3px solid var(--black);
+            animation: blockLoad 1.2s ease-in-out infinite;
+        }
+
+        .block:nth-child(1) { animation-delay: 0s; background: var(--red); }
+        .block:nth-child(2) { animation-delay: 0.1s; background: var(--black); }
+        .block:nth-child(3) { animation-delay: 0.2s; background: var(--blue); }
+        .block:nth-child(4) { animation-delay: 0.3s; background: var(--black); }
+        .block:nth-child(5) { animation-delay: 0.4s; background: var(--red); }
+        .block:nth-child(6) { animation-delay: 0.5s; background: var(--black); }
+        .block:nth-child(7) { animation-delay: 0.6s; background: var(--blue); }
+        .block:nth-child(8) { animation-delay: 0.7s; background: var(--black); }
+
+        @keyframes blockLoad {
+            0%, 100% { transform: scaleY(0.3); opacity: 0.3; }
+            50% { transform: scaleY(1); opacity: 1; }
+        }
+
+        /* ========== BUTTONS ========== */
+        .btn-row {
+            display: flex;
+            gap: clamp(8px, 2vw, 14px);
+            flex-wrap: wrap;
         }
 
         .btn {
-            display: inline-block;
-            background-color: #000;
-            color: #FFE500;
-            font-family: 'Space Grotesk', monospace;
-            font-size: 15px;
+            flex: 1;
+            min-width: clamp(100px, 25vw, 150px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: clamp(10px, 2.5vw, 16px) clamp(12px, 3vw, 20px);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(10px, 2.2vw, 14px);
             font-weight: 900;
-            text-transform: uppercase;
             letter-spacing: 2px;
-            padding: 14px 32px;
-            border: 4px solid #000;
-            cursor: pointer;
+            text-transform: uppercase;
             text-decoration: none;
-            box-shadow: 6px 6px 0px #FF3D00;
-            transition: all 0.1s;
-            margin: 5px;
+            border: 4px solid var(--black);
+            cursor: pointer;
+            transition: transform 0.08s, box-shadow 0.08s;
+            white-space: nowrap;
         }
 
-        .btn:hover {
+        .btn-primary {
+            background: var(--black);
+            color: var(--yellow);
+            box-shadow: 6px 6px 0px var(--red);
+        }
+
+        .btn-primary:hover {
             transform: translate(-3px, -3px);
-            box-shadow: 9px 9px 0px #FF3D00;
+            box-shadow: 9px 9px 0px var(--red);
         }
 
-        .btn:active {
+        .btn-primary:active {
             transform: translate(3px, 3px);
-            box-shadow: 3px 3px 0px #FF3D00;
+            box-shadow: 2px 2px 0px var(--red);
         }
 
-        .btn-outline {
-            background-color: #fff;
-            color: #000;
-            box-shadow: 6px 6px 0px #000;
+        .btn-secondary {
+            background: var(--white);
+            color: var(--black);
+            box-shadow: 6px 6px 0px var(--black);
         }
 
-        .btn-outline:hover {
-            box-shadow: 9px 9px 0px #000;
+        .btn-secondary:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 9px 9px 0px var(--black);
+            background: var(--red);
+            color: var(--white);
         }
 
-        .btn-outline:active {
-            box-shadow: 3px 3px 0px #000;
+        .btn-secondary:active {
+            transform: translate(3px, 3px);
+            box-shadow: 2px 2px 0px var(--black);
         }
 
-        .divider {
-            width: 100%;
-            height: 4px;
-            background: #000;
-            margin: 25px 0;
-        }
-
-        .noise-bg {
+        /* ========== BOTTOM TICKER ========== */
+        .ticker-wrap {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            pointer-events: none;
-            opacity: 0.03;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--black);
+            border-top: 4px solid var(--red);
+            height: clamp(28px, 5vw, 40px);
+            overflow: hidden;
+            z-index: 100;
         }
 
-        .corner-deco {
-            position: fixed;
-            font-size: 120px;
+        .ticker {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            white-space: nowrap;
+            animation: tickerMove 20s linear infinite;
+        }
+
+        @keyframes tickerMove {
+            from { transform: translateX(100vw); }
+            to { transform: translateX(-100%); }
+        }
+
+        .ticker-item {
+            font-size: clamp(9px, 2vw, 13px);
             font-weight: 900;
-            color: rgba(0,0,0,0.06);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--yellow);
+            margin-right: clamp(20px, 5vw, 50px);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ticker-sep {
+            color: var(--red);
+            font-size: clamp(14px, 3vw, 20px);
+        }
+
+        /* ========== CORNER STAMPS ========== */
+        .corner-stamp {
+            position: fixed;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(50px, 12vw, 160px);
+            color: rgba(0,0,0,0.04);
+            pointer-events: none;
+            z-index: 0;
             line-height: 1;
-            user-select: none;
         }
+        .corner-stamp.tl { top: 0; left: 0; }
+        .corner-stamp.br { bottom: 30px; right: 0; }
 
-        .corner-deco.tl { top: -20px; left: -10px; }
-        .corner-deco.br { bottom: -20px; right: -10px; }
-
-        /* Redirect Done State */
-        .redirect-done {
+        /* ========== CANCELLED STATE ========== */
+        .cancelled-overlay {
             display: none;
+            position: absolute;
+            inset: 0;
+            background: var(--red);
+            border: 4px solid var(--black);
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 16px;
+            z-index: 20;
         }
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
+        .cancelled-overlay.show {
+            display: flex;
+            animation: overlayIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        .shake {
-            animation: shake 0.3s ease-in-out 3;
+        @keyframes overlayIn {
+            from { transform: scale(0.8) rotate(-5deg); opacity: 0; }
+            to { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        .cancelled-text {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(40px, 10vw, 80px);
+            color: var(--white);
+            letter-spacing: 4px;
+            text-align: center;
+            -webkit-text-stroke: 2px var(--black);
+        }
+
+        .cancelled-sub {
+            font-size: clamp(10px, 2vw, 14px);
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--yellow);
+            text-transform: uppercase;
+        }
+
+        /* ========== SUCCESS FLASH ========== */
+        .success-flash {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: var(--green);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+            border: 8px solid var(--black);
+        }
+
+        .success-flash.show {
+            display: flex;
+            animation: flashIn 0.25s ease-out;
+        }
+
+        @keyframes flashIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .success-text {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(50px, 15vw, 140px);
+            color: var(--black);
+            letter-spacing: 6px;
+            animation: successBounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes successBounce {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+
+        /* ========== SHAKE ANIMATION ========== */
+        @keyframes shakeCard {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            15% { transform: translateX(-8px) rotate(-2deg); }
+            30% { transform: translateX(8px) rotate(2deg); }
+            45% { transform: translateX(-6px) rotate(-1deg); }
+            60% { transform: translateX(6px) rotate(1deg); }
+            75% { transform: translateX(-4px); }
+            90% { transform: translateX(4px); }
+        }
+
+        .card.shake {
+            animation: shakeCard 0.5s ease-in-out;
         }
     </style>
 </head>
 <body>
 
-    <div class="noise-bg"></div>
-    <div class="corner-deco tl">→</div>
-    <div class="corner-deco br">→</div>
+    <!-- Background -->
+    <div class="bg-grid"></div>
 
-    <div class="container">
-        <div class="card">
-            <div class="tag">⚡ Auto Redirect</div>
+    <!-- Floating Shapes -->
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+    <div class="shape shape-4"></div>
+    <div class="shape shape-5"></div>
+    <div class="shape shape-6"></div>
 
-            <span class="icon">🚀</span>
+    <!-- Corner Stamps -->
+    <div class="corner-stamp tl">→</div>
+    <div class="corner-stamp br">GO</div>
 
-            <h1>KAMU DI<span>PINDAH</span>KAN!</h1>
+    <!-- Success Flash -->
+    <div class="success-flash" id="successFlash">
+        <div class="success-text">LAUNCHING! 🚀</div>
+    </div>
 
-            <div class="divider"></div>
+    <!-- Main Card -->
+    <div class="card" id="mainCard">
+        <div class="ticket-tape"></div>
 
-            <p class="subtitle">Menuju destinasi berikut:</p>
+        <!-- Cancelled Overlay -->
+        <div class="cancelled-overlay" id="cancelledOverlay">
+            <div class="cancelled-text">CANCELLED!</div>
+            <div class="cancelled-sub">⚠ Redirect Dihentikan</div>
+            <button class="btn btn-secondary" onclick="restartRedirect()" style="margin-top:10px; flex:0;">
+                ↺ &nbsp;MULAI ULANG
+            </button>
+        </div>
 
-            <div class="destination-box">
-                🔗 <span>URL Tujuan: </span>
-                <span id="display-url">https://example.com</span>
+        <!-- Badges -->
+        <div class="badge-row">
+            <div class="badge"><span class="dot"></span> LIVE</div>
+            <div class="badge red">⚡ AUTO REDIRECT</div>
+            <div class="badge blue">SYS-01</div>
+        </div>
+
+        <!-- Headline -->
+        <div class="glitch-wrapper" data-text="REDIRECTING">
+            <h1 class="headline">
+                REDI<span class="highlight">RECT</span>ING
+            </h1>
+        </div>
+
+        <!-- Divider -->
+        <div class="divider">
+            <div class="divider-line"></div>
+            <span class="divider-icon">⚙</span>
+            <div class="divider-line"></div>
+        </div>
+
+        <!-- URL Box -->
+        <div class="url-box">
+            <div class="url-label">▶ Destination URL</div>
+            <div class="url-text" id="displayUrl">https://example.com</div>
+        </div>
+
+        <!-- Countdown + Status -->
+        <div class="countdown-section">
+            <div class="countdown-number" id="countdownNum">5</div>
+            <div class="countdown-info">
+                <span class="sec-label">Detik Tersisa</span>
+                <div class="status-text" id="statusText">● MEMPROSES...</div>
             </div>
+        </div>
 
-            <div class="progress-wrapper">
-                <div class="progress-label">
-                    <span>Progress</span>
-                    <span id="percent-text">0%</span>
-                </div>
-                <div class="progress-bar-outer">
-                    <div class="progress-bar-inner" id="progress-bar"></div>
-                </div>
+        <!-- Progress Bar -->
+        <div class="progress-section">
+            <div class="progress-header">
+                <div class="progress-title">▓ Transfer Progress</div>
+                <div class="progress-pct" id="pctText">000%</div>
             </div>
-
-            <div class="countdown" id="countdown">5</div>
-            <div class="countdown-label">detik tersisa</div>
-
-            <div>
-                <a href="#" id="go-now-btn" class="btn" onclick="goNow()">
-                    ⚡ Pergi Sekarang
-                </a>
-                <a href="#" id="cancel-btn" class="btn btn-outline" onclick="cancelRedirect()">
-                    ✕ Batalkan
-                </a>
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
             </div>
+            <div class="progress-segments">
+                <span class="seg">0%</span>
+                <span class="seg">25%</span>
+                <span class="seg">50%</span>
+                <span class="seg">75%</span>
+                <span class="seg">100%</span>
+            </div>
+        </div>
+
+        <!-- Block Loader -->
+        <div class="blocks-loader">
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="btn-row">
+            <a href="#" id="goBtn" class="btn btn-primary" onclick="goNow(event)">
+                ⚡ PERGI SEKARANG
+            </a>
+            <button class="btn btn-secondary" id="cancelBtn" onclick="cancelRedirect()">
+                ✕ BATALKAN
+            </button>
+        </div>
+    </div>
+
+    <!-- Bottom Ticker -->
+    <div class="ticker-wrap">
+        <div class="ticker">
+            <span class="ticker-item">⚡ AUTO REDIRECT AKTIF <span class="ticker-sep">★</span></span>
+            <span class="ticker-item">MENUJU DESTINASI <span class="ticker-sep">★</span></span>
+            <span class="ticker-item">HARAP TUNGGU <span class="ticker-sep">★</span></span>
+            <span class="ticker-item">NEO BRUTALISM <span class="ticker-sep">★</span></span>
+            <span class="ticker-item">⚡ AUTO REDIRECT AKTIF <span class="ticker-sep">★</span></span>
+            <span class="ticker-item">SISTEM BERJALAN <span class="ticker-sep">★</span></span>
+            <span class="ticker-item">LOADING... <span class="ticker-sep">★</span></span>
+            <span class="ticker-item">JANGAN TUTUP TAB INI <span class="ticker-sep">★</span></span>
         </div>
     </div>
 
     <script>
-        // =============================================
-        // ✏️  GANTI URL DI SINI
-        // =============================================
-        const REDIRECT_URL = "https://example.com";
-        const COUNTDOWN_SECONDS = 5; // durasi countdown (detik)
-        // =============================================
+        // ╔══════════════════════════════════╗
+        // ║   KONFIGURASI — EDIT DI SINI     ║
+        // ╠══════════════════════════════════╣
+        const REDIRECT_URL      = "https://example.com"; // URL tujuan
+        const COUNTDOWN_SECONDS = 5;                     // Durasi (detik)
+        // ╚══════════════════════════════════╝
 
-        let timeLeft = COUNTDOWN_SECONDS;
-        let intervalId = null;
-        let cancelled = false;
+        let timeLeft   = COUNTDOWN_SECONDS;
+        let timerId    = null;
+        let cancelled  = false;
 
-        // Tampilkan URL di card
-        document.getElementById('display-url').textContent = REDIRECT_URL;
-        document.getElementById('go-now-btn').href = REDIRECT_URL;
+        const countdownEl  = document.getElementById('countdownNum');
+        const progressFill = document.getElementById('progressFill');
+        const pctText      = document.getElementById('pctText');
+        const statusText   = document.getElementById('statusText');
+        const displayUrl   = document.getElementById('displayUrl');
+        const goBtn        = document.getElementById('goBtn');
+        const successFlash = document.getElementById('successFlash');
+        const cancelOverlay= document.getElementById('cancelledOverlay');
 
-        function updateProgress() {
+        const statusMessages = [
+            '● MEMPROSES...',
+            '● RESOLVING DNS...',
+            '● MEMBANGUN KONEKSI...',
+            '● MENTRANSFER DATA...',
+            '● HAMPIR SAMPAI...',
+        ];
+
+        function formatPct(n) {
+            return String(Math.round(n)).padStart(3, '0') + '%';
+        }
+
+        function updateUI() {
             const elapsed = COUNTDOWN_SECONDS - timeLeft;
-            const percent = Math.round((elapsed / COUNTDOWN_SECONDS) * 100);
+            const pct     = (elapsed / COUNTDOWN_SECONDS) * 100;
 
-            document.getElementById('progress-bar').style.width = percent + '%';
-            document.getElementById('percent-text').textContent = percent + '%';
-            document.getElementById('countdown').textContent = timeLeft;
+            progressFill.style.width = pct + '%';
+            pctText.textContent       = formatPct(pct);
+            countdownEl.textContent   = timeLeft;
+
+            const msgIdx = Math.min(
+                Math.floor((elapsed / COUNTDOWN_SECONDS) * statusMessages.length),
+                statusMessages.length - 1
+            );
+            statusText.textContent = statusMessages[msgIdx];
+        }
+
+        function triggerSuccess() {
+            progressFill.style.width = '100%';
+            pctText.textContent = '100%';
+            countdownEl.textContent = '✓';
+            statusText.textContent = '● LAUNCHING!';
+
+            successFlash.classList.add('show');
+
+            setTimeout(() => {
+                window.location.href = REDIRECT_URL;
+            }, 600);
         }
 
         function startCountdown() {
-            updateProgress();
+            displayUrl.textContent = REDIRECT_URL;
+            goBtn.href = REDIRECT_URL;
 
-            intervalId = setInterval(() => {
-                if (cancelled) {
-                    clearInterval(intervalId);
+            updateUI();
+
+            timerId = setInterval(() => {
+                if (cancelled) { clearInterval(timerId); return; }
+
+                timeLeft--;
+
+                countdownEl.classList.remove('tick');
+                void countdownEl.offsetWidth; // reflow
+                countdownEl.classList.add('tick');
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerId);
+                    triggerSuccess();
                     return;
                 }
 
-                timeLeft--;
-                updateProgress();
-
-                if (timeLeft <= 0) {
-                    clearInterval(intervalId);
-
-                    // Final state
-                    document.getElementById('progress-bar').style.width = '100%';
-                    document.getElementById('percent-text').textContent = '100%';
-                    document.getElementById('countdown').textContent = '✓';
-
-                    // Redirect!
-                    setTimeout(() => {
-                        window.location.href = REDIRECT_URL;
-                    }, 300);
-                }
+                updateUI();
             }, 1000);
         }
 
-        function goNow() {
+        function goNow(e) {
+            e && e.preventDefault();
             cancelled = true;
-            clearInterval(intervalId);
-            window.location.href = REDIRECT_URL;
+            clearInterval(timerId);
+            triggerSuccess();
         }
 
         function cancelRedirect() {
             cancelled = true;
-            clearInterval(intervalId);
+            clearInterval(timerId);
 
-            document.getElementById('countdown').classList.add('shake');
-            document.getElementById('countdown').textContent = '✕';
-            document.getElementById('countdown').style.color = '#FF3D00';
-            document.getElementById('countdown-label');
-            document.getElementById('progress-bar').style.background = '#000';
+            const card = document.getElementById('mainCard');
+            card.classList.remove('shake');
+            void card.offsetWidth;
+            card.classList.add('shake');
 
-            document.querySelector('.countdown-label').textContent = 'redirect dibatalkan';
-            document.getElementById('cancel-btn').textContent = '↺ Mulai Ulang';
-            document.getElementById('cancel-btn').setAttribute('onclick', 'restartRedirect()');
+            cancelOverlay.classList.add('show');
         }
 
         function restartRedirect() {
-            cancelled = false;
-            timeLeft = COUNTDOWN_SECONDS;
-            document.getElementById('countdown').textContent = timeLeft;
-            document.getElementById('countdown').style.color = '#000';
-            document.getElementById('countdown').classList.remove('shake');
-            document.querySelector('.countdown-label').textContent = 'detik tersisa';
-            document.getElementById('cancel-btn').textContent = '✕ Batalkan';
-            document.getElementById('cancel-btn').setAttribute('onclick', 'cancelRedirect()');
+            cancelled  = false;
+            timeLeft   = COUNTDOWN_SECONDS;
 
-            document.getElementById('progress-bar').style.background = '';
+            cancelOverlay.classList.remove('show');
+            progressFill.style.width = '0%';
+            countdownEl.style.color  = '';
+            statusText.textContent   = statusMessages[0];
+
             startCountdown();
         }
 
-        // Start on load
-        window.onload = () => {
-            startCountdown();
-        };
+        window.addEventListener('load', () => {
+            setTimeout(startCountdown, 400);
+        });
     </script>
 </body>
 </html>
